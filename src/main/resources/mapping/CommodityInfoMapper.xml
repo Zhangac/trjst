@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trjst.mapper.CommodityInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.trjst.model.CommodityInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="assort_id" property="assort_id" jdbcType="INTEGER" />
+    <result column="commodity_name" property="commodity_name" jdbcType="VARCHAR" />
+    <result column="market_id" property="market_id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchant_id" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="VARCHAR" />
+    <result column="specifications" property="specifications" jdbcType="VARCHAR" />
+    <result column="main_pic" property="main_pic" jdbcType="VARCHAR" />
+    <result column="list_pic" property="list_pic" jdbcType="VARCHAR" />
+    <result column="commodity_detail" property="commodity_detail" jdbcType="VARCHAR" />
+    <result column="activity_price" property="activity_price" jdbcType="DECIMAL" />
+    <result column="original_price" property="original_price" jdbcType="DECIMAL" />
+    <result column="audit_status" property="audit_status" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="is_hot" property="is_hot" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="sold" property="sold" jdbcType="INTEGER" />
+    <result column="reserved" property="reserved" jdbcType="VARCHAR" />
+    <result column="area_id" property="area_id" jdbcType="INTEGER" />
+    <result column="area_name" property="area_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, assort_id, commodity_name, market_id, merchant_id, weight, specifications, main_pic, 
+    list_pic, commodity_detail, activity_price, original_price, audit_status, status, 
+    stock, is_hot, create_time, des, sold, reserved,area_id
+  </sql>
+
+  <select id="commodityList" resultMap="BaseResultMap" parameterType="com.trjst.model.CommodityInfo" >
+    select
+        c.*,m.market_province,m.market_city,m.market_region,m.market_address,m.area_id
+     from commodity_info c LEFT JOIN market m ON c.market_id = m.id
+    <where>
+<!--      c.audit_status = 1 and c.status = 1-->
+      <if test="area_id != null and area_id != ''">
+        and m.area_id = #{area_id}
+      </if>
+      <if test="commodity_name != null and commodity_name != ''">
+        and c.commodity_name like CONCAT('%',#{commodity_name},'%')
+      </if>
+      <if test="market_province != null and market_province != ''">
+        and m.market_province like CONCAT('%',#{market_province},'%')
+      </if>
+      <if test="market_city != null and market_city != ''">
+        and m.market_city like CONCAT('%',#{market_city},'%')
+      </if>
+      <if test="market_region != null and market_region != ''">
+        and m.market_region like CONCAT('%',#{market_region},'%')
+      </if>
+      <if test="market_address != null and market_address != ''">
+        and m.market_address like CONCAT('%',#{market_address},'%')
+      </if>
+      <if test="id != null and id != ''">
+        and c.id = #{id}
+      </if>
+      <if test="assort_id != null and assort_id != ''">
+        and c.assort_id = #{assort_id}
+      </if>
+      <if test="market_id != null and market_id != ''">
+        and c.market_id = #{market_id}
+      </if>
+      <if test="merchant_id != null and merchant_id != ''">
+        and c.merchant_id = #{merchant_id}
+      </if>
+      <if test="weight != null and weight != ''">
+        and c.weight = #{weight}
+      </if>
+      <if test="specifications != null and specifications != ''">
+        and c.specifications = #{specifications}
+      </if>
+      <if test="commodity_detail != null and commodity_detail != ''">
+        and c.commodity_detail = #{commodity_detail}
+      </if>
+      <if test="activity_price != null and activity_price != ''">
+        and c.activity_price = #{activity_price}
+      </if>
+      <if test="original_price != null and original_price != ''">
+        and c.original_price = #{original_price}
+      </if>
+      <if test="audit_status != null and audit_status != ''">
+        and c.audit_status = #{audit_status}
+      </if>
+      <if test="status != null ">
+        and c.status = #{status}
+      </if>
+      <if test="stock != null and stock != ''">
+        and c.stock = #{stock}
+      </if>
+      <if test="is_hot != null and is_hot != ''">
+        and c.is_hot = #{is_hot}
+      </if>
+    </where>
+        order by c.create_time desc
+  </select>
+
+  <select id="commodityList2" resultMap="BaseResultMap" parameterType="com.trjst.model.CommodityInfo" >
+    select
+    c.*,m.name as area_name
+    from commodity_info c LEFT JOIN area m ON c.area_id = m.id
+    <where>
+            c.audit_status = 1 and c.status = 1
+      <if test="area_id != null and area_id != ''">
+        and c.area_id = #{area_id}
+      </if>
+      <if test="area_name != null and area_name != ''">
+        and m.name like CONCAT('%',#{area_name},'%')
+      </if>
+      <if test="commodity_name != null and commodity_name != ''">
+        and c.commodity_name like CONCAT('%',#{commodity_name},'%')
+      </if>
+      <if test="id != null and id != ''">
+        and c.id = #{id}
+      </if>
+      <if test="assort_id != null and assort_id != ''">
+        and c.assort_id = #{assort_id}
+      </if>
+      <if test="market_id != null and market_id != ''">
+        and c.market_id = #{market_id}
+      </if>
+      <if test="merchant_id != null and merchant_id != ''">
+        and c.merchant_id = #{merchant_id}
+      </if>
+      <if test="weight != null and weight != ''">
+        and c.weight = #{weight}
+      </if>
+      <if test="specifications != null and specifications != ''">
+        and c.specifications = #{specifications}
+      </if>
+      <if test="commodity_detail != null and commodity_detail != ''">
+        and c.commodity_detail = #{commodity_detail}
+      </if>
+      <if test="activity_price != null and activity_price != ''">
+        and c.activity_price = #{activity_price}
+      </if>
+      <if test="original_price != null and original_price != ''">
+        and c.original_price = #{original_price}
+      </if>
+      <if test="audit_status != null and audit_status != ''">
+        and c.audit_status = #{audit_status}
+      </if>
+      <if test="status != null">
+        and c.status = #{status}
+      </if>
+      <if test="stock != null and stock != ''">
+        and c.stock = #{stock}
+      </if>
+      <if test="is_hot != null and is_hot != ''">
+        and c.is_hot = #{is_hot}
+      </if>
+    </where>
+    order by c.create_time desc
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from commodity_info
+    where id = #{id,jdbcType=INTEGER} and status = 1 and audit_status = 1 and stock > 0
+  </select>
+  <select id="selectByPrimaryKey2" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from commodity_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from commodity_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from commodity_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.trjst.model.CommodityInfo" >
+    insert into commodity_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="area_id != null" >
+        area_id,
+      </if>
+      <if test="assort_id != null" >
+        assort_id,
+      </if>
+      <if test="commodity_name != null" >
+        commodity_name,
+      </if>
+      <if test="market_id != null" >
+        market_id,
+      </if>
+      <if test="merchant_id != null" >
+        merchant_id,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="specifications != null" >
+        specifications,
+      </if>
+      <if test="main_pic != null" >
+        main_pic,
+      </if>
+      <if test="list_pic != null" >
+        list_pic,
+      </if>
+      <if test="commodity_detail != null" >
+        commodity_detail,
+      </if>
+      <if test="activity_price != null" >
+        activity_price,
+      </if>
+      <if test="original_price != null" >
+        original_price,
+      </if>
+      <if test="audit_status != null" >
+        audit_status,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="is_hot != null" >
+        is_hot,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="des != null" >
+        des,
+      </if>
+      <if test="sold != null" >
+        sold,
+      </if>
+      <if test="reserved != null" >
+        reserved,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="area_id != null" >
+        #{area_id,jdbcType=INTEGER},
+      </if>
+      <if test="assort_id != null" >
+        #{assort_id,jdbcType=INTEGER},
+      </if>
+      <if test="commodity_name != null" >
+        #{commodity_name,jdbcType=VARCHAR},
+      </if>
+      <if test="market_id != null" >
+        #{market_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_id != null" >
+        #{merchant_id,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="specifications != null" >
+        #{specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="main_pic != null" >
+        #{main_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="list_pic != null" >
+        #{list_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="commodity_detail != null" >
+        #{commodity_detail,jdbcType=VARCHAR},
+      </if>
+      <if test="activity_price != null" >
+        #{activity_price,jdbcType=DECIMAL},
+      </if>
+      <if test="original_price != null" >
+        #{original_price,jdbcType=DECIMAL},
+      </if>
+      <if test="audit_status != null" >
+        #{audit_status,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="is_hot != null" >
+        #{is_hot,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="sold != null" >
+        #{sold,jdbcType=INTEGER},
+      </if>
+      <if test="reserved != null" >
+        #{reserved,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.CommodityInfo" >
+    update commodity_info
+    <set >
+      <if test="assort_id != null" >
+        assort_id = #{assort_id,jdbcType=INTEGER},
+      </if>
+      <if test="commodity_name != null" >
+        commodity_name = #{commodity_name,jdbcType=VARCHAR},
+      </if>
+      <if test="market_id != null" >
+        market_id = #{market_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_id != null" >
+        merchant_id = #{merchant_id,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="specifications != null" >
+        specifications = #{specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="main_pic != null" >
+        main_pic = #{main_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="list_pic != null" >
+        list_pic = #{list_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="commodity_detail != null" >
+        commodity_detail = #{commodity_detail,jdbcType=VARCHAR},
+      </if>
+      <if test="activity_price != null" >
+        activity_price = #{activity_price,jdbcType=DECIMAL},
+      </if>
+      <if test="original_price != null" >
+        original_price = #{original_price,jdbcType=DECIMAL},
+      </if>
+      <if test="audit_status != null" >
+        audit_status = #{audit_status,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="is_hot != null" >
+        is_hot = #{is_hot,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="des != null" >
+        des = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="sold != null" >
+        sold = #{sold,jdbcType=INTEGER},
+      </if>
+      <if test="reserved != null" >
+        reserved = #{reserved,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getListCount" resultType="java.lang.Integer" >
+    select
+    count(*) count
+    from commodity_info
+    <where>
+      <if test="commodity_name != null and commodity_name != ''">
+        and commodity_name like CONCAT('%',#{commodity_name},'%')
+      </if>
+      <if test="audit_status != null ">
+        and audit_status = #{audit_status}
+      </if>
+      <if test="status != null and status != '' or status==0 ">
+        and status = #{status}
+      </if>
+      <if test="is_hot != null ">
+        and is_hot = #{is_hot}
+      </if>
+    </where>
+  </select>
+  <select id="getResultList" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM commodity_info
+    <where>
+      <if test="commodity_name != null and commodity_name != ''">
+        and commodity_name like CONCAT('%',#{commodity_name},'%')
+      </if>
+      <if test="audit_status != null ">
+        and audit_status = #{audit_status}
+      </if>
+      <if test="status != null and status != '' or status==0 ">
+        and status = #{status}
+      </if>
+      <if test="is_hot != null ">
+        and is_hot = #{is_hot}
+      </if>
+    </where>
+    order by create_time desc
+    limit #{start},#{length_number}
+  </select>
+</mapper>

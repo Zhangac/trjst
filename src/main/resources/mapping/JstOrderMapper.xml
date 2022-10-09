@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trjst.mapper.JstOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.trjst.model.JstOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchant_id" jdbcType="INTEGER" />
+    <result column="commodity_id" property="commodity_id" jdbcType="INTEGER" />
+    <result column="order_no" property="order_no" jdbcType="VARCHAR" />
+    <result column="pay_no" property="pay_no" jdbcType="VARCHAR" />
+    <result column="order_price" property="order_price" jdbcType="DECIMAL" />
+    <result column="pay_price" property="pay_price" jdbcType="DECIMAL" />
+    <result column="pay_status" property="pay_status" jdbcType="INTEGER" />
+    <result column="pay_time" property="pay_time" jdbcType="TIMESTAMP" />
+    <result column="commission" property="commission" jdbcType="DECIMAL" />
+    <result column="confirm_receipt" property="confirm_receipt" jdbcType="INTEGER" />
+    <result column="confirm_time" property="confirm_time" jdbcType="TIMESTAMP" />
+    <result column="reserve_price" property="reserve_price" jdbcType="DECIMAL" />
+    <result column="spread_price" property="spread_price" jdbcType="DECIMAL" />
+    <result column="total_price" property="total_price" jdbcType="DECIMAL" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="commodity_name" property="commodity_name" jdbcType="VARCHAR" />
+    <result column="main_pic" property="main_pic" jdbcType="VARCHAR" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="goods_desc" property="goods_desc" jdbcType="VARCHAR" />
+    <result column="delivery_id" property="delivery_id" jdbcType="INTEGER" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="unit_price" property="unit_price" jdbcType="DECIMAL" />
+    <result column="spread_status" property="spread_status" jdbcType="INTEGER" />
+    <result column="spread_no" property="spread_no" jdbcType="VARCHAR" />
+    <result column="fahuo_time" property="fahuo_time" jdbcType="TIMESTAMP" />
+    <result column="arrived_time" property="arrived_time" jdbcType="TIMESTAMP" />
+    <result column="delivery_name" property="delivery_name" jdbcType="VARCHAR" />
+    <result column="jin_num" property="jin_num" jdbcType="DECIMAL" />
+    <result column="spread_jin_num" property="spread_jin_num" jdbcType="DECIMAL" />
+    <result column="detailed_address" property="detailed_address" jdbcType="VARCHAR" />
+    <result column="delivery_phone" property="delivery_phone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, merchant_id, commodity_id, order_no, pay_no, order_price, pay_price, 
+    pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price, 
+    total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
+    spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address
+  </sql>
+
+  <select id="orderByMi" resultMap="BaseResultMap" parameterType="com.trjst.model.JstOrder" >
+    select
+    o.*
+    from jst_order o
+    <where>
+      <if test="merchant_id != null and merchant_id != ''">
+        and o.merchant_id = #{merchant_id}
+      </if>
+      <if test="start_time != null and start_time!=''">
+        and o.create_time <![CDATA[ >= ]]> #{start_time}
+      </if>
+      <if test="end_time != null and end_time!=''">
+        and o.create_time <![CDATA[ <= ]]> #{end_time}
+      </if>
+    </where>
+    order by o.create_time
+  </select>
+
+  <select id="orderList" resultMap="BaseResultMap" parameterType="com.trjst.model.JstOrder" >
+    select
+    o.*,
+    c.commodity_name,
+    c.main_pic,c.des,
+    d.phone as delivery_phone,
+    d.name as delivery_name
+    from jst_order o left join commodity_info c on o.commodity_id = c.id
+    LEFT JOIN delivery d ON o.delivery_id = d.id
+    <where>
+      <if test="commodity_name != null and commodity_name != ''">
+        and c.commodity_name like CONCAT('%',#{commodity_name},'%')
+      </if>
+      <if test="id != null and id != ''">
+        and o.id = #{id}
+      </if>
+      <if test="user_id != null and user_id != ''">
+        and o.user_id = #{user_id}
+      </if>
+      <if test="merchant_id != null and merchant_id != ''">
+        and o.merchant_id = #{merchant_id}
+      </if>
+      <if test="commodity_id != null and commodity_id != ''">
+        and o.commodity_id = #{commodity_id}
+      </if>
+      <if test="order_no != null and order_no != ''">
+        and o.order_no = #{order_no}
+      </if>
+      <if test="pay_no != null and pay_no != ''">
+        and o.pay_no = #{pay_no}
+      </if>
+      <if test="order_price != null and order_price != ''">
+        and o.order_price = #{order_price}
+      </if>
+      <if test="pay_price != null and pay_price != ''">
+        and o.pay_price = #{pay_price}
+      </if>
+      <if test="pay_status != null and pay_status != '' or pay_status==0 ">
+        and o.pay_status = #{pay_status}
+      </if>
+      <if test="pay_time != null and pay_time != ''">
+        and o.pay_time = #{pay_time}
+      </if>
+      <if test="commission != null and commission != ''">
+        and o.commission = #{commission}
+      </if>
+      <if test="confirm_receipt != null ">
+        <choose>
+          <when test="confirm_receipt == -1">
+            and o.confirm_receipt is not null
+          </when>
+          <otherwise>
+            and o.confirm_receipt = #{confirm_receipt}
+          </otherwise>
+        </choose>
+      </if>
+      <if test="confirm_time != null and confirm_time != ''">
+        and o.confirm_time = #{confirm_time}
+      </if>
+      <if test="reserve_price != null and reserve_price != ''">
+        and o.reserve_price = #{reserve_price}
+      </if>
+      <if test="spread_price != null and spread_price != ''">
+        and o.spread_price = #{spread_price}
+      </if>
+      <if test="total_price != null and total_price != ''">
+        and o.total_price = #{total_price}
+      </if>
+
+
+      <if test="start_time != null and start_time!=''">
+        and o.create_time <![CDATA[ >= ]]> #{start_time}
+      </if>
+      <if test="end_time != null and end_time!=''">
+        and o.create_time <![CDATA[ <= ]]> #{end_time}
+      </if>
+
+
+     <!-- <if test="create_time != null and create_time != ''">
+        and o.create_time = #{create_time}
+      </if>-->
+      <if test="delivery_id != null and delivery_id != ''">
+        and o.delivery_id = #{delivery_id}
+      </if>
+      <if test="type != null and type != ''">
+        and o.type = #{type}
+      </if>
+      <if test="phone != null and phone != ''">
+        and o.phone = #{phone}
+      </if>
+      <if test="address != null and address != ''">
+        and o.address = #{address}
+      </if>
+      <if test="name != null and name != ''">
+        and o.name = #{name}
+      </if>
+      <if test="spread_status != null and spread_status != ''">
+        and o.spread_status = #{spread_status}
+      </if>
+      <if test="spread_no != null and spread_no != ''">
+        and o.spread_no = #{spread_no}
+      </if>
+    </where>
+    order by o.create_time desc
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jst_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="orderAll" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from jst_order where pay_status=1
+  </select>
+  <select id="orderAll2" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from jst_order where spread_status=1 and type=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from jst_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.trjst.model.JstOrder" >
+    insert into jst_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="merchant_id != null" >
+        merchant_id,
+      </if>
+      <if test="commodity_id != null" >
+        commodity_id,
+      </if>
+      <if test="order_no != null" >
+        order_no,
+      </if>
+      <if test="pay_no != null" >
+        pay_no,
+      </if>
+      <if test="order_price != null" >
+        order_price,
+      </if>
+      <if test="pay_price != null" >
+        pay_price,
+      </if>
+      <if test="pay_status != null" >
+        pay_status,
+      </if>
+      <if test="pay_time != null" >
+        pay_time,
+      </if>
+      <if test="commission != null" >
+        commission,
+      </if>
+      <if test="confirm_receipt != null" >
+        confirm_receipt,
+      </if>
+      <if test="confirm_time != null" >
+        confirm_time,
+      </if>
+      <if test="reserve_price != null" >
+        reserve_price,
+      </if>
+      <if test="spread_price != null" >
+        spread_price,
+      </if>
+      <if test="total_price != null" >
+        total_price,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="delivery_id != null" >
+        delivery_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="goods_desc != null" >
+        goods_desc,
+      </if>
+      <if test="unit_price != null" >
+        unit_price,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="spread_status != null" >
+        spread_status,
+      </if>
+      <if test="spread_no != null" >
+        spread_no,
+      </if>
+      <if test="fahuo_time != null" >
+        fahuo_time,
+      </if>
+      <if test="arrived_time != null" >
+        arrived_time,
+      </if>
+      <if test="jin_num != null" >
+        jin_num,
+      </if>
+      <if test="spread_jin_num != null" >
+        spread_jin_num,
+      </if>
+      <if test="detailed_address != null" >
+        detailed_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_id != null" >
+        #{merchant_id,jdbcType=INTEGER},
+      </if>
+      <if test="commodity_id != null" >
+        #{commodity_id,jdbcType=INTEGER},
+      </if>
+      <if test="order_no != null" >
+        #{order_no,jdbcType=VARCHAR},
+      </if>
+      <if test="pay_no != null" >
+        #{pay_no,jdbcType=VARCHAR},
+      </if>
+      <if test="order_price != null" >
+        #{order_price,jdbcType=DECIMAL},
+      </if>
+      <if test="pay_price != null" >
+        #{pay_price,jdbcType=DECIMAL},
+      </if>
+      <if test="pay_status != null" >
+        #{pay_status,jdbcType=INTEGER},
+      </if>
+      <if test="pay_time != null" >
+        #{pay_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commission != null" >
+        #{commission,jdbcType=DECIMAL},
+      </if>
+      <if test="confirm_receipt != null" >
+        #{confirm_receipt,jdbcType=INTEGER},
+      </if>
+      <if test="confirm_time != null" >
+        #{confirm_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reserve_price != null" >
+        #{reserve_price,jdbcType=DECIMAL},
+      </if>
+      <if test="spread_price != null" >
+        #{spread_price,jdbcType=DECIMAL},
+      </if>
+      <if test="total_price != null" >
+        #{total_price,jdbcType=DECIMAL},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delivery_id != null" >
+        #{delivery_id,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="goods_desc != null" >
+        #{goods_desc,jdbcType=VARCHAR},
+      </if>
+      <if test="unit_price != null" >
+        #{unit_price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="spread_status != null" >
+        #{spread_status,jdbcType=INTEGER},
+      </if>
+      <if test="spread_no != null" >
+        #{spread_no,jdbcType=VARCHAR},
+      </if>
+      <if test="fahuo_time != null" >
+        #{fahuo_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arrived_time != null" >
+        #{arrived_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jin_num != null" >
+        #{jin_num,jdbcType=DECIMAL},
+      </if>
+      <if test="spread_jin_num != null" >
+        #{spread_jin_num,jdbcType=DECIMAL},
+      </if>
+      <if test="detailed_address != null" >
+        #{detailed_address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.JstOrder" >
+    update jst_order
+    <set >
+      <if test="user_id != null" >
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_id != null" >
+        merchant_id = #{merchant_id,jdbcType=INTEGER},
+      </if>
+      <if test="commodity_id != null" >
+        commodity_id = #{commodity_id,jdbcType=INTEGER},
+      </if>
+      <if test="order_no != null" >
+        order_no = #{order_no,jdbcType=VARCHAR},
+      </if>
+      <if test="pay_no != null" >
+        pay_no = #{pay_no,jdbcType=VARCHAR},
+      </if>
+      <if test="order_price != null" >
+        order_price = #{order_price,jdbcType=DECIMAL},
+      </if>
+      <if test="pay_price != null" >
+        pay_price = #{pay_price,jdbcType=DECIMAL},
+      </if>
+      <if test="pay_status != null" >
+        pay_status = #{pay_status,jdbcType=INTEGER},
+      </if>
+      <if test="pay_time != null" >
+        pay_time = #{pay_time},
+      </if>
+      <if test="commission != null" >
+        commission = #{commission,jdbcType=DECIMAL},
+      </if>
+      <if test="confirm_receipt != null" >
+        confirm_receipt = #{confirm_receipt,jdbcType=INTEGER},
+      </if>
+      <if test="confirm_time != null" >
+        confirm_time = #{confirm_time},
+      </if>
+      <if test="reserve_price != null" >
+        reserve_price = #{reserve_price,jdbcType=DECIMAL},
+      </if>
+      <if test="spread_price != null" >
+        spread_price = #{spread_price,jdbcType=DECIMAL},
+      </if>
+      <if test="total_price != null" >
+        total_price = #{total_price,jdbcType=DECIMAL},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delivery_id != null" >
+        delivery_id = #{delivery_id,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="goods_desc != null" >
+        goods_desc = #{goods_desc,jdbcType=VARCHAR},
+      </if>
+      <if test="unit_price != null" >
+        unit_price = #{unit_price,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="spread_status != null" >
+        spread_status = #{spread_status,jdbcType=INTEGER},
+      </if>
+      <if test="spread_no != null" >
+        spread_no = #{spread_no,jdbcType=VARCHAR},
+      </if>
+      <if test="fahuo_time != null" >
+        fahuo_time = #{fahuo_time},
+      </if>
+      <if test="arrived_time != null" >
+        arrived_time = #{arrived_time},
+      </if>
+      <if test="jin_num != null" >
+        jin_num = #{jin_num},
+      </if>
+      <if test="spread_jin_num != null" >
+        spread_jin_num = #{spread_jin_num},
+      </if>
+      <if test="detailed_address != null" >
+        detailed_address = #{detailed_address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getListCount" resultType="java.lang.Integer" >
+    select
+    count(*) count
+    from jst_order j
+    left join delivery d on j.delivery_id=d.id
+    left join commodity_info c on j.commodity_id=c.id
+    <where>
+      <if test="order_no != null and order_no != ''">
+        and j.order_no = #{order_no}
+      </if>
+      <if test="pay_status != null and pay_status != -1 ">
+        and j.pay_status = #{pay_status}
+      </if>
+      <if test="delivery_name != null and delivery_name != '' ">
+        and d.name = #{delivery_name}
+      </if>
+      <if test="phone != null and phone != '' ">
+        and j.phone = #{phone}
+      </if>
+      <if test="logmax!=null and logmax != '' and logmin!=null and logmin != ''">
+        <!--<![CDATA[ and d.create_time >= #{logmax}]]>-->
+        AND j.create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
+        AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
+      </if>
+    </where>
+  </select>
+  <select id="getResultList" resultMap="BaseResultMap">
+    SELECT
+    j.*,d.name as delivery_name,c.commodity_name
+    FROM jst_order j
+    left join delivery d on j.delivery_id=d.id
+    left join commodity_info c on j.commodity_id=c.id
+    <where>
+      <if test="order_no != null and order_no != ''">
+        and j.order_no = #{order_no}
+      </if>
+      <if test="pay_status != null and pay_status != -1 ">
+        and j.pay_status = #{pay_status}
+      </if>
+      <if test="delivery_name != null and delivery_name != '' ">
+        and d.name = #{delivery_name}
+      </if>
+      <if test="phone != null and phone != '' ">
+        and j.phone = #{phone}
+      </if>
+      <if test="logmax!=null and logmax != '' and logmin!=null and logmin != ''">
+        <!--<![CDATA[ and d.create_time >= #{logmax}]]>-->
+        AND j.create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
+        AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
+      </if>
+      <!--<if test="logmin!=null and logmin != ''">
+        <![CDATA[ and d.create_time <= #{logmin}]]>
+      </if>-->
+    </where>
+    order by j.create_time desc
+    limit #{start},#{length_number}
+  </select>
+
+  <select id="getOrderDown" resultType="java.util.Map">
+    SELECT
+    j.*,d.name as delivery_name,c.commodity_name
+    FROM jst_order j
+    left join delivery d on j.delivery_id=d.id
+    left join commodity_info c on j.commodity_id=c.id
+    <where>
+      <if test="order_no != null and order_no != ''">
+        and j.order_no = #{order_no}
+      </if>
+      <if test="pay_status != null and pay_status != -1 ">
+        and j.pay_status = #{pay_status}
+      </if>
+      <if test="delivery_name != null and delivery_name != '' ">
+        and d.name = #{delivery_name}
+      </if>
+      <if test="phone != null and phone != '' ">
+        and j.phone = #{phone}
+      </if>
+      <if test="logmax!=null and logmax != '' and logmin!=null and logmin != ''">
+        <!--<![CDATA[ and d.create_time >= #{logmax}]]>-->
+        AND j.create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
+        AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
+      </if>
+    </where>
+    order by j.create_time desc
+  </select>
+</mapper>

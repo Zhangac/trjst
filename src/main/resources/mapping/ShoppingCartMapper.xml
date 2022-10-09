@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trjst.mapper.ShoppingCartMapper" >
+  <resultMap id="BaseResultMap" type="com.trjst.model.ShoppingCart" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="commodity_id" property="commodity_id" jdbcType="INTEGER" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="commodity_name" property="commodity_name" jdbcType="VARCHAR" />
+    <result column="main_pic" property="main_pic" jdbcType="VARCHAR" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="original_price" property="original_price" jdbcType="DECIMAL" />
+    <result column="activity_price" property="activity_price" jdbcType="DECIMAL" />
+    <result column="merchant_id" property="merchant_id" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, commodity_id, user_id, num, create_time
+  </sql>
+
+  <select id="selectByCommId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from shopping_cart
+    where commodity_id = #{commodity_id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+     sc.*,ci.commodity_name,ci.main_pic,ci.des,ci.original_price,ci.activity_price,ci.merchant_id,
+     ci.weight
+     from shopping_cart sc left join commodity_info ci on sc.commodity_id = ci.id
+    where sc.user_id = #{userId,jdbcType=INTEGER} and ci.status=1 order by sc.create_time desc
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shopping_cart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserAndCommId" resultMap="BaseResultMap" parameterType="com.trjst.model.ShoppingCart" >
+    select
+    <include refid="Base_Column_List" />
+    from shopping_cart
+    where user_id = #{user_id,jdbcType=INTEGER} and commodity_id = #{commodity_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shopping_cart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.trjst.model.ShoppingCart" >
+    insert into shopping_cart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commodity_id != null" >
+        commodity_id,
+      </if>
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commodity_id != null" >
+        #{commodity_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.ShoppingCart" >
+    update shopping_cart
+    <set >
+      <if test="commodity_id != null" >
+        commodity_id = #{commodity_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null" >
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

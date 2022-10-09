@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trjst.mapper.DelivMerchMapper" >
+  <resultMap id="BaseResultMap" type="com.trjst.model.DelivMerch" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="delivery_id" property="delivery_id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchant_id" jdbcType="INTEGER" />
+    <result column="merchant_name" property="merchant_name" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, delivery_id, merchant_id, merchant_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from deliv_merch
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByDeliId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from deliv_merch
+    where delivery_id = #{delivery_id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByMerId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from deliv_merch
+    where merchant_id = #{merchant_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from deliv_merch
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.trjst.model.DelivMerch" >
+    insert into deliv_merch (id, delivery_id, merchant_id, 
+      merchant_name, create_time)
+    values (#{id,jdbcType=INTEGER}, #{delivery_id,jdbcType=INTEGER}, #{merchant_id,jdbcType=INTEGER}, 
+      #{merchant_name,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.trjst.model.DelivMerch" >
+    insert into deliv_merch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="delivery_id != null" >
+        delivery_id,
+      </if>
+      <if test="merchant_id != null" >
+        merchant_id,
+      </if>
+      <if test="merchant_name != null" >
+        merchant_name,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="delivery_id != null" >
+        #{delivery_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_id != null" >
+        #{merchant_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_name != null" >
+        #{merchant_name,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.DelivMerch" >
+    update deliv_merch
+    <set >
+      <if test="delivery_id != null" >
+        delivery_id = #{delivery_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_id != null" >
+        merchant_id = #{merchant_id,jdbcType=INTEGER},
+      </if>
+      <if test="merchant_name != null" >
+        merchant_name = #{merchant_name,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getListCount" resultType="java.lang.Integer">
+    select
+    count(*) count
+    from deliv_merch
+    <where>
+      <if test="delivery_id != null ">
+        and delivery_id = #{delivery_id}
+      </if>
+    </where>
+
+  </select>
+  <select id="getResultList" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM deliv_merch
+    <where>
+      <if test="delivery_id != null ">
+        and delivery_id = #{delivery_id}
+      </if>
+    </where>
+    order by create_time desc
+    limit #{start},#{length_number}
+  </select>
+</mapper>

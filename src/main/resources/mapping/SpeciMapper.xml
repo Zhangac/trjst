@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trjst.mapper.SpeciMapper" >
+  <resultMap id="BaseResultMap" type="com.trjst.model.Speci" >
+    <id column="speci_id" property="speci_id" jdbcType="INTEGER" />
+    <result column="commodity_info_id" property="commodity_info_id" jdbcType="INTEGER" />
+    <result column="speci_name" property="speci_name" jdbcType="VARCHAR" />
+    <result column="speci_price" property="speci_price" jdbcType="DECIMAL" />
+    <result column="speci_regu" property="speci_regu" jdbcType="VARCHAR" />
+    <result column="speci_time" property="speci_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    speci_id, commodity_info_id, speci_name, speci_price, speci_regu, speci_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from speci
+    where speci_id = #{speci_id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCommId" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from speci
+    <where>
+      <if test="commodity_info_id != null and commodity_info_id != ''">
+        and commodity_info_id = #{commodity_info_id}
+      </if>
+    </where>
+    order by speci_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from speci
+    where speci_id = #{speci_id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.trjst.model.Speci" >
+    insert into speci
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="speci_id != null" >
+        speci_id,
+      </if>
+      <if test="commodity_info_id != null" >
+        commodity_info_id,
+      </if>
+      <if test="speci_name != null" >
+        speci_name,
+      </if>
+      <if test="speci_price != null" >
+        speci_price,
+      </if>
+      <if test="speci_regu != null" >
+        speci_regu,
+      </if>
+      <if test="speci_time != null" >
+        speci_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="speci_id != null" >
+        #{speci_id,jdbcType=INTEGER},
+      </if>
+      <if test="commodity_info_id != null" >
+        #{commodity_info_id,jdbcType=INTEGER},
+      </if>
+      <if test="speci_name != null" >
+        #{speci_name,jdbcType=VARCHAR},
+      </if>
+      <if test="speci_price != null" >
+        #{speci_price,jdbcType=DECIMAL},
+      </if>
+      <if test="speci_regu != null" >
+        #{speci_regu,jdbcType=VARCHAR},
+      </if>
+      <if test="speci_time != null" >
+        #{speci_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.Speci" >
+    update speci
+    <set >
+      <if test="commodity_info_id != null" >
+        commodity_info_id = #{commodity_info_id,jdbcType=INTEGER},
+      </if>
+      <if test="speci_name != null" >
+        speci_name = #{speci_name,jdbcType=VARCHAR},
+      </if>
+      <if test="speci_price != null" >
+        speci_price = #{speci_price,jdbcType=DECIMAL},
+      </if>
+      <if test="speci_regu != null" >
+        speci_regu = #{speci_regu,jdbcType=VARCHAR},
+      </if>
+      <if test="speci_time != null" >
+        speci_time = #{speci_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where speci_id = #{speci_id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

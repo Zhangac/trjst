@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trjst.mapper.DeliveryMapper" >
+  <resultMap id="BaseResultMap" type="com.trjst.model.Delivery" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="area_id" property="area_id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="id_card" property="id_card" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="num_plate" property="num_plate" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="js_cert" property="js_cert" jdbcType="VARCHAR" />
+    <result column="xs_cert" property="xs_cert" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="sc_card" property="sc_card" jdbcType="VARCHAR" />
+    <result column="car_image" property="car_image" jdbcType="VARCHAR" />
+    <result column="contract" property="contract" jdbcType="VARCHAR" />
+    <result column="is_ruzhu" property="is_ruzhu" jdbcType="INTEGER" />
+    <result column="ruzhu_amount" property="ruzhu_amount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, area_id,name, phone, id_card, status, num_plate,create_time,js_cert,
+    xs_cert,address,sc_card,car_image,contract,is_ruzhu,ruzhu_amount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from delivery
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from delivery
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from delivery
+    where user_id = #{user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from delivery
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.trjst.model.Delivery" >
+    insert into delivery
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="user_id != null" >
+        user_id,
+      </if>
+      <if test="area_id != null" >
+        area_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="id_card != null" >
+        id_card,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="num_plate != null" >
+        num_plate,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="js_cert != null" >
+        js_cert,
+      </if>
+      <if test="xs_cert != null" >
+        xs_cert,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="sc_card != null" >
+        sc_card,
+      </if>
+      <if test="car_image != null" >
+        car_image,
+      </if>
+      <if test="contract != null" >
+        contract,
+      </if>
+      <if test="is_ruzhu != null" >
+        is_ruzhu,
+      </if>
+      <if test="ruzhu_amount != null" >
+        ruzhu_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null" >
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="area_id != null" >
+        #{area_id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="id_card != null" >
+        #{id_card,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="num_plate != null" >
+        #{num_plate,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js_cert != null" >
+        #{js_cert,jdbcType=VARCHAR},
+      </if>
+      <if test="xs_cert != null" >
+        #{xs_cert,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sc_card != null" >
+        #{sc_card,jdbcType=VARCHAR},
+      </if>
+      <if test="car_image != null" >
+        #{car_image,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null" >
+        #{contract,jdbcType=VARCHAR},
+      </if>
+
+      <if test="is_ruzhu != null" >
+        #{is_ruzhu,jdbcType=INTEGER},
+      </if>
+      <if test="ruzhu_amount != null" >
+        #{ruzhu_amount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.Delivery" >
+    update delivery
+    <set >
+      <if test="user_id != null" >
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="area_id != null" >
+        area_id = #{area_id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="id_card != null" >
+        id_card = #{id_card,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="num_plate != null" >
+        num_plate = #{num_plate,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="js_cert != null" >
+        js_cert = #{js_cert,jdbcType=VARCHAR},
+      </if>
+      <if test="xs_cert != null" >
+        xs_cert = #{xs_cert,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sc_card != null" >
+        sc_card = #{sc_card,jdbcType=VARCHAR},
+      </if>
+      <if test="car_image != null" >
+        car_image = #{car_image,jdbcType=VARCHAR},
+      </if>
+      <if test="contract != null" >
+        contract = #{contract,jdbcType=VARCHAR},
+      </if>
+
+      <if test="is_ruzhu != null" >
+        is_ruzhu = #{is_ruzhu,jdbcType=INTEGER},
+      </if>
+      <if test="ruzhu_amount != null" >
+        ruzhu_amount = #{ruzhu_amount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="getListCount" resultType="java.lang.Integer" >
+    select
+    count(*) count
+    from delivery
+    <where>
+      <if test="name != null and name != ''">
+        and name like CONCAT('%',#{name},'%')
+      </if>
+      <if test="status != null ">
+        and status = #{status}
+      </if>
+      <!--<if test="num_plate != null ">
+        and num_plate like CONCAT('%',#{num_plate},'%')
+      </if>-->
+    </where>
+  </select>
+  <select id="getResultList" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM delivery
+    <where>
+      <if test="name != null and name != ''">
+        and name like CONCAT('%',#{name},'%')
+      </if>
+      <if test="status != null ">
+        and status = #{status}
+      </if>
+      <!--<if test="num_plate != null ">
+        and num_plate like CONCAT('%',#{num_plate},'%')
+      </if>-->
+    </where>
+    order by create_time desc
+    limit #{start},#{length_number}
+  </select>
+</mapper>

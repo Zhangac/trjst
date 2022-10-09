@@ -1,0 +1,48 @@
+package com.trjst.service.api;
+
+import com.trjst.mapper.ShoppingCartMapper;
+import com.trjst.model.ShoppingCart;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class ShoppingCartService {
+
+    @Autowired
+    private ShoppingCartMapper shoppingCartMapper;
+
+    public List<ShoppingCart> selectByUserId(Integer userId){
+        return shoppingCartMapper.selectByUserId(userId);
+    }
+
+    public Map addShoppingCart(ShoppingCart record){
+        Map map = new HashMap();
+        ShoppingCart sc = shoppingCartMapper.selectByUserAndCommId(record);
+        if(sc!=null){
+            map.put("code",400);
+            map.put("msg","已加入购物车");
+        }else {
+            int num = shoppingCartMapper.insertSelective(record);
+            if(num > 0){
+                map.put("code",200);
+                map.put("msg","success");
+            }else {
+                map.put("code",500);
+                map.put("msg","error");
+            }
+        }
+        return map;
+    }
+
+    public int updateShoppingCart(ShoppingCart record){
+        return shoppingCartMapper.updateByPrimaryKeySelective(record);
+    }
+
+    public int delShoppingCart(Integer id){
+        return shoppingCartMapper.deleteByPrimaryKey(id);
+    }
+}
