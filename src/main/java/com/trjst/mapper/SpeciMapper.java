@@ -1,6 +1,7 @@
 package com.trjst.mapper;
 
 import com.trjst.model.Speci;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface SpeciMapper {
 
     Speci selectByPrimaryKey(Integer speci_id);
 
-    List<Speci> selectByCommId(Integer commId);
+    List<Speci> selectByCommId(@Param("commodity_info_id") Integer commodity_info_id);
 
     int updateByPrimaryKeySelective(Speci record);
 }
