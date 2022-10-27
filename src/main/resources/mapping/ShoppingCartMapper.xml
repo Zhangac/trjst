@@ -14,6 +14,9 @@
     <result column="activity_price" property="activity_price" jdbcType="DECIMAL" />
     <result column="merchant_id" property="merchant_id" jdbcType="INTEGER" />
     <result column="weight" property="weight" jdbcType="VARCHAR" />
+    <result column="speci_name" property="speci_name" jdbcType="VARCHAR" />
+    <result column="speci_price" property="speci_price" jdbcType="DECIMAL" />
+    <result column="speci_regu" property="speci_regu" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, commodity_id, user_id, num, create_time
@@ -26,12 +29,23 @@
     where commodity_id = #{commodity_id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByUserId" resultMap="BaseResultMap" >
     select
      sc.*,ci.commodity_name,ci.main_pic,ci.des,ci.original_price,ci.activity_price,ci.merchant_id,
-     ci.weight
-     from shopping_cart sc left join commodity_info ci on sc.commodity_id = ci.id
-    where sc.user_id = #{userId,jdbcType=INTEGER} and ci.status=1 order by sc.create_time desc
+     ci.weight,s.speci_name,s.speci_price,s.speci_regu
+     from shopping_cart sc
+        left join commodity_info ci on sc.commodity_id = ci.id
+        left join speci s on sc.speci_id = s.speci_id
+    <where>
+      ci.status=1
+      <if test="user_id != null and user_id != ''">
+        and sc.user_id = #{user_id}
+      </if>
+      <if test="cs_type != null and cs_type != ''">
+        and sc.cs_type = #{cs_type}
+      </if>
+    </where>
+    order by sc.create_time desc
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

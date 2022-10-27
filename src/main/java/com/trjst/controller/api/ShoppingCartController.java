@@ -29,8 +29,9 @@ public class ShoppingCartController {
 
     @ApiOperation(value = "个人购物车列表", notes = "个人购物车列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<ShoppingCart> shoppingCartList(@ApiParam(value = "用户id", required = true) @RequestParam("userId") Integer userId) throws IOException {
-        return shoppingCartService.selectByUserId(userId);
+    public List<ShoppingCart> shoppingCartList(@ApiParam(value = "用户id", required = true) @RequestParam("userId") Integer userId,
+                                               @ApiParam(value = "1购物车 2进货单", required = true) @RequestParam("cs_type") Integer cs_type) throws IOException {
+        return shoppingCartService.selectByUserId(userId,cs_type);
     }
 
     @ApiOperation(value = "添加", notes = "添加")

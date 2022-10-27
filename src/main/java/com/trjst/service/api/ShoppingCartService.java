@@ -15,8 +15,8 @@ public class ShoppingCartService {
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
 
-    public List<ShoppingCart> selectByUserId(Integer userId){
-        return shoppingCartMapper.selectByUserId(userId);
+    public List<ShoppingCart> selectByUserId(Integer userId,Integer cs_type){
+        return shoppingCartMapper.selectByUserId(userId,cs_type);
     }
 
     public Map addShoppingCart(ShoppingCart record){
