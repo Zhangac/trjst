@@ -144,6 +144,7 @@ public class OrderService {
                     ShoppingCart shoppingCart = new ShoppingCart();
                     shoppingCart.setUser_id(jstOrder.getUser_id());
                     shoppingCart.setCommodity_id(jstOrder.getCommodity_id());
+                    shoppingCart.setCs_type(1);
                     ShoppingCart shop = shoppingCartMapper.selectByUserAndCommId(shoppingCart);
                     if(shop!=null && shop.getCs_type()==1){
                         shoppingCartMapper.deleteByPrimaryKey(shop.getId());

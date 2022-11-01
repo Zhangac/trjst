@@ -61,7 +61,9 @@
     select
     <include refid="Base_Column_List" />
     from shopping_cart
-    where user_id = #{user_id,jdbcType=INTEGER} and commodity_id = #{commodity_id,jdbcType=INTEGER}
+    where user_id = #{user_id,jdbcType=INTEGER}
+    and commodity_id = #{commodity_id,jdbcType=INTEGER}
+    and cs_type = #{cs_type,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from shopping_cart
