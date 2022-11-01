@@ -17,9 +17,12 @@
     <result column="speci_name" property="speci_name" jdbcType="VARCHAR" />
     <result column="speci_price" property="speci_price" jdbcType="DECIMAL" />
     <result column="speci_regu" property="speci_regu" jdbcType="VARCHAR" />
+    <result column="speci_id" property="speci_id" jdbcType="INTEGER" />
+    <result column="cs_type" property="cs_type" jdbcType="INTEGER" />
+
   </resultMap>
   <sql id="Base_Column_List" >
-    id, commodity_id, user_id, num, create_time
+    id, commodity_id, user_id, num, create_time,speci_id,cs_type
   </sql>
 
   <select id="selectByCommId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
