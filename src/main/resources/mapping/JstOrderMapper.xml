@@ -39,12 +39,13 @@
     <result column="spread_jin_num" property="spread_jin_num" jdbcType="DECIMAL" />
     <result column="detailed_address" property="detailed_address" jdbcType="VARCHAR" />
     <result column="delivery_phone" property="delivery_phone" jdbcType="VARCHAR" />
+    <result column="spread_remark" property="spread_remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, merchant_id, commodity_id, order_no, pay_no, order_price, pay_price, 
     pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price, 
     total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
-    spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address
+    spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address,spread_remark
   </sql>
 
   <select id="orderByMi" resultMap="BaseResultMap" parameterType="com.trjst.model.JstOrder" >
@@ -290,6 +291,9 @@
       <if test="detailed_address != null" >
         detailed_address,
       </if>
+      <if test="spread_remark != null" >
+        spread_remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -388,6 +392,9 @@
       <if test="detailed_address != null" >
         #{detailed_address,jdbcType=VARCHAR},
       </if>
+      <if test="spread_remark != null" >
+        #{spread_remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.JstOrder" >
@@ -485,6 +492,9 @@
       </if>
       <if test="detailed_address != null" >
         detailed_address = #{detailed_address,jdbcType=VARCHAR},
+      </if>
+      <if test="spread_remark != null" >
+        spread_remark = #{spread_remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

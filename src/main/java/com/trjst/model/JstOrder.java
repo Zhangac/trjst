@@ -86,6 +86,16 @@ public class JstOrder {
 
     private String delivery_phone;
 
+    private String spread_remark;
+
+    public String getSpread_remark() {
+        return spread_remark;
+    }
+
+    public void setSpread_remark(String spread_remark) {
+        this.spread_remark = spread_remark;
+    }
+
     public String getDelivery_phone() {
         return delivery_phone;
     }
