@@ -237,7 +237,14 @@ public class OrderService {
             // 佣金/配送费=(斤数+差价斤数)*抽成
             CommodityInfo ci = commodityInfoMapper.selectByPrimaryKey2(jstOrder.getCommodity_id());
             Assort assort = assortMapper.selectByPrimaryKey(ci.getAssort_id());
-            BigDecimal commission = (jstOrder.getJin_num().add(jstOrder.getSpread_jin_num())).multiply(assort.getYongjin()).setScale(2,BigDecimal.ROUND_HALF_UP);
+            BigDecimal commission = new BigDecimal(0);
+            BigDecimal b2 = new BigDecimal("100");
+            if(assort.getPercent()==1){
+                commission = (jstOrder.getJin_num().add(jstOrder.getSpread_jin_num())).multiply(assort.getYongjin()).setScale(2,BigDecimal.ROUND_HALF_UP);
+            }else {
+                commission = (jstOrder.getJin_num().add(jstOrder.getSpread_jin_num())).multiply(assort.getYongjin()).divide(b2).setScale(2,BigDecimal.ROUND_HALF_UP);
+            }
+
             jstOrder.setCommission(commission);
             log.info("佣金commission:"+commission);
             int num = jstOrderMapper.updateByPrimaryKeySelective(jstOrder);

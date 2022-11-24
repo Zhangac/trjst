@@ -8,11 +8,12 @@
     <result column="yongjin" property="yongjin" jdbcType="DECIMAL" />
     <result column="yuliu" property="yuliu" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="percent" property="percent" jdbcType="INTEGER" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
   </resultMap>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
-    name,sort,yongjin,yuliu,type,create_time
+    name,sort,yongjin,yuliu,type,create_time,percent
     from assort
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -50,6 +51,9 @@
       <if test="type != null" >
         type,
       </if>
+      <if test="percent != null" >
+        percent,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -73,6 +77,9 @@
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
+      <if test="percent != null" >
+        #{percent,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.Assort" >
@@ -95,6 +102,9 @@
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="percent != null" >
+        percent = #{percent,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

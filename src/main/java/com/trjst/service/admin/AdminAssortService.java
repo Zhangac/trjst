@@ -5,6 +5,7 @@ import com.trjst.mapper.AssortMapper;
 import com.trjst.mapper.CommodityInfoMapper;
 import com.trjst.model.Assort;
 import com.trjst.model.CommodityInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class AdminAssortService {
 
     @Autowired
@@ -56,7 +58,9 @@ public class AdminAssortService {
      * @param id,banner_url
      * @return
      * */
-    public Map edit(Integer id, String name, Integer sort, BigDecimal yongjin, String yuliu) {
+    public Map edit(Integer id, String name, Integer sort, BigDecimal yongjin,
+                    String yuliu,Integer percent) {
+        log.info("percent={}",percent);
         Map map = new HashMap<String, String>();
         try {
             if (id == null) {
@@ -65,6 +69,7 @@ public class AdminAssortService {
                 area.setSort(sort);
                 area.setYongjin(yongjin);
                 area.setYuliu(yuliu);
+                area.setPercent(percent);
                 assortMapper.insertSelective(area);
                 map.put("code", "100");
             } else {
@@ -74,6 +79,7 @@ public class AdminAssortService {
                 area.setSort(sort);
                 area.setYongjin(yongjin);
                 area.setYuliu(yuliu);
+                area.setPercent(percent);
                 assortMapper.updateByPrimaryKeySelective(area);
                 map.put("code", "100");
             }

@@ -16,7 +16,17 @@ public class Assort {
 
     private String yuliu;
 
+    private Integer percent;
+
     private Integer type;
+
+    public Integer getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Integer percent) {
+        this.percent = percent;
+    }
 
     public BigDecimal getYongjin() {
         return yongjin;

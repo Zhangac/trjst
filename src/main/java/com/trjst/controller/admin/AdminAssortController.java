@@ -49,8 +49,9 @@ public class AdminAssortController {
     //编辑
     @RequestMapping(value = "/adminassorteditajax")
     @ResponseBody
-    public Map adminassorteditajax(Integer id, String name, Integer sort, BigDecimal yongjin,String yuliu){
-        return adminAssortService.edit(id,name,sort,yongjin,yuliu);
+    public Map adminassorteditajax(Integer id, String name, Integer sort,
+                                   BigDecimal yongjin,String yuliu,Integer percent){
+        return adminAssortService.edit(id,name,sort,yongjin,yuliu,percent);
     }
 
     //删除

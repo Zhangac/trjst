@@ -53,9 +53,17 @@
                         <td><input name="name" placeholder="例：水果" value="${assort.name}"></td>
                         </td>
                     </tr>
+                    <%--<tr>
+                        <td class="item-name"><label>佣金类型:</label></td>
+                        <td><select class="select" id="percent" name="percent" size="1">
+                            <option value=0>请选择</option>
+                            <option value=1 <c:if test="${assort.percent==1}"> selected="selected"</c:if>>固定金额</option>
+                            <option value=2 <c:if test="${assort.percent==2}"> selected="selected"</c:if>>百分比</option>
+                        </select></td>
+                    </tr>--%>
                     <tr>
                         <td class="item-name"><label>佣金:</label></td>
-                        <td><input name="yongjin" placeholder="0.00" value="${assort.yongjin}"></td>
+                        <td><input name="yongjin" placeholder="0.00 <%--百分比的话也是填写数字--%>" value="${assort.yongjin}"></td>
                         </td>
                     </tr>
                     <tr>
@@ -94,6 +102,12 @@
             layer.msg('排序不能为空！');
             return false;
         }
+
+        /*var percent = $('#percent option:selected').val();
+        if($.trim(percent)=="" || $.trim(percent)==0){
+            layer.msg('请选择佣金类型！');
+            return false;
+        }*/
 
         $.ajax( {
             type : 'POST',
