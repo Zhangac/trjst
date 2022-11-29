@@ -40,35 +40,14 @@
     <!-- HTML代码片段中请勿添加<body>标签 //-->
 </head>
 <body>
-    <form action="" name="form" method="post" class="form form-horizontal" id="form">
-            <div class="panel" style="margin-left: 300px;">
-                <div class="panel-body">
-                    <div class="text-c" >
-                        <form class="Huiform" method="post" action="" target="_self" >
-                            <div class="panel" >
-                                <div class="panel-body">
-                                    <div class="text-l">
-                                        <span>状&nbsp;&nbsp;&nbsp;&nbsp;态：</span>
-                                        <select id="types">
-                                            <option value="">请选择</option>
-                                            <option value="0">下架</option>
-                                            <option value="1">上架</option>
-                                        </select>
-                                        <br />
-                                        <br />
-                                        <span>商品名：</span>
-                                        <input type="text" name="commodity_name" id="commodity_name" placeholder="商品名" style="width: 250px" class="input-text">
-                                        <button name="" id="" style="margin-left: 20px;" class="btn btn-success" type="button" onclick="Inquire();"><i class="Hui-iconfont">&#xe665;</i> 搜索 </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" style="border:5px solid #fff;" src="" /></div></div>
+<div id="container">
+    <form action="" name="form" method="post" class="form form-horizontal"
+          id="form">
         <div class="cl pd-5  mt-10">
 				<span class="l" style="margin-left:5px;">
-				 <a class="btn btn-primary radius" onclick="open_layer('添加','admincommedit','900','450')" href="javascript:;">
+				 <a class="btn btn-primary radius" onclick="open_layer('添加','adminspeciadd?commodity_info_id=${commodity_info_id}','700','300')" href="javascript:;">
 				 <i class="Hui-iconfont">&#xe600;</i>添加 </a>
 				</span>
         </div>
@@ -76,32 +55,16 @@
     <!-- 定义一个表格元素 -->
     <div style="height: 10px"></div>
     <div style="width: 98%; margin-left: 10px">
-        <table id="example" class="table table-striped table-bordered" style="width: 1800px;">
+        <table id="example" class="table table-striped table-bordered">
             <thead>
             <tr>
-                <th style="text-align: center;width: 2%">序号</th>
-                <th style="text-align: center;width: 2%">商品id</th>
-                <th style="text-align: center;width: 2%">分类id</th>
-                <th style="text-align: center;width: 5%">商品名</th>
-                <th style="text-align: center;width: 3%">区市id</th>
-                <%--                <th style="text-align: center;width: 3%">市场id</th>--%>
-                <th style="text-align: center;width: 2%">商户id</th>
-                <th style="text-align: center;width: 5%">重量（kg）</th>
-                <th style="text-align: center;width: 5%">规格型号</th>
-                <th style="text-align: center;width: 5%">主图</th>
-                <th style="text-align: center;width: 5%">轮播图</th>
-                <th style="text-align: center;width: 5%">详情图</th>
-                <th style="text-align: center;width: 5%">商品详情</th>
-                <th style="text-align: center;width: 2%">活动价</th>
-                <th style="text-align: center;width: 2%">原价</th>
-                <th style="text-align: center;width: 2%">审核状态</th>
-                <th style="text-align: center;width: 2%">上架状态</th>
-                <%--<th style="text-align: center;width: 2%">推荐状态</th>--%>
-                <th style="text-align: center;width: 2%">库存</th>
-                <%--<th style="text-align: center;width: 5%">商品描述</th>--%>
-                <th style="text-align: center;width: 2%">已售数量</th>
-                <th style="text-align: center;width: 7%">创建时间</th>
-                <th style="text-align: center;width: 5%">操作</th>
+                <th style="text-align: center;width: 10%">序号</th>
+                <th style="text-align: center;width: 25%">商品id</th>
+                <th style="text-align: center;width: 25%">说明</th>
+                <th style="text-align: center;width: 25%">价格</th>
+                <th style="text-align: center;width: 25%">规格</th>
+                <th style="text-align: center;width: 5%">创建时间</th>
+                <th style="text-align: center;width: 10%">操作</th>
             </tr>
             </thead>
             <tbody></tbody>
@@ -109,22 +72,18 @@
     </div>
 </div>
 <script type="text/javascript">
-    function Inquire() {
-        datatable.ajax.reload();
-    }
     /*Javascript代码片段*/
     $(document).ready(function() {
         $('#example').dataTable().fnDestroy();
-        datatable  =  $('#example').DataTable({
+        $('#example').DataTable( {
             "ajax":{
-                "url": "admincommlistajax",
+                "url": "adminspecilistajax",
                 "type": "post",
                 "data": function(d) {
-                    d.commodity_name = $("#commodity_name").val();
-                    d.status = $('#types option:selected').val();
+                    d.commodity_info_id=${commodity_info_id};
                 }
             },
-            "lengthChange": true,//是否允许用户自定义显示数量
+            "lengthChange": false,//是否允许用户自定义显示数量
             "bPaginate": true, //翻页功能
             "bFilter": false, //列筛序功能
             "searching": true,//本地搜索
@@ -141,68 +100,16 @@
             },
             "columns": [
                 { "data": null,"targets": 0 },
-                { "data": "id" },
-                { "data": "assort_id" },
-                { "data": "commodity_name" },
-                { "data": "area_id" },
-                // { "data": "market_id" },
-                { "data": "merchant_id" },
-                { "data": "weight" },
-                /*{ "data": "specifications" },*/
-                { "data": function(obj){
-                        return "<span><center><a onclick=\"open_layer('查看','adminspecilist?commodity_info_id="+obj.id+"','900','450')\">查看</a></center></span>"
-                    }
-                },
-                { "data": function(obj){
-                        return "<span><center><img style='max-width:80px' src='../upload/"+obj.main_pic+"' onclick=\"open_layer('查看','../upload/"+obj.main_pic+"','600','450')\"/></center></span>"
-                    }
-                },
-                { "data": function(obj){
-                        return "<span><center><a onclick=\"open_layer('查看','adminimagelist?type=1&fk_id="+obj.id+"','900','450')\">查看</a></center></span>"
-                    }
-                },
-                { "data": function(obj){
-                        return "<span><center><a onclick=\"open_layer('查看','adminimagelist?type=2&fk_id="+obj.id+"','900','450')\">查看</a></center></span>"
-                    }
-                },
-                { "data": "commodity_detail" },
-                { "data": "activity_price" },
-                { "data": "original_price" },
-                { "data":  function(obj){
-                        if(obj.audit_status==0){
-                            return "<span><center>待审核</center></span>"
-                        }else if(obj.audit_status==1){
-                            return "<span><center>已通过</center></span>"
-                        }
-                    }
-                },
-                { "data":  function(obj){
-                        if(obj.status==0){
-                            return "<span><center><a onclick=\"startobj("+obj.id+")\">上架</a></center></span>"
-                        }else if(obj.status==1){
-                            return "<span><center><a onclick=\"endobj("+obj.id+")\">下架</a></center></span>"
-                        }
-                    }
-                },
-                /*{ "data":  function(obj){
-                        if(obj.is_hot==0){
-                            return "<span><center><a onclick=\"startobj2("+obj.id+")\">不推荐</a></center></span>"
-                        }else if(obj.is_hot==1){
-                            return "<span><center><a onclick=\"endobj2("+obj.id+")\">推荐</a></center></span>"
-                        }
-                    }
-                },*/
-                { "data": "stock" },
-                /*{ "data": "des" },*/
-                { "data": "sold" },
+                { "data": "commodity_info_id" },
+                { "data": "speci_name" },
+                { "data": "speci_price" },
+                { "data": "speci_regu" },
                 { "data": function (obj) {
-                        return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
+                        return "<span><center>" + new Date(obj.speci_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
                     }
                 },
                 { "data": function(obj){
-                        /*return "<span><center><a onclick=\"deleteobj(" + obj.id + ")\">删除</a></center></span>"*/
-                        return  "<a onclick=\"open_layer('编辑','admincommedit?id="+obj.id+"','900','450')\">编辑</a>&nbsp;" +
-                            "<a onclick=\"deleteobj(" + obj.id + ")\">删除</a></center></span>"
+                        return "<span><center><a onclick=\"open_layer('编辑','adminspeciedit?speci_id="+obj.speci_id+"','900','450')\">编辑</a>&nbsp;<a onclick=\"deleteobj(" + obj.speci_id + ")\">删除</a></center></span>"
                     }
                 }
             ],
@@ -294,7 +201,7 @@
             $.ajax({
                 cache: true,
                 type: "POST",
-                url:'admincommdelajax',
+                url:'adminspecidelajax',
                 data:{id:id},
                 async: false,
                 error: function(request) {
@@ -303,7 +210,7 @@
                 success: function(data) {
 
                     if(data.code==100){
-                        layer.msg('操作成功..');
+                        layer.msg('删除成功..');
                         location.reload();
                     }else{
                         layer.msg('系统错误，请联系后台管理员');
@@ -321,8 +228,8 @@
             $.ajax({
                 cache: true,
                 type: "POST",
-                url:'admincommxjajax',
-                data:{id:id,status:1},
+                url:'setbanneronajax',
+                data:{id:id},
                 async: false,
                 error: function(request) {
                     layer.msg("连接错误，请联系后台管理员");
@@ -330,11 +237,9 @@
                 success: function(data) {
 
                     if(data.code==100){
-                        layer.msg('操作成功..');
+                        layer.msg('启用成功..');
                         location.reload();
-                    }else if(data.code==101){
-                        layer.msg('商品没有分类，请联系商家选择分类');
-                    }else {
+                    }else{
                         layer.msg('系统错误，请联系后台管理员');
                     }
 
@@ -349,8 +254,8 @@
             $.ajax({
                 cache: true,
                 type: "POST",
-                url:'admincommxjajax',
-                data:{id:id,status:0},
+                url:'setbanneroffajax',
+                data:{id:id},
                 async: false,
                 error: function(request) {
                     layer.msg("连接错误，请联系后台管理员");
@@ -358,60 +263,7 @@
                 success: function(data) {
 
                     if(data.code==100){
-                        layer.msg('操作成功..');
-                        location.reload();
-                    }else{
-                        layer.msg('系统错误，请联系后台管理员');
-                    }
-
-                }
-            });
-            layer.close(index);
-        });
-        return false;
-    }
-
-    function startobj2(id){
-        layer.confirm('确定要执行此启用操作吗?', {icon: 3, title:'提示'}, function(index){
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url:'admincommtjajax',
-                data:{id:id,is_hot:1},
-                async: false,
-                error: function(request) {
-                    layer.msg("连接错误，请联系后台管理员");
-                },
-                success: function(data) {
-
-                    if(data.code==100){
-                        layer.msg('操作成功..');
-                        location.reload();
-                    }else{
-                        layer.msg('系统错误，请联系后台管理员');
-                    }
-
-                }
-            });
-            layer.close(index);
-        });
-        return false;
-    }
-    function endobj2(id){
-        layer.confirm('确定要执行此停用操作吗?', {icon: 3, title:'提示'}, function(index){
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url:'admincommtjajax',
-                data:{id:id,is_hot:0},
-                async: false,
-                error: function(request) {
-                    layer.msg("连接错误，请联系后台管理员");
-                },
-                success: function(data) {
-
-                    if(data.code==100){
-                        layer.msg('操作成功..');
+                        layer.msg('停用成功..');
                         location.reload();
                     }else{
                         layer.msg('系统错误，请联系后台管理员');

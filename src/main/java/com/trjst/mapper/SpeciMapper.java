@@ -18,4 +18,10 @@ public interface SpeciMapper {
     List<Speci> selectByCommId(@Param("commodity_info_id") Integer commodity_info_id);
 
     int updateByPrimaryKeySelective(Speci record);
+
+    List getResultList(@Param("start") Integer start,
+                       @Param("length_number") Integer length_number,
+                       @Param("commodity_info_id") Integer commodity_info_id);
+
+    Integer getListCount(Integer commodity_info_id);
 }

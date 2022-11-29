@@ -12,6 +12,20 @@
   <sql id="Base_Column_List" >
     speci_id, commodity_info_id, speci_name, speci_price, speci_regu, speci_time
   </sql>
+
+  <select id="getListCount" resultType="java.lang.Integer">
+    select
+    count(*) count
+    from speci where commodity_info_id = #{commodity_info_id,jdbcType=INTEGER}
+  </select>
+  <select id="getResultList" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM speci where commodity_info_id = #{commodity_info_id,jdbcType=INTEGER}
+    order by speci_time desc
+    limit #{start},#{length_number}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

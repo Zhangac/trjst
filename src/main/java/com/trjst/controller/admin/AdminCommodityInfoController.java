@@ -3,6 +3,7 @@ package com.trjst.controller.admin;
 import com.trjst.model.CommodityInfo;
 import com.trjst.service.admin.AdminCommodityInfoService;
 import com.trjst.service.admin.AdminImgesService;
+import com.trjst.service.admin.AdminSpeciService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Controller
@@ -23,6 +25,55 @@ public class AdminCommodityInfoController {
 
     @Autowired
     private AdminImgesService adminImgesService;
+
+    @Autowired
+    private AdminSpeciService adminSpeciService;
+
+    //规格列表
+    @RequestMapping("/adminspecilist")
+    public String adminspecilist(HttpServletRequest request,Integer commodity_info_id) {
+        request.setAttribute("commodity_info_id",commodity_info_id);
+        return "speci/list";
+    }
+
+    //规格列表ajax
+    @RequestMapping(value = "/adminspecilistajax")
+    @ResponseBody
+    public String adminspecilistajax(HttpServletRequest request, Integer draw,Integer commodity_info_id){
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length_number = Integer.valueOf(request.getParameter("length"));
+        return adminSpeciService.getResultJson(start,length_number,draw,commodity_info_id);
+    }
+
+    //规格列表删除
+    @RequestMapping(value = "/adminspecidelajax")
+    @ResponseBody
+    public Map adminspecidelajax(Integer id){
+        return adminSpeciService.daletePojo(id);
+    }
+
+    //规格添加
+    @RequestMapping("/adminspeciadd")
+    public String adminspeciadd(HttpServletRequest request,Integer commodity_info_id){
+        request.setAttribute("commodity_info_id",commodity_info_id);
+        return "speci/add";
+    }
+
+    //规格编辑
+    @RequestMapping("/adminspeciedit")
+    public String adminspeciedit(HttpServletRequest request,Integer speci_id){
+        request.setAttribute("speci",adminSpeciService.findPojoById(speci_id));
+        request.setAttribute("speci_id",speci_id);
+        return "speci/add";
+    }
+
+    //规格编辑or添加ajax
+    @RequestMapping(value = "/adminspecieditajax")
+    @ResponseBody
+    public Map adminspecieditajax(Integer commodity_info_id, String speci_name,
+                                  BigDecimal speci_price,String speci_regu,Integer speci_id){
+        return adminSpeciService.add(commodity_info_id,speci_name,speci_price,speci_regu,speci_id);
+    }
 
     //imges列表删除
     @RequestMapping(value = "/adminimagedelajax")
