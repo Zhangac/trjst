@@ -64,7 +64,7 @@
                 <th style="text-align: center;width: 10%">佣金</th>
                 <th style="text-align: center;width: 10%">规格</th>
                 <th style="text-align: center;width: 10%">排序</th>
-                <%--<th style="text-align: center;width: 10%">佣金类型</th>--%>
+                <th style="text-align: center;width: 10%">佣金类型</th>
                 <th style="text-align: center;width: 10%">创建时间</th>
                 <th style="text-align: center;width: 10%">操作</th>
             </tr>
