@@ -104,7 +104,7 @@
                 { "data": "yongjin" },
                 { "data": "yuliu" },
                 { "data": "sort" },
-                /*{ "data":  function(obj){
+                { "data":  function(obj){
                         if(obj.percent==1){
                             return "<span><center>固定金额</center></span>"
                         }else if(obj.percent==2){
@@ -113,7 +113,7 @@
                             return "<span><center></center></span>"
                         }
                     }
-                },*/
+                },
                 {
                     "data": function (obj) {
                         return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
