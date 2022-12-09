@@ -524,6 +524,9 @@
         AND j.create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
         AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
       </if>
+      <if test="area_id != null and area_id != '' ">
+        and c.area_id = #{area_id}
+      </if>
     </where>
   </select>
   <select id="getResultList" resultMap="BaseResultMap">
@@ -553,6 +556,9 @@
       <!--<if test="logmin!=null and logmin != ''">
         <![CDATA[ and d.create_time <= #{logmin}]]>
       </if>-->
+      <if test="area_id != null and area_id != '' ">
+        and c.area_id = #{area_id}
+      </if>
     </where>
     order by j.create_time desc
     limit #{start},#{length_number}

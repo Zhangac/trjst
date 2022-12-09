@@ -33,9 +33,9 @@ public class AdminCommodityInfoService {
      * 返回含banner列表的json
      * */
     public String getResultJson(Integer start, Integer length_number, Integer draw,String commodity_name,
-                                Integer audit_status,Integer status,Integer is_hot) {
-        List resultList = commodityInfoMapper.getResultList(start, length_number,commodity_name,audit_status,status,is_hot);
-        Integer countnumber = commodityInfoMapper.getListCount(commodity_name,audit_status,status,is_hot);
+                                Integer audit_status,Integer status,Integer is_hot,Integer area_id) {
+        List resultList = commodityInfoMapper.getResultList(start, length_number,commodity_name,audit_status,status,is_hot,area_id);
+        Integer countnumber = commodityInfoMapper.getListCount(commodity_name,audit_status,status,is_hot,area_id);
         JSONObject jobj = new JSONObject();
         jobj.put("draw", draw);
         jobj.put("recordsFiltered", countnumber);

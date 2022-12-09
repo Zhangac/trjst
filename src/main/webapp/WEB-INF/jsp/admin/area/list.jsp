@@ -45,12 +45,14 @@
 <div id="container">
     <form action="" name="form" method="post" class="form form-horizontal"
           id="form">
+<c:if test="${admin.level==1 || admin.level==2}">
         <div class="cl pd-5  mt-10">
 				<span class="l" style="margin-left:5px;">
 				 <a class="btn btn-primary radius" onclick="open_layer('添加','adminareaadd','900','450')" href="javascript:;">
 				 <i class="Hui-iconfont">&#xe600;</i>添加 </a>
 				</span>
         </div>
+</c:if>
     </form>
     <!-- 定义一个表格元素 -->
     <div style="height: 10px"></div>
@@ -119,6 +121,7 @@
                     }
                 },
                 { "data": function(obj){
+                        <c:if test="${admin.level==1 || admin.level==2}">
                         if(obj.status==0){
                             return "<a onclick=\"open_layer('编辑','adminareaedit?id="+obj.id+"','900','450')\">编辑</a>&nbsp;" +
                                    "<a onclick=\"startobj("+obj.id+")\">启用</a>&nbsp;" /*+
@@ -128,6 +131,7 @@
                                     "<a onclick=\"endobj("+obj.id+")\">停用</a>&nbsp;"/* +
                                 "<a onclick=\"deleteobj(" + obj.id + ")\">删除</a></center></span>"*/
                         }
+                        </c:if>
                     }
                 }
             ],

@@ -13,7 +13,17 @@ public class Admin {
 
     private Integer status;
 
+    private Integer area;
+
     private Date create_time;
+
+    public Integer getArea() {
+        return area;
+    }
+
+    public void setArea(Integer area) {
+        this.area = area;
+    }
 
     public Integer getId() {
         return id;

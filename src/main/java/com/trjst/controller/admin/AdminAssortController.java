@@ -20,7 +20,8 @@ public class AdminAssortController {
 
     //列表
     @RequestMapping("/adminassortlist")
-    public String adminassortlist(HttpServletRequest request) {
+    public String adminassortlist(HttpServletRequest request,Integer level) {
+        request.setAttribute("level",level);
         return "assort/list";
     }
 

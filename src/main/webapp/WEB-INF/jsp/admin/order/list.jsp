@@ -162,6 +162,7 @@
                     d.logmax=$("#logmax").val();
                     d.logmin=$("#logmin").val();
                     d.phone=$("#phone").val();
+                    d.area_id = ${area};
                 }
             },
             // "colReorder": true,//启动列拖动

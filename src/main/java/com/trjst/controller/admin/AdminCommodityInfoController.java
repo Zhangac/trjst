@@ -119,7 +119,8 @@ public class AdminCommodityInfoController {
 
     //列表
     @RequestMapping("/admincommlist")
-    public String admincommlist(HttpServletRequest request) {
+    public String admincommlist(HttpServletRequest request,Integer area) {
+        request.setAttribute("area",area);
         return "commodity/list";
     }
 
@@ -134,10 +135,11 @@ public class AdminCommodityInfoController {
     @RequestMapping(value = "/admincommlistajax")
     @ResponseBody
     public String admincommlistajax(HttpServletRequest request, Integer draw, String commodity_name,
-                                  Integer audit_status,Integer status,Integer is_hot){
+                                  Integer audit_status,Integer status,Integer is_hot,Integer area_id){
+        log.info("area_id={}",area_id);
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length_number = Integer.valueOf(request.getParameter("length"));
-        return adminCommodityInfoService.getResultJson(start,length_number,draw,commodity_name,audit_status,status,is_hot);
+        return adminCommodityInfoService.getResultJson(start,length_number,draw,commodity_name,audit_status,status,is_hot,area_id);
     }
 
     //编辑

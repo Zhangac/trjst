@@ -29,9 +29,9 @@ public class AdminOrderService {
      * */
     public String getResultJson(Integer start, Integer length_number, Integer draw,String order_no,
                                 Integer pay_status,String delivery_name,String logmax
-                                ,String logmin,String phone) {
-        List resultList = jstOrderMapper.getResultList(start, length_number,order_no,pay_status,delivery_name,logmax,logmin,phone);
-        Integer countnumber = jstOrderMapper.getListCount(order_no,pay_status,delivery_name,logmax,logmin,phone);
+                                ,String logmin,String phone,Integer area_id) {
+        List resultList = jstOrderMapper.getResultList(start, length_number,order_no,pay_status,delivery_name,logmax,logmin,phone,area_id);
+        Integer countnumber = jstOrderMapper.getListCount(order_no,pay_status,delivery_name,logmax,logmin,phone,area_id);
         JSONObject jobj = new JSONObject();
         jobj.put("draw", draw);
         jobj.put("recordsFiltered", countnumber);

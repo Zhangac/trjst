@@ -122,6 +122,7 @@
                 "data": function(d) {
                     d.commodity_name = $("#commodity_name").val();
                     d.status = $('#types option:selected').val();
+                    d.area_id = ${area};
                 }
             },
             "lengthChange": true,//是否允许用户自定义显示数量

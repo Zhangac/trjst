@@ -36,6 +36,26 @@ public class AdminReturnModel {
 
 //    private String needs_name;
 
+    private Integer area;
+
+    private String area_name;
+
+    public Integer getArea() {
+        return area;
+    }
+
+    public void setArea(Integer area) {
+        this.area = area;
+    }
+
+    public String getArea_name() {
+        return area_name;
+    }
+
+    public void setArea_name(String area_name) {
+        this.area_name = area_name;
+    }
+
     public Integer getItem_status() {
         return item_status;
     }

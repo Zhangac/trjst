@@ -32,7 +32,8 @@ public class AdminOrderController {
 
     //列表
     @RequestMapping("/adminorderlist")
-    public String adminorderlist(HttpServletRequest request) {
+    public String adminorderlist(HttpServletRequest request,Integer area) {
+        request.setAttribute("area",area);
         return "order/list";
     }
 
@@ -41,12 +42,13 @@ public class AdminOrderController {
     @ResponseBody
     public String adminorderlistajax(HttpServletRequest request, Integer draw, String order_no,
                                     Integer pay_status, String delivery_name,String logmax
-                                    ,String logmin,String phone){
+                                    ,String logmin,String phone,Integer area_id){
         System.out.println("logmax="+logmax);
         System.out.println("logmin="+logmin);
+        log.info("area_id={}",area_id);
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length_number = Integer.valueOf(request.getParameter("length"));
-        return adminOrderService.getResultJson(start,length_number,draw,order_no,pay_status,delivery_name,logmax,logmin,phone);
+        return adminOrderService.getResultJson(start,length_number,draw,order_no,pay_status,delivery_name,logmax,logmin,phone,area_id);
     }
 
 

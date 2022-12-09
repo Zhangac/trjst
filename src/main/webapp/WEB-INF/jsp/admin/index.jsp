@@ -87,12 +87,12 @@ static<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 				</dd>
 			</dl>
 			</c:if>
-			<c:if test="${admin.level==1 || admin.level==2}">
+			<c:if test="${admin.level==1 || admin.level==2 || admin.level==3}">
 			<dl id="menu-article">
 				<dt><i class="Hui-iconfont">&#xe625;</i> 区市管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="adminarealist" data-title="区市管理" href="javascript:void(0)">- 区市管理</a></li>
+						<li><a data-href="adminarealist?level=${admin.level}" data-title="区市管理" href="javascript:void(0)">- 区市管理</a></li>
 					</ul>
 				</dd>
 			</dl>
@@ -118,22 +118,22 @@ static<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 				</dd>
 			</dl>
 			</c:if>
-			<c:if test="${admin.level==1 || admin.level==2}">
+			<c:if test="${admin.level==1 || admin.level==2 || admin.level==3}">
 			<dl id="menu-article">
 				<dt><i class="Hui-iconfont">&#xe625;</i> 分类管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="adminassortlist" data-title="分类管理" href="javascript:void(0)">- 分类管理</a></li>
+						<li><a data-href="adminassortlist?level=${admin.level}" data-title="分类管理" href="javascript:void(0)">- 分类管理</a></li>
 					</ul>
 				</dd>
 			</dl>
 			</c:if>
-			<c:if test="${admin.level==1 || admin.level==2}">
+			<c:if test="${admin.level==1 || admin.level==2 || admin.level==3}">
 			<dl id="menu-article">
 				<dt><i class="Hui-iconfont">&#xe625;</i> 商品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="admincommlist" data-title="商品管理" href="javascript:void(0)">- 商品管理</a></li>
+						<li><a data-href="admincommlist?area=${admin.area}" data-title="商品管理" href="javascript:void(0)">- 商品管理</a></li>
 					</ul>
 					<%--<ul>
 						<li><a data-href="admincommaslist?audit_status=0" data-title="待审核" href="javascript:void(0)">- 待审核</a></li>
@@ -141,12 +141,12 @@ static<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 				</dd>
 			</dl>
 			</c:if>
-			<c:if test="${admin.level==1 || admin.level==2}">
+			<c:if test="${admin.level==1 || admin.level==2 || admin.level==3}">
 			<dl id="menu-article">
 				<dt><i class="Hui-iconfont">&#xe625;</i> 订单管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
-						<li><a data-href="adminorderlist" data-title="订单管理" href="javascript:void(0)">- 订单管理</a></li>
+						<li><a data-href="adminorderlist?area=${admin.area}" data-title="订单管理" href="javascript:void(0)">- 订单管理</a></li>
 					</ul>
 				</dd>
 			</dl>

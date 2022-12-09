@@ -392,6 +392,9 @@
       <if test="is_hot != null ">
         and is_hot = #{is_hot}
       </if>
+      <if test="area_id != null and area_id != ''">
+        and area_id = #{area_id}
+      </if>
     </where>
   </select>
   <select id="getResultList" resultMap="BaseResultMap">
@@ -410,6 +413,9 @@
       </if>
       <if test="is_hot != null ">
         and is_hot = #{is_hot}
+      </if>
+      <if test="area_id != null and area_id != ''">
+        and area_id = #{area_id}
       </if>
     </where>
     order by create_time desc

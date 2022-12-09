@@ -60,8 +60,25 @@
 					<option value="0">请选择</option>
 					<option value="1" <c:if test="${level==1}"> selected="selected"</c:if>>超级管理员</option>
 					<option value="2" <c:if test="${level==2}"> selected="selected"</c:if>>管理员</option>
+					<option value="3" <c:if test="${level==3}"> selected="selected"</c:if>>区市管理员</option>
 				</select>
 				</span> 
+			</div>
+		</div>
+		<div class="row cl" style="padding-top:2%;">
+			<label class="form-label col-xs-4 col-sm-2">选择区域：</label>
+			<div class="formControls col-xs-7 col-sm-9">
+				<span class="select-box" style="width:150px;">
+				<select class="select" id="area" name="area" size="1">
+					<option value="0">请选择</option>
+					<option value="1" <c:if test="${area==1}"> selected="selected"</c:if>>市中区</option>
+					<option value="2" <c:if test="${area==2}"> selected="selected"</c:if>>薛城区</option>
+					<option value="3" <c:if test="${area==3}"> selected="selected"</c:if>>峄城区</option>
+					<option value="4" <c:if test="${area==4}"> selected="selected"</c:if>>台儿庄区</option>
+					<option value="5" <c:if test="${area==5}"> selected="selected"</c:if>>山亭区</option>
+					<option value="6" <c:if test="${area==6}"> selected="selected"</c:if>>滕州市</option>
+				</select>
+				</span>
 			</div>
 		</div>
 	<div class="mt-20 text-c">
@@ -89,6 +106,7 @@ function sub(){
 		layer.msg('账号不能为空！');
 		return false;
 	}
+
     $.ajax( {  
         type : 'POST',  
         url : 'admineditajax',  

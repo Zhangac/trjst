@@ -60,6 +60,7 @@
 						<th style="text-align: center;width: 10%">管理员id</th>
 						<th style="text-align: center;width: 10%">账号</th>
 						<th style="text-align: center;width: 10%">级别</th>
+						<th style="text-align: center;width: 10%">区域</th>
 						<th style="text-align: center;width: 10%">创建时间</th>
 						<th style="text-align: center;width: 10%">操作</th>
 					</tr>
@@ -97,6 +98,7 @@
 			  { "data": "id" },
 			  {"data": "account"},
 			  {"data": "levelname"},
+			  {"data": "area_name"},
 			  {
 				  "data": function (obj) {
 					  return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"

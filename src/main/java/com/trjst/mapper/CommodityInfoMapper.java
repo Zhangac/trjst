@@ -27,9 +27,9 @@ public interface CommodityInfoMapper {
 
     List getResultList(@Param("start") Integer start, @Param("length_number") Integer length_number,
                        @Param("commodity_name")String commodity_name, @Param("audit_status")Integer audit_status,
-                       @Param("status")Integer status, @Param("is_hot")Integer is_hot);
+                       @Param("status")Integer status, @Param("is_hot")Integer is_hot,@Param("area_id")Integer area_id);
 
     Integer getListCount(@Param("commodity_name")String commodity_name,@Param("audit_status")Integer audit_status,
-                         @Param("status")Integer status,@Param("is_hot")Integer is_hot);
+                         @Param("status")Integer status,@Param("is_hot")Integer is_hot,@Param("area_id")Integer area_id);
 
 }

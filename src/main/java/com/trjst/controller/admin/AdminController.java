@@ -62,11 +62,30 @@ public class AdminController {
             adminReturnModel.setAccount(admin.getAccount());
             adminReturnModel.setLevel(admin.getLevel());
             adminReturnModel.setStatus(admin.getStatus());
+            adminReturnModel.setArea(admin.getArea());
             adminReturnModel.setCreate_time(admin.getCreate_time());
             if(admin.getLevel()==1){
                 adminReturnModel.setLevelname("超级管理员");
-            }else{
+            }else if(admin.getLevel()==2){
                 adminReturnModel.setLevelname("管理员");
+            }else if(admin.getLevel()==3){
+                adminReturnModel.setLevelname("区市管理员");
+            }
+
+            if(admin.getArea()==1){
+                adminReturnModel.setArea_name("市中区");
+            }else if(admin.getArea()==2){
+                adminReturnModel.setArea_name("薛城区");
+            }else if(admin.getArea()==3){
+                adminReturnModel.setArea_name("峄城区");
+            }else if(admin.getArea()==4){
+                adminReturnModel.setArea_name("台儿庄区");
+            }else if(admin.getArea()==5){
+                adminReturnModel.setArea_name("山亭区");
+            }else if(admin.getArea()==6){
+                adminReturnModel.setArea_name("滕州市");
+            }else {
+                adminReturnModel.setArea_name("");
             }
             adminReturnModels.add(adminReturnModel);
         }
@@ -94,7 +113,6 @@ public class AdminController {
     //密码修改
     @RequestMapping(value = "/adminpasswordajax", method = { RequestMethod.POST }, produces = "application/json; charset=utf-8")
     @ResponseBody
-
     public Map adminpasswordajax(HttpServletRequest request,String oldpassword,String newpassword,String newpassword2,Integer admin_id)  {
         Map map = new HashMap<String, String>();
 
@@ -135,7 +153,7 @@ public class AdminController {
     @RequestMapping(value = "/adminaddajax", method = { RequestMethod.POST }, produces = "application/json; charset=utf-8")
     @ResponseBody
     public Map adminaddajax(HttpServletRequest request,String account,
-                            String newpassword,String newpassword2,Integer level) {
+                            String newpassword,String newpassword2,Integer level,Integer area) {
         Map map = new HashMap<String, String>();
         try{
             Admin adminGet = adminService.findAdminByAccount(account);
@@ -150,6 +168,7 @@ public class AdminController {
                 admin.setLevel(level);
                 admin.setStatus(1);
                 admin.setCreate_time(new Date());
+                admin.setArea(area);
                 adminService.insertAdmin(admin);
                 map.put("code", "100");
                 map.put("info", "添加成功");
@@ -170,18 +189,20 @@ public class AdminController {
         Admin admin = adminService.findAdminById(admin_id);
         request.setAttribute("level", admin.getLevel());
         request.setAttribute("account", admin.getAccount());
+        request.setAttribute("area", admin.getArea());
         return "admnuser/adminedit";
     }
     //编辑管理员权限
     @RequestMapping(value = "/admineditajax", method = { RequestMethod.POST }, produces = "application/json; charset=utf-8")
     @ResponseBody
     public Map admineditajax(HttpServletRequest request,Integer admin_id,
-                             Integer level,String account) throws IOException {
+                             Integer level,String account,Integer area) throws IOException {
         Map map = new HashMap<String, String>();
         try{
             Admin admin = adminService.findAdminById(admin_id);
             admin.setLevel(level);
             admin.setAccount(account);
+            admin.setArea(area);
             adminService.updateAdmin(admin);
             map.put("code", "100");
             map.put("info", "修改成功");

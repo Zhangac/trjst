@@ -20,7 +20,8 @@ public class AdminAreaController {
 
     //列表
     @RequestMapping("/adminarealist")
-    public String adminarealist(HttpServletRequest request) {
+    public String adminarealist(HttpServletRequest request,Integer level) {
+        request.setAttribute("level",level);
         return "area/list";
     }
 

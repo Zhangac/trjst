@@ -30,12 +30,12 @@ public interface JstOrderMapper {
                        @Param("order_no")String order_no, @Param("pay_status")Integer pay_status,
                        @Param("delivery_name")String delivery_name,
                        @Param("logmax")String logmax,@Param("logmin")String logmin,
-                       @Param("phone")String phone);
+                       @Param("phone")String phone,@Param("area_id")Integer area_id);
 
     Integer getListCount(@Param("order_no")String order_no, @Param("pay_status")Integer pay_status,
                          @Param("delivery_name")String delivery_name,
                          @Param("logmax")String logmax,@Param("logmin")String logmin,
-                         @Param("phone")String phone);
+                         @Param("phone")String phone,@Param("area_id")Integer area_id);
 
     // 商户本周
     @Select("SELECT * FROM jst_order WHERE DATEDIFF( date_format( now( ) , '%Y-%m-%d' ) , date_format( create_time, '%Y-%m-%d' ) ) = #{day} and merchant_id = #{merchant_id} and confirm_receipt=3")
