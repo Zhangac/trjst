@@ -137,6 +137,45 @@ public class PayService {
         return map;
     }
 
+    /**
+     * 差价支付接口2
+     * @param orderPay
+     * @return
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public Map wxPaySpread2(HttpServletRequest request, HttpServletResponse resp, OrderPay orderPay)
+            throws Exception {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        Map map = new HashMap();
+        try {
+            String order_code = String.valueOf(System.currentTimeMillis() / 1000) + (int) (Math.random() * 9000 + 1000);
+            String goods_desc = "购买商品付款";
+            for (Pub op : orderPay.getPub()) {
+                JstOrder jo = new JstOrder();
+                jo.setSpread_price(op.getMoney());
+                jo.setSpread_status(1);
+                jo.setSpread_no(order_code);
+                jo.setSpread_jin_num(op.getJin_num());
+                jo.setId(op.getOrder_id());
+                jstOrderMapper.updateByPrimaryKeySelective(jo);
+            }
+            User user = userMapper.selectByPrimaryKey(orderPay.getUser_id());
+            // 支付逻辑
+            Map<String, String> wxPayRespMap = WeixinUtil.configPayParam(request, order_code, String.valueOf(orderPay.getTotal_money().multiply(new BigDecimal(100)).intValue()), null,
+                    goods_desc, ServerConfig.getPaynotify2(),user.getOpen_id());
+            map.put("code",200);
+            map.put("msg","success");
+            map.put("data",wxPayRespMap);
+            map.put("total_money",orderPay.getTotal_money());
+        } catch (Exception e) {
+            log.error("wxPaySpread：{}",e);
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
 
 
 

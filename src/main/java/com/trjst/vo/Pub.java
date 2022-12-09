@@ -8,6 +8,9 @@ public class Pub {
 
     private BigDecimal money;
 
+    private BigDecimal jin_num;
+
+
     public Pub(){
 
     }
@@ -26,5 +29,13 @@ public class Pub {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public BigDecimal getJin_num() {
+        return jin_num;
+    }
+
+    public void setJin_num(BigDecimal jin_num) {
+        this.jin_num = jin_num;
     }
 }

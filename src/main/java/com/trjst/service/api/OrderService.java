@@ -138,6 +138,19 @@ public class OrderService {
                     log.info("事务已经回滚");
                     return map;
                 }
+
+                JstOrder jstOrder3 = new JstOrder();
+                jstOrder3.setUser_id(jstOrder.getUser_id());
+                jstOrder3.setSpread_status(1);
+                List<JstOrder> j = jstOrderMapper.orderList(jstOrder3);
+                if(j.size() > 0){
+                    map.put("code",400);
+                    map.put("msg","您有存在未支付的差价订单,请去支付完成后再进行下单");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+
                 jstOrder.setOrder_no(String.valueOf(System.currentTimeMillis() / 1000) + (int) (Math.random() * 9000 + 1000));
                 int num = jstOrderMapper.insertSelective(jstOrder);
                 if(num > 0){

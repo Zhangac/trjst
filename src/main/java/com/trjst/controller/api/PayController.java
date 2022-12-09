@@ -33,9 +33,15 @@ public class PayController {
         return payService.wxpaymoney(request,resp,req);
     }
 
+    @RequestMapping( value = "/wxPaySpread2",method = RequestMethod.POST)
+    @ApiOperation(value = "微信订单差价支付含合并支付（新）")
+    public Map wxPaySpread2(@RequestBody OrderPay req, HttpServletRequest request, HttpServletResponse resp)throws Exception{
+        return payService.wxPaySpread2(request,resp,req);
+    }
+
     @RequestMapping( value = "/wxPaySpread",method = {RequestMethod.GET}, produces = "application/json; charset=utf-8")
     @ResponseBody
-    @ApiOperation(value = "微信差价支付接口")
+    @ApiOperation(value = "微信差价支付接口（老）")
     public Map wxPaySpread(HttpServletRequest request, HttpServletResponse resp,
                            @ApiParam(name = "order_id", value = "订单id", required = true)
                            @RequestParam(value = "order_id") Integer order_id,
