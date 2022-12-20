@@ -122,6 +122,8 @@
                 <th style="text-align: center;width: 10%">发货时间</th>
                 <th style="text-align: center;width: 10%">送达时间</th>
                 <th style="text-align: center;width: 10%">创建时间</th>
+                <th style="text-align: center;width: 10%">差价状态</th>
+                <th style="text-align: center;width: 10%">差价流水</th>
                 <%--<th style="text-align: center;width: 10%">收货状态</th>
                 <th style="text-align: center;width: 10%">收货时间</th>--%>
                 <%--<th style="text-align: center;width: 10%">预付金额</th>--%>
@@ -248,6 +250,17 @@
                         return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
                     }
                 },
+                { "data":  function(obj){
+                        if(obj.spread_status==1){
+                            return "<span><center>待支付</center></span>"
+                        } else if(obj.spread_status==2){
+                            return "<span><center>支付成功</center></span>"
+                        } else {
+                            return "<span><center></center></span>"
+                        }
+                    }
+                },
+                { "data": "spread_no" },
                 { "data": "spread_price" },
                 {"data": "spread_jin_num" },
                 { "data":  function(obj){
