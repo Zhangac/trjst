@@ -25,6 +25,32 @@ public class AdminBrokerageController {
         return "brokerage/list";
     }
 
+    //vip列表
+    @RequestMapping("/adminvipBrokeragelist")
+    public String adminvipBrokeragelist(HttpServletRequest request) {
+        return "brokerage/viplist";
+    }
+
+    //vip添加
+    @RequestMapping("/adminVipBrokerageadd")
+    public String adminVipBrokerageadd(HttpServletRequest request){
+        return "brokerage/vipedit";
+    }
+    //vip编辑
+    @RequestMapping("/adminVipBrokerageedit")
+    public String adminVipBrokerageeditajax(HttpServletRequest request,Integer id){
+        request.setAttribute("bk",adminBrokerageService.findPojoById(id));
+        request.setAttribute("id",id);
+        return "brokerage/vipedit";
+    }
+
+    @RequestMapping(value = "/adminVipBrokeragelistajax")
+    @ResponseBody
+    public String adminVipBrokeragelistajax(HttpServletRequest request, Integer draw){
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length_number = Integer.valueOf(request.getParameter("length"));
+        return adminBrokerageService.getVipResultJson(start,length_number,draw);
+    }
 
     @RequestMapping(value = "/adminBrokeragelistajax")
     @ResponseBody
@@ -48,8 +74,8 @@ public class AdminBrokerageController {
     //编辑
     @RequestMapping(value = "/adminBrokerageeditajax")
     @ResponseBody
-    public Map adminBrokerageeditajax(Integer id, BigDecimal brokerage_amount,Integer type){
-        return adminBrokerageService.edit(id,brokerage_amount,type);
+    public Map adminBrokerageeditajax(Integer id, BigDecimal brokerage_amount,Integer type,Integer sort){
+        return adminBrokerageService.edit(id,brokerage_amount,type,sort);
     }
 
     //删除

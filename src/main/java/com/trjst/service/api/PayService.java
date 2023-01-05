@@ -106,6 +106,30 @@ public class PayService {
                 jo.setType(4);
                 jo.setPay_status(1);
                 jstOrderMapper.insertSelective(jo);
+            } else if(orderPay.getType()==5){
+                goods_desc = "会员开通充值";
+                JstOrder jo = new JstOrder();
+                jo.setOrder_no(order_code);
+                jo.setPay_no(order_code);
+                jo.setPay_price(orderPay.getTotal_money());
+                jo.setUser_id(orderPay.getUser_id());
+                jo.setTotal_price(orderPay.getTotal_money());
+                jo.setGoods_desc(goods_desc);
+                jo.setType(5);
+                jo.setPay_status(1);
+                jstOrderMapper.insertSelective(jo);
+            }else if(orderPay.getType()==6){
+                goods_desc = "成为业务员";
+                JstOrder jo = new JstOrder();
+                jo.setOrder_no(order_code);
+                jo.setPay_no(order_code);
+                jo.setPay_price(orderPay.getTotal_money());
+                jo.setUser_id(orderPay.getUser_id());
+                jo.setTotal_price(orderPay.getTotal_money());
+                jo.setGoods_desc(goods_desc);
+                jo.setType(6);
+                jo.setPay_status(1);
+                jstOrderMapper.insertSelective(jo);
             }else {
                 goods_desc = "购买商品付款";
                 for (Pub op : orderPay.getPub()) {
@@ -354,6 +378,59 @@ public class PayService {
                                 record.setRuzhu_amount(order.getPay_price());
                                 record.setId(deliveryMapper.selectByUserId(order.getUser_id()).getId());
                                 deliveryMapper.updateByPrimaryKeySelective(record);
+                            }else if (order.getType() == 5) {
+                                JstOrder order1 = new JstOrder();
+                                order1.setId(order.getId());
+                                order1.setPay_status(2);
+                                log.info("支付时间:" + new Date());
+                                order1.setPay_time(new Date());
+
+                                // 消费记录
+                                SpendRecord sd = new SpendRecord();
+                                sd.setUser_id(order.getUser_id());
+                                sd.setSpend_amount(order.getPay_price());
+                                sd.setDes("订单" + order.getOrder_no() + "会员充值成功+" + order.getPay_price().setScale(2, BigDecimal.ROUND_HALF_UP));
+                                sd.setType(2);
+                                sd.setOrder_id(order.getOrder_no());
+                                SpendRecord srd = spendRecordMapper.selectByOrderId(order.getOrder_no());
+                                if(srd!=null) {
+                                    log.info("订单" + order.getOrder_no() + "已添加消费记录,重复的体现");
+                                }else {
+                                    spendRecordMapper.insertSelective(sd);
+                                    log.info("消费记录没有填加,此时可以添加");
+                                }
+
+                                jstOrderMapper.updateByPrimaryKeySelective(order1);
+                                User user = userMapper.selectByPrimaryKey(order.getUser_id());
+                                user.setAmount(user.getAmount().add(order.getPay_price()));
+                                user.setIs_vip(1);
+                                userMapper.updateByPrimaryKeySelective(user);
+                            }else if (order.getType() == 6) {
+                                JstOrder order1 = new JstOrder();
+                                order1.setId(order.getId());
+                                order1.setPay_status(2);
+                                log.info("支付时间:" + new Date());
+                                order1.setPay_time(new Date());
+
+                                // 消费记录
+                                SpendRecord sd = new SpendRecord();
+                                sd.setUser_id(order.getUser_id());
+                                sd.setSpend_amount(order.getPay_price());
+                                sd.setDes("订单" + order.getOrder_no() + "开通业务员成功+" + order.getPay_price().setScale(2, BigDecimal.ROUND_HALF_UP));
+                                sd.setType(1);
+                                sd.setOrder_id(order.getOrder_no());
+                                SpendRecord srd = spendRecordMapper.selectByOrderId(order.getOrder_no());
+                                if(srd!=null) {
+                                    log.info("订单" + order.getOrder_no() + "已添加消费记录,重复的体现");
+                                }else {
+                                    spendRecordMapper.insertSelective(sd);
+                                    log.info("消费记录没有填加,此时可以添加");
+                                }
+
+                                jstOrderMapper.updateByPrimaryKeySelective(order1);
+                                User user = userMapper.selectByPrimaryKey(order.getUser_id());
+                                user.setIs_mech(3);
+                                userMapper.updateByPrimaryKeySelective(user);
                             }
                         }
                     }

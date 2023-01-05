@@ -91,6 +91,7 @@ public class CommodityInfoService {
                     speci.setSpeci_name(i.getSpeci_name());
                     speci.setSpeci_price(i.getSpeci_price());
                     speci.setSpeci_regu(i.getSpeci_regu());
+                    speci.setVip_price(i.getVip_price());
                     speciMapper.insertSelective(speci);
                 }
             }
@@ -153,6 +154,7 @@ public class CommodityInfoService {
                     speci.setSpeci_name(i.getSpeci_name());
                     speci.setSpeci_price(i.getSpeci_price());
                     speci.setSpeci_regu(i.getSpeci_regu());
+                    speci.setVip_price(i.getVip_price());
                     speciMapper.insertSelective(speci);
                 }
             }

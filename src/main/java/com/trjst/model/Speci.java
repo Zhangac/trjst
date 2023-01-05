@@ -16,6 +16,16 @@ public class Speci {
 
     private Date speci_time;
 
+    private BigDecimal vip_price;
+
+    public BigDecimal getVip_price() {
+        return vip_price;
+    }
+
+    public void setVip_price(BigDecimal vip_price) {
+        this.vip_price = vip_price;
+    }
+
     public Integer getSpeci_id() {
         return speci_id;
     }

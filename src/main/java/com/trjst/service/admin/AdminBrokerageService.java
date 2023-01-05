@@ -32,6 +32,20 @@ public class AdminBrokerageService {
     }
 
     /**
+     * 返回含banner列表的json
+     * */
+    public String getVipResultJson(Integer start, Integer length_number, Integer draw) {
+        List resultList = brokerageMapper.getVipResultList(start, length_number);
+        Integer countnumber = brokerageMapper.getVipListCount();
+        JSONObject jobj = new JSONObject();
+        jobj.put("draw", draw);
+        jobj.put("recordsFiltered", countnumber);
+        jobj.put("recordsTotal", countnumber);
+        jobj.put("data", resultList);
+        return jobj.toString();
+    }
+
+    /**
      * 通过id获取对象
      * */
     public Brokerage findPojoById(Integer id) {
@@ -44,13 +58,14 @@ public class AdminBrokerageService {
     /**
      *编辑banner的url
      * */
-    public Map edit(Integer id, BigDecimal brokerage_amount,Integer type) {
+    public Map edit(Integer id, BigDecimal brokerage_amount,Integer type,Integer sort) {
         Map map = new HashMap<String, String>();
         try {
             if(id ==null){
                 Brokerage bk = new Brokerage();
                 bk.setBrokerage_amount(brokerage_amount);
                 bk.setType(type);
+                bk.setSort(sort);
                 brokerageMapper.insertSelective(bk);
                 map.put("code", "100");
             }else {
@@ -58,6 +73,7 @@ public class AdminBrokerageService {
                 bk.setId(id);
                 bk.setBrokerage_amount(brokerage_amount);
                 bk.setType(type);
+                bk.setSort(sort);
                 brokerageMapper.updateByPrimaryKeySelective(bk);
                 map.put("code", "100");
             }

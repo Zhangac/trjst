@@ -15,7 +15,7 @@ public interface BrokerageMapper {
 
     Brokerage selectByPrimaryKey(Integer id);
 
-    Brokerage selectByType(Integer type);
+    List<Brokerage> selectByType(@Param("type") Integer type);
 
     List<Brokerage> selectByAll();
 
@@ -24,5 +24,9 @@ public interface BrokerageMapper {
     List getResultList(@Param("start") Integer start, @Param("length_number") Integer length_number);
 
     Integer getListCount();
+
+    List getVipResultList(@Param("start") Integer start, @Param("length_number") Integer length_number);
+
+    Integer getVipListCount();
 
 }

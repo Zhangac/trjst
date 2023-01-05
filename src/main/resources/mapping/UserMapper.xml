@@ -12,9 +12,15 @@
     <result column="is_mech" property="is_mech" jdbcType="INTEGER" />
     <result column="amount" property="amount" jdbcType="DECIMAL" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="is_vip" property="is_vip" jdbcType="INTEGER" />
+    <result column="id_card" property="id_card" jdbcType="VARCHAR" />
+    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+    <result column="just_imge" property="just_imge" jdbcType="VARCHAR" />
+    <result column="back_imge" property="back_imge" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, nick_name, head, sex, adderss, phone, is_mech, amount, create_time
+    id, open_id, nick_name, head, sex, adderss, phone, is_mech, amount, create_time,is_vip,
+    id_card,user_name,just_imge,back_imge
   </sql>
   <select id="userByAll" resultMap="BaseResultMap" >
     select
@@ -64,6 +70,21 @@
       <if test="create_time != null" >
         create_time,
       </if>
+      <if test="is_vip != null" >
+        is_vip,
+      </if>
+      <if test="id_card != null" >
+        id_card,
+      </if>
+      <if test="user_name != null" >
+        user_name,
+      </if>
+      <if test="just_imge != null" >
+        just_imge,
+      </if>
+      <if test="back_imge != null" >
+        back_imge,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -96,6 +117,21 @@
       <if test="create_time != null" >
         #{create_time,jdbcType=TIMESTAMP},
       </if>
+      <if test="is_vip != null" >
+        #{is_vip,jdbcType=INTEGER},
+      </if>
+      <if test="id_card != null" >
+        #{id_card,jdbcType=VARCHAR},
+      </if>
+      <if test="user_name != null" >
+        #{user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="just_imge != null" >
+        #{just_imge,jdbcType=VARCHAR},
+      </if>
+      <if test="back_imge != null" >
+        #{back_imge,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.User" >
@@ -127,6 +163,21 @@
       </if>
       <if test="create_time != null" >
         create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="is_vip != null" >
+        is_vip = #{is_vip,jdbcType=INTEGER},
+      </if>
+      <if test="id_card != null" >
+        id_card = #{id_card,jdbcType=VARCHAR},
+      </if>
+      <if test="user_name != null" >
+        user_name = #{user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="just_imge != null" >
+        just_imge = #{just_imge,jdbcType=VARCHAR},
+      </if>
+      <if test="back_imge != null" >
+        back_imge = #{back_imge,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

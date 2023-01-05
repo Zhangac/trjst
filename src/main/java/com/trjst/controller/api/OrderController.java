@@ -102,4 +102,16 @@ public class OrderController {
         return orderService.deliveryMerGroup(deliveryId,type);
     }
 
+    @ApiOperation(value = "用户退款", notes = "用户退款")
+    @RequestMapping(value = "/userRefund", method = RequestMethod.GET)
+    public Map userRefund(@ApiParam(value = "订单id", required = true) @RequestParam("id") Integer id) throws Exception {
+        return orderService.userRefund(id);
+    }
+
+    @ApiOperation(value = "商户确认退款", notes = "商户确认退款")
+    @RequestMapping(value = "/confirmRefund", method = RequestMethod.GET)
+    public Map confirmRefund(@ApiParam(value = "订单id", required = true) @RequestParam("id") Integer id) throws Exception {
+        return orderService.confirmRefund(id);
+    }
+
 }

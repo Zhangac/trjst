@@ -189,6 +189,9 @@ static<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 					<ul>
 						<li><a data-href="adminBrokeragelist" data-title="入驻金额管理" href="javascript:void(0)">- 入驻金额管理</a></li>
 					</ul>
+					<ul>
+						<li><a data-href="adminvipBrokeragelist" data-title="vip金额管理" href="javascript:void(0)">- vip金额管理</a></li>
+					</ul>
 				</dd>
 			</dl>
 			</c:if>

@@ -10,7 +10,17 @@ public class Brokerage {
 
     private Integer type;
 
+    private Integer sort;
+
     private Date create_time;
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
     public Integer getType() {
         return type;

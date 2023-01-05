@@ -59,7 +59,7 @@ public class AdminSpeciService {
     }
 
     public Map add(Integer commodity_info_id, String speci_name,
-                   BigDecimal speci_price,String speci_regu,Integer speci_id) {
+                   BigDecimal speci_price,String speci_regu,Integer speci_id,BigDecimal vip_price) {
         Map map = new HashMap<String, String>();
         try {
             if(speci_id==null){
@@ -68,6 +68,7 @@ public class AdminSpeciService {
                 s.setSpeci_name(speci_name);
                 s.setSpeci_regu(speci_regu);
                 s.setSpeci_price(speci_price);
+                s.setVip_price(vip_price);
                 speciMapper.insertSelective(s);
             }else {
                 Speci s = new Speci();
@@ -75,6 +76,7 @@ public class AdminSpeciService {
                 s.setSpeci_regu(speci_regu);
                 s.setSpeci_price(speci_price);
                 s.setSpeci_id(speci_id);
+                s.setVip_price(vip_price);
                 speciMapper.updateByPrimaryKeySelective(s);
             }
 

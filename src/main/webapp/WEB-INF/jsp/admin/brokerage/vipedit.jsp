@@ -39,30 +39,21 @@
             <div class="content">
                 <table>
                     <tr style="display:none">
-                        <td class="item-name"><label>speci_id:</label></td>
-                        <td><input name="speci_id" placeholder="" value="${speci_id}"></td>
+                        <td class="item-name"><label>id:</label></td>
+                        <td><input name="id" placeholder="" value="${id}"></td>
+                    </tr>
+                    <tr>
+                        <td class="item-name"><label>金额:</label></td>
+                        <td><input name="brokerage_amount" placeholder="只填数字" value="${bk.brokerage_amount}"></td>
+                    </tr>
+                    <tr>
+                        <td class="item-name"><label>排序:</label></td>
+                        <td><input name="sort" placeholder="只填数字 默认0" value="${bk.sort}"></td>
                     </tr>
                     <tr style="display:none">
-                        <td class="item-name"><label>commodity_info_id:</label></td>
-                        <td><input name="commodity_info_id" placeholder="" value="${commodity_info_id}"></td>
+                        <td class="item-name"><label>类型:</label></td>
+                        <td><input name="type" placeholder="" value="6"></td>
                     </tr>
-                    <tr>
-                        <td class="item-name"><label>说明:</label></td>
-                        <td><input name="speci_name" placeholder="请填写说明" value="${speci.speci_name}"></td>
-                    </tr>
-                    <tr>
-                        <td class="item-name"><label>价格:</label></td>
-                        <td><input name="speci_price" placeholder="只能填数字" value="${speci.speci_price}"></td>
-                    </tr>
-                    <tr>
-                        <td class="item-name"><label>会员价格:</label></td>
-                        <td><input name="vip_price" placeholder="只能填数字" value="${speci.vip_price}"></td>
-                    </tr>
-                    <tr>
-                        <td class="item-name"><label>规格:</label></td>
-                        <td><input name="speci_regu" placeholder="请填写规格" value="${speci.speci_regu}"></td>
-                    </tr>
-
                 </table>
                 <div class="footer">
                     <input type="button" onclick="tijiao();" value="提交"/>
@@ -74,9 +65,14 @@
 <script>
     function tijiao(){
         var params = $("#form").serialize();
+        var brokerage_amount= $("[name='brokerage_amount']").val();
+        if($.trim(brokerage_amount)==""){
+            layer.msg('金额不能为空！');
+            return false;
+        }
         $.ajax( {
             type : 'POST',
-            url : 'adminspecieditajax',
+            url : 'adminBrokerageeditajax',
             data : params,
             success : function(data) {
                 if(data.code==100){

@@ -24,6 +24,56 @@ public class User {
 
     private Date create_time;
 
+    private Integer is_vip;
+
+    private String id_card;
+
+    private String user_name;
+
+    private String just_imge;
+
+    private String back_imge;
+
+    public String getId_card() {
+        return id_card;
+    }
+
+    public void setId_card(String id_card) {
+        this.id_card = id_card;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getJust_imge() {
+        return just_imge;
+    }
+
+    public void setJust_imge(String just_imge) {
+        this.just_imge = just_imge;
+    }
+
+    public String getBack_imge() {
+        return back_imge;
+    }
+
+    public void setBack_imge(String back_imge) {
+        this.back_imge = back_imge;
+    }
+
+    public Integer getIs_vip() {
+        return is_vip;
+    }
+
+    public void setIs_vip(Integer is_vip) {
+        this.is_vip = is_vip;
+    }
+
     public Integer getId() {
         return id;
     }

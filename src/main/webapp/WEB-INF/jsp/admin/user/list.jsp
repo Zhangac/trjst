@@ -170,9 +170,14 @@
                 <th style="text-align: center;width: 4%">头像</th>
 <%--                <th style="text-align: center;width: 2%">性别</th>--%>
 <%--                <th style="text-align: center;width: 2%">地址</th>--%>
-<%--                <th style="text-align: center;width: 3%">手机号</th>--%>
-<%--                <th style="text-align: center;width: 3%">类型</th>--%>
+                <th style="text-align: center;width: 3%">手机号</th>
+                <th style="text-align: center;width: 3%">类型</th>
                 <th style="text-align: center;width: 4%">余额</th>
+                <th style="text-align: center;width: 4%">是否会员</th>
+                <th style="text-align: center;width: 4%">身份证号</th>
+                <th style="text-align: center;width: 4%">姓名</th>
+                <th style="text-align: center;width: 4%">身份证正面</th>
+                <th style="text-align: center;width: 4%">身份证反面</th>
                 <th style="text-align: center;width: 4%">创建时间</th>
                 <%--<th style="text-align: center;width: 4%">操作</th>--%>
             </tr>
@@ -235,19 +240,38 @@
                 //         }
                 //     }},
                 // {"data": "adderss"},
-                // {"data": "phone"},
-                // {
-                //     "data": function (obj) {
-                //         if (obj.is_mech == 1) {
-                //             return "<span><center>商户</center></span>"
-                //         } else if (obj.is_mech == 2) {
-                //             return "<span><center>配送员</center></span>"
-                //         } else {
-                //             return "<span><center>用户</center></span>"
-                //         }
-                //     }
-                // },
+                {"data": "phone"},
+                {
+                    "data": function (obj) {
+                        if (obj.is_mech == 1) {
+                            return "<span><center>商户</center></span>"
+                        } else if (obj.is_mech == 2) {
+                            return "<span><center>配送员</center></span>"
+                        } else {
+                            return "<span><center>用户</center></span>"
+                        }
+                    }
+                },
                 {"data": "amount"},
+                {
+                    "data": function (obj) {
+                        if (obj.is_vip == 1) {
+                            return "<span><center>是</center></span>"
+                        }else {
+                            return "<span><center>不是</center></span>"
+                        }
+                    }
+                },
+                {"data": "id_card"},
+                {"data": "user_name"},
+                { "data": function(obj){
+                        return "<span><center><img style='max-width:80px' src='"+obj.just_imge+"' onclick=\"open_layer('查看','"+obj.just_imge+"','600','450')\"/></center></span>"
+                    }
+                },
+                { "data": function(obj){
+                        return "<span><center><img style='max-width:80px' src='"+obj.back_imge+"' onclick=\"open_layer('查看','"+obj.back_imge+"','600','450')\"/></center></span>"
+                    }
+                },
                 {
                     "data": function (obj) {
                         var date = new Date(obj.create_time);

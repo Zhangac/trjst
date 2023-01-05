@@ -55,6 +55,8 @@
                                             <option value="2">支付成功/待发货</option>
                                             <option value="7">待送达</option>
                                             <option value="8">已签收</option>
+                                            <option value="9">退款中</option>
+                                            <option value="10">已退款</option>
                                         </select>
                                         <br />
                                         <br />
@@ -217,6 +219,10 @@
                             return "<span><center>待送达</center></span>"
                         } else if(obj.pay_status==8){
                             return "<span><center>已签收</center></span>"
+                        } else if(obj.pay_status==9){
+                            return "<span><center>退款中</center></span>"
+                        } else if(obj.pay_status==10){
+                            return "<span><center>已退款</center></span>"
                         }else {
                             return "<span><center></center></span>"
                         }
@@ -255,6 +261,10 @@
                             return "<span><center>待支付</center></span>"
                         } else if(obj.spread_status==2){
                             return "<span><center>支付成功</center></span>"
+                        } else if(obj.spread_status==9){
+                            return "<span><center>退款中</center></span>"
+                        } else if(obj.spread_status==10){
+                            return "<span><center>已退款</center></span>"
                         } else {
                             return "<span><center></center></span>"
                         }
@@ -268,7 +278,15 @@
                             return "<span><center>基础订单</center></span>"
                         }else if(obj.type==2){
                             return "<span><center>充值订单</center></span>"
-                        } else {
+                        }else if(obj.type==3){
+                            return "<span><center>入驻押金订单</center></span>"
+                        } else if(obj.type==4){
+                            return "<span><center>配送员入驻押金订单</center></span>"
+                        } else if(obj.type==5){
+                            return "<span><center>成为会员充值</center></span>"
+                        } else if(obj.type==6){
+                            return "<span><center>成为业务员</center></span>"
+                        }else {
                             return "<span><center></center></span>"
                         }
                     }

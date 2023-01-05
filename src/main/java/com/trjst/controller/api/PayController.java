@@ -28,7 +28,7 @@ public class PayController {
     private PayService payService;
 
     @RequestMapping( value = "/wxpay",method = RequestMethod.POST)
-    @ApiOperation(value = "微信订单支付接口（含合并支付type1基础订单 2充值订单 3入驻押金订单）")
+    @ApiOperation(value = "微信订单支付接口（含合并支付type1基础订单 2充值订单 3入驻押金订单 4配送员入驻押金订单 5成为会员  6成为业务员）")
     public Map wxpay(@RequestBody OrderPay req, HttpServletRequest request, HttpServletResponse resp)throws Exception{
         return payService.wxpaymoney(request,resp,req);
     }

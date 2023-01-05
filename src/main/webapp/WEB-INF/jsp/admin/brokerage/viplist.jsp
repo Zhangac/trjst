@@ -47,7 +47,7 @@
           id="form">
         <div class="cl pd-5  mt-10">
 				<span class="l" style="margin-left:5px;">
-				 <a class="btn btn-primary radius" onclick="open_layer('添加','adminspeciadd?commodity_info_id=${commodity_info_id}','700','300')" href="javascript:;">
+				 <a class="btn btn-primary radius" onclick="open_layer('添加','adminVipBrokerageadd','900','450')" href="javascript:;">
 				 <i class="Hui-iconfont">&#xe600;</i>添加 </a>
 				</span>
         </div>
@@ -59,11 +59,8 @@
             <thead>
             <tr>
                 <th style="text-align: center;width: 10%">序号</th>
-                <th style="text-align: center;width: 25%">商品id</th>
-                <th style="text-align: center;width: 25%">说明</th>
-                <th style="text-align: center;width: 25%">价格</th>
-                <th style="text-align: center;width: 25%">会员价格</th>
-                <th style="text-align: center;width: 25%">规格</th>
+                <th style="text-align: center;width: 25%">金额</th>
+                <th style="text-align: center;width: 25%">排序</th>
                 <th style="text-align: center;width: 5%">创建时间</th>
                 <th style="text-align: center;width: 10%">操作</th>
             </tr>
@@ -78,11 +75,8 @@
         $('#example').dataTable().fnDestroy();
         $('#example').DataTable( {
             "ajax":{
-                "url": "adminspecilistajax",
+                "url": "adminVipBrokeragelistajax",
                 "type": "post",
-                "data": function(d) {
-                    d.commodity_info_id=${commodity_info_id};
-                }
             },
             "lengthChange": false,//是否允许用户自定义显示数量
             "bPaginate": true, //翻页功能
@@ -101,17 +95,14 @@
             },
             "columns": [
                 { "data": null,"targets": 0 },
-                { "data": "commodity_info_id" },
-                { "data": "speci_name" },
-                { "data": "speci_price" },
-                { "data": "vip_price" },
-                { "data": "speci_regu" },
+                { "data": "brokerage_amount" },
+                { "data": "sort" },
                 { "data": function (obj) {
-                        return "<span><center>" + new Date(obj.speci_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
+                        return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
                     }
                 },
                 { "data": function(obj){
-                        return "<span><center><a onclick=\"open_layer('编辑','adminspeciedit?speci_id="+obj.speci_id+"','900','450')\">编辑</a>&nbsp;<a onclick=\"deleteobj(" + obj.speci_id + ")\">删除</a></center></span>"
+                        return "<span><center><a onclick=\"open_layer('编辑','adminVipBrokerageedit?id="+obj.id+"','900','450')\">编辑</a>&nbsp;<a onclick=\"deleteobj(" + obj.id + ")\">删除</a></center></span>"
                     }
                 }
             ],
@@ -203,7 +194,7 @@
             $.ajax({
                 cache: true,
                 type: "POST",
-                url:'adminspecidelajax',
+                url:'admdelBrokerageajax',
                 data:{id:id},
                 async: false,
                 error: function(request) {

@@ -71,8 +71,8 @@ public class AdminCommodityInfoController {
     @RequestMapping(value = "/adminspecieditajax")
     @ResponseBody
     public Map adminspecieditajax(Integer commodity_info_id, String speci_name,
-                                  BigDecimal speci_price,String speci_regu,Integer speci_id){
-        return adminSpeciService.add(commodity_info_id,speci_name,speci_price,speci_regu,speci_id);
+                                  BigDecimal speci_price,String speci_regu,Integer speci_id,BigDecimal vip_price){
+        return adminSpeciService.add(commodity_info_id,speci_name,speci_price,speci_regu,speci_id,vip_price);
     }
 
     //imges列表删除

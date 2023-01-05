@@ -16,4 +16,8 @@ public class BrokerageService {
     public List<Brokerage> brokerageList(){
         return brokerageMapper.selectByAll();
     }
+
+    public List<Brokerage> brokerageListType(Integer type){
+        return brokerageMapper.selectByType(type);
+    }
 }

@@ -365,4 +365,56 @@ public class OrderService {
     public List<DeliveryMerGroupDto> deliveryMerGroup(Integer deliveryId,Integer type){
         return jstOrderMapper.deliveryMerGroup(deliveryId,type);
     }
+
+    public Map userRefund(Integer id){
+        Map map = new HashMap();
+        try {
+            JstOrder jo = jstOrderMapper.selectByPrimaryKey(id);
+            jo.setPay_status(9);
+            jo.setConfirm_receipt(9);
+            jo.setSpread_status(9);
+            jstOrderMapper.updateByPrimaryKeySelective(jo);
+            map.put("code",200);
+            map.put("msg","success");
+            map.put("data",id);
+        }catch (Exception e){
+            log.error("userRefund:{}"+e);
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
+
+    public Map confirmRefund(Integer id){
+        Map map = new HashMap();
+        try {
+            JstOrder jo = jstOrderMapper.selectByPrimaryKey(id);
+            jo.setPay_status(10);
+            jo.setConfirm_receipt(10);
+            jo.setSpread_status(10);
+            int num = jstOrderMapper.updateByPrimaryKeySelective(jo);
+            if(num > 0){
+                User user = userMapper.selectByPrimaryKey(jo.getUser_id());
+                //用户金额加订单总价含差价
+                BigDecimal userAmount = user.getAmount().add(jo.getTotal_price()).setScale(2,BigDecimal.ROUND_HALF_UP);
+                user.setAmount(userAmount);
+                userMapper.updateByPrimaryKeySelective(user);
+                //消费记录
+                SpendRecord sd = new SpendRecord();
+                sd.setUser_id(jo.getUser_id());
+                sd.setSpend_amount(jo.getTotal_price());
+                sd.setDes("您的商品订单"+jo.getOrder_no()+"已完成退款:"+jo.getTotal_price());
+                sd.setType(2);
+                spendRecordMapper.insertSelective(sd);
+                map.put("code",200);
+                map.put("msg","success");
+                map.put("data",id);
+            }
+        }catch (Exception e){
+            log.error("confirmRefund:{}"+e);
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
 }

@@ -52,6 +52,7 @@
                             <option value="0">请选择</option>
                             <option value="1" <c:if test="${level==1}"> selected="selected"</c:if>>普通商户</option>
                             <option value="2" <c:if test="${level==2}"> selected="selected"</c:if>>配送员</option>
+                            <option value="7" <c:if test="${level==7}"> selected="selected"</c:if>>业务员</option>
                             <%--<option value="3" <c:if test="${level==3}"> selected="selected"</c:if>>酒店</option>
                             <option value="4" <c:if test="${level==4}"> selected="selected"</c:if>>药店</option>
                             <option value="5" <c:if test="${level==5}"> selected="selected"</c:if>>超市</option>

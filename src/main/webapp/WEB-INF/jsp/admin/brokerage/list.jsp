@@ -111,6 +111,9 @@
                         else if(obj.type==5){
                             return "<span><center>超市</center></span>"
                         }
+                        else if(obj.type==7){
+                            return "<span><center>业务员</center></span>"
+                        }
                         else {
                             return "<span><center>其他</center></span>"
                         }

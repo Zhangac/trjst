@@ -8,9 +8,10 @@
     <result column="speci_price" property="speci_price" jdbcType="DECIMAL" />
     <result column="speci_regu" property="speci_regu" jdbcType="VARCHAR" />
     <result column="speci_time" property="speci_time" jdbcType="TIMESTAMP" />
+    <result column="vip_price" property="vip_price" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    speci_id, commodity_info_id, speci_name, speci_price, speci_regu, speci_time
+    speci_id, commodity_info_id, speci_name, speci_price, speci_regu, speci_time,vip_price
   </sql>
 
   <select id="getListCount" resultType="java.lang.Integer">
@@ -69,6 +70,9 @@
       <if test="speci_time != null" >
         speci_time,
       </if>
+      <if test="vip_price != null" >
+        vip_price,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="speci_id != null" >
@@ -89,6 +93,9 @@
       <if test="speci_time != null" >
         #{speci_time,jdbcType=TIMESTAMP},
       </if>
+      <if test="vip_price != null" >
+        #{vip_price,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.Speci" >
@@ -108,6 +115,9 @@
       </if>
       <if test="speci_time != null" >
         speci_time = #{speci_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vip_price != null" >
+        vip_price = #{vip_price,jdbcType=DECIMAL},
       </if>
     </set>
     where speci_id = #{speci_id,jdbcType=INTEGER}
