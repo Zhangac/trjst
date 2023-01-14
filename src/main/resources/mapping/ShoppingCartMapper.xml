@@ -19,6 +19,7 @@
     <result column="speci_regu" property="speci_regu" jdbcType="VARCHAR" />
     <result column="speci_id" property="speci_id" jdbcType="INTEGER" />
     <result column="cs_type" property="cs_type" jdbcType="INTEGER" />
+    <result column="vip_price" property="vip_price" jdbcType="DECIMAL" />
 
   </resultMap>
   <sql id="Base_Column_List" >
@@ -35,7 +36,7 @@
   <select id="selectByUserId" resultMap="BaseResultMap" >
     select
      sc.*,ci.commodity_name,ci.main_pic,ci.des,ci.original_price,ci.activity_price,ci.merchant_id,
-     ci.weight,s.speci_name,s.speci_price,s.speci_regu
+     ci.weight,s.speci_name,s.speci_price,s.speci_regu,s.vip_price
      from shopping_cart sc
         left join commodity_info ci on sc.commodity_id = ci.id
         left join speci s on sc.speci_id = s.speci_id

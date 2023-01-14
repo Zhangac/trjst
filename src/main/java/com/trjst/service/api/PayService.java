@@ -9,7 +9,6 @@ import com.trjst.vo.Pub;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -155,6 +154,282 @@ public class PayService {
             map.put("total_money",orderPay.getTotal_money());
         } catch (Exception e) {
             log.error("wxPayMoney：{}",e);
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
+
+//    public static void main(String[] args) {
+//        BigDecimal amount = new BigDecimal(2);
+//        BigDecimal total_money = new BigDecimal(2.1);
+//        int result = amount.compareTo(total_money);
+//        if(result==-1){
+//            System.out.println("余额不足,请切换其他支付方式");
+//        }else {
+//            System.out.println("可以支付");
+//        }
+//    }
+
+    /**
+     * 余额统一支付接口
+     * @param request
+     * @param resp
+     * @param orderPay
+     * @return
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public Map balancePay(HttpServletRequest request, HttpServletResponse resp, OrderPay orderPay)
+            throws Exception {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        Map map = new HashMap();
+        try {
+            String goods_desc;
+            String order_code = String.valueOf(System.currentTimeMillis() / 1000) + (int) (Math.random() * 9000 + 1000);
+            User user = userMapper.selectByPrimaryKey(orderPay.getUser_id());
+            int result = user.getAmount().compareTo(orderPay.getTotal_money());
+            if(result==-1){
+                map.put("code",400);
+                map.put("msg","余额不足,请切换其他支付方式");
+            }else {
+                if (orderPay.getType() == 2) {
+                    goods_desc = "用户充值付款";
+                    JstOrder jo = new JstOrder();
+                    jo.setOrder_no(order_code);
+                    jo.setPay_no(order_code);
+                    jo.setPay_price(orderPay.getTotal_money());
+                    jo.setUser_id(orderPay.getUser_id());
+                    jo.setTotal_price(orderPay.getTotal_money());
+                    jo.setGoods_desc(goods_desc);
+                    jo.setType(2);
+                    jo.setPay_status(2);
+                    jstOrderMapper.insertSelective(jo);
+                    user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    userMapper.updateByPrimaryKeySelective(user);
+                    // 消费记录
+                    SpendRecord sd = new SpendRecord();
+                    sd.setUser_id(orderPay.getUser_id());
+                    sd.setSpend_amount(orderPay.getTotal_money());
+                    sd.setDes("订单" + order_code + "完成余额充值付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                    sd.setType(1);
+                    sd.setOrder_id(order_code);
+                    SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
+                    if(srd!=null) {
+                        log.info("订单" + order_code + "已添加消费记录,重复的体现");
+                    }else {
+                        spendRecordMapper.insertSelective(sd);
+                        log.info("消费记录没有填加,此时可以添加");
+                    }
+                } else if (orderPay.getType() == 3) {
+                    goods_desc = "商家入驻缴纳费用";
+                    JstOrder jo = new JstOrder();
+                    jo.setOrder_no(order_code);
+                    jo.setPay_no(order_code);
+                    jo.setOrder_price(orderPay.getTotal_money());
+                    jo.setPay_price(orderPay.getTotal_money());
+                    jo.setUser_id(orderPay.getUser_id());
+                    jo.setTotal_price(orderPay.getTotal_money());
+                    jo.setGoods_desc(goods_desc);
+                    jo.setType(3);
+                    jo.setPay_status(2);
+                    jo.setMerchant_id(orderPay.getMerchant_id());
+                    jstOrderMapper.insertSelective(jo);
+                    user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    userMapper.updateByPrimaryKeySelective(user);
+                    // 消费记录
+                    SpendRecord sd = new SpendRecord();
+                    sd.setUser_id(orderPay.getUser_id());
+                    sd.setSpend_amount(orderPay.getTotal_money());
+                    sd.setDes("订单" + order_code + "完成余额商家入驻付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                    sd.setType(1);
+                    sd.setOrder_id(order_code);
+                    SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
+                    if(srd!=null) {
+                        log.info("订单" + order_code + "已添加消费记录,重复的体现");
+                    }else {
+                        spendRecordMapper.insertSelective(sd);
+                        log.info("消费记录没有填加,此时可以添加");
+                    }
+                } else if (orderPay.getType() == 4) {
+                    goods_desc = "配送员入驻缴纳费用";
+                    JstOrder jo = new JstOrder();
+                    jo.setOrder_no(order_code);
+                    jo.setPay_no(order_code);
+                    jo.setOrder_price(orderPay.getTotal_money());
+                    jo.setPay_price(orderPay.getTotal_money());
+                    jo.setUser_id(orderPay.getUser_id());
+                    jo.setTotal_price(orderPay.getTotal_money());
+                    jo.setGoods_desc(goods_desc);
+                    jo.setType(4);
+                    jo.setPay_status(2);
+                    jstOrderMapper.insertSelective(jo);
+                    user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    userMapper.updateByPrimaryKeySelective(user);
+                    // 消费记录
+                    SpendRecord sd = new SpendRecord();
+                    sd.setUser_id(orderPay.getUser_id());
+                    sd.setSpend_amount(orderPay.getTotal_money());
+                    sd.setDes("订单" + order_code + "完成余额配送员入驻付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                    sd.setType(1);
+                    sd.setOrder_id(order_code);
+                    SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
+                    if(srd!=null) {
+                        log.info("订单" + order_code + "已添加消费记录,重复的体现");
+                    }else {
+                        spendRecordMapper.insertSelective(sd);
+                        log.info("消费记录没有填加,此时可以添加");
+                    }
+                } else if (orderPay.getType() == 5) {
+                    goods_desc = "会员开通充值";
+                    JstOrder jo = new JstOrder();
+                    jo.setOrder_no(order_code);
+                    jo.setPay_no(order_code);
+                    jo.setPay_price(orderPay.getTotal_money());
+                    jo.setUser_id(orderPay.getUser_id());
+                    jo.setTotal_price(orderPay.getTotal_money());
+                    jo.setGoods_desc(goods_desc);
+                    jo.setType(5);
+                    jo.setPay_status(2);
+                    jstOrderMapper.insertSelective(jo);
+                    user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    userMapper.updateByPrimaryKeySelective(user);
+                    // 消费记录
+                    SpendRecord sd = new SpendRecord();
+                    sd.setUser_id(orderPay.getUser_id());
+                    sd.setSpend_amount(orderPay.getTotal_money());
+                    sd.setDes("订单" + order_code + "完成余额会员开通充值付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                    sd.setType(1);
+                    sd.setOrder_id(order_code);
+                    SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
+                    if(srd!=null) {
+                        log.info("订单" + order_code + "已添加消费记录,重复的体现");
+                    }else {
+                        spendRecordMapper.insertSelective(sd);
+                        log.info("消费记录没有填加,此时可以添加");
+                    }
+                } else if (orderPay.getType() == 6) {
+                    goods_desc = "成为业务员";
+                    JstOrder jo = new JstOrder();
+                    jo.setOrder_no(order_code);
+                    jo.setPay_no(order_code);
+                    jo.setPay_price(orderPay.getTotal_money());
+                    jo.setUser_id(orderPay.getUser_id());
+                    jo.setTotal_price(orderPay.getTotal_money());
+                    jo.setGoods_desc(goods_desc);
+                    jo.setType(6);
+                    jo.setPay_status(2);
+                    jstOrderMapper.insertSelective(jo);
+                    user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    userMapper.updateByPrimaryKeySelective(user);
+                    // 消费记录
+                    SpendRecord sd = new SpendRecord();
+                    sd.setUser_id(orderPay.getUser_id());
+                    sd.setSpend_amount(orderPay.getTotal_money());
+                    sd.setDes("订单" + order_code + "完成余额成为业务员付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                    sd.setType(1);
+                    sd.setOrder_id(order_code);
+                    SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
+                    if(srd!=null) {
+                        log.info("订单" + order_code + "已添加消费记录,重复的体现");
+                    }else {
+                        spendRecordMapper.insertSelective(sd);
+                        log.info("消费记录没有填加,此时可以添加");
+                    }
+                } else {
+                    goods_desc = "购买商品付款";
+                    for (Pub op : orderPay.getPub()) {
+                        // 生成支付流水号
+                        //String oc = String.valueOf(System.currentTimeMillis() / 1000) + (int) (Math.random() * 9000 + 1000);
+                        JstOrder jo = new JstOrder();
+                        jo.setPay_no(order_code);
+                        jo.setPay_price(op.getMoney());
+                        jo.setId(op.getOrder_id());
+                        jo.setPay_status(2);
+                        jo.setGoods_desc(goods_desc);
+                        jstOrderMapper.updateByPrimaryKeySelective(jo);
+                    }
+                    user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    userMapper.updateByPrimaryKeySelective(user);
+                    // 消费记录
+                    SpendRecord sd = new SpendRecord();
+                    sd.setUser_id(orderPay.getUser_id());
+                    sd.setSpend_amount(orderPay.getTotal_money());
+                    sd.setDes("订单" + order_code + "完成余额付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                    sd.setType(1);
+                    sd.setOrder_id(order_code);
+                    SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
+                    if(srd!=null) {
+                        log.info("订单" + order_code + "已添加消费记录,重复的体现");
+                    }else {
+                        spendRecordMapper.insertSelective(sd);
+                        log.info("消费记录没有填加,此时可以添加");
+                    }
+                }
+                map.put("code",200);
+                map.put("msg","success");
+                map.put("total_money",orderPay.getTotal_money());
+            }
+        } catch (Exception e) {
+            log.error("balancePay：{}",e);
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
+
+    /**
+     * 余额差价支付接口
+     * @param orderPay
+     * @return
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public Map balancePaySpread(HttpServletRequest request, HttpServletResponse resp, OrderPay orderPay)
+            throws Exception {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        Map map = new HashMap();
+        try {
+            String order_code = String.valueOf(System.currentTimeMillis() / 1000) + (int) (Math.random() * 9000 + 1000);
+            User user = userMapper.selectByPrimaryKey(orderPay.getUser_id());
+            int result = user.getAmount().compareTo(orderPay.getTotal_money());
+            if(result==-1){
+                map.put("code",400);
+                map.put("msg","余额不足,请切换其他支付方式");
+            }else {
+                for (Pub op : orderPay.getPub()) {
+                    JstOrder jo = new JstOrder();
+                    jo.setSpread_price(op.getMoney());
+                    jo.setSpread_status(2);
+                    jo.setSpread_no(order_code);
+                    jo.setSpread_jin_num(op.getJin_num());
+                    jo.setId(op.getOrder_id());
+                    jstOrderMapper.updateByPrimaryKeySelective(jo);
+                }
+                user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                userMapper.updateByPrimaryKeySelective(user);
+                // 消费记录
+                SpendRecord sd = new SpendRecord();
+                sd.setUser_id(orderPay.getUser_id());
+                sd.setSpend_amount(orderPay.getTotal_money());
+                sd.setDes("订单" + order_code + "完成余额付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                sd.setType(1);
+                sd.setOrder_id(order_code);
+                SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
+                if(srd!=null) {
+                    log.info("订单" + order_code + "已添加消费记录,重复的体现");
+                }else {
+                    spendRecordMapper.insertSelective(sd);
+                    log.info("消费记录没有填加,此时可以添加");
+                }
+                map.put("code", 200);
+                map.put("msg", "success");
+                map.put("total_money", orderPay.getTotal_money());
+            }
+        } catch (Exception e) {
+            log.error("balancePaySpread：{}",e);
             map.put("code",500);
             map.put("msg","error");
         }

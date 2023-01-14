@@ -34,6 +34,15 @@ public class ShoppingCart {
     private String speci_name;
     private String speci_regu;
     private BigDecimal speci_price;
+    private BigDecimal vip_price;
+
+    public BigDecimal getVip_price() {
+        return vip_price;
+    }
+
+    public void setVip_price(BigDecimal vip_price) {
+        this.vip_price = vip_price;
+    }
 
     public String getSpeci_name() {
         return speci_name;

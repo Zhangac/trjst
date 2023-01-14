@@ -1,20 +1,16 @@
 package com.trjst.controller.api;
 
-import cn.hutool.core.util.XmlUtil;
 import com.trjst.service.api.PayService;
 import com.trjst.vo.OrderPay;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -31,6 +27,18 @@ public class PayController {
     @ApiOperation(value = "微信订单支付接口（含合并支付type1基础订单 2充值订单 3入驻押金订单 4配送员入驻押金订单 5成为会员  6成为业务员）")
     public Map wxpay(@RequestBody OrderPay req, HttpServletRequest request, HttpServletResponse resp)throws Exception{
         return payService.wxpaymoney(request,resp,req);
+    }
+
+    @RequestMapping( value = "/balancePay",method = RequestMethod.POST)
+    @ApiOperation(value = "余额订单支付接口（含合并支付type1基础订单 2充值订单 3入驻押金订单 4配送员入驻押金订单 5成为会员  6成为业务员）")
+    public Map balancePay(@RequestBody OrderPay req, HttpServletRequest request, HttpServletResponse resp)throws Exception{
+        return payService.balancePay(request,resp,req);
+    }
+
+    @RequestMapping( value = "/balancePaySpread",method = RequestMethod.POST)
+    @ApiOperation(value = "余额订单差价支付含合并支付")
+    public Map balancePaySpread(@RequestBody OrderPay req, HttpServletRequest request, HttpServletResponse resp)throws Exception{
+        return payService.balancePaySpread(request,resp,req);
     }
 
     @RequestMapping( value = "/wxPaySpread2",method = RequestMethod.POST)
