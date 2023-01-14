@@ -205,6 +205,7 @@ public class PayService {
                     jo.setGoods_desc(goods_desc);
                     jo.setType(2);
                     jo.setPay_status(2);
+                    jo.setPay_time(new Date());
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -234,6 +235,7 @@ public class PayService {
                     jo.setGoods_desc(goods_desc);
                     jo.setType(3);
                     jo.setPay_status(2);
+                    jo.setPay_time(new Date());
                     jo.setMerchant_id(orderPay.getMerchant_id());
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
@@ -264,6 +266,7 @@ public class PayService {
                     jo.setGoods_desc(goods_desc);
                     jo.setType(4);
                     jo.setPay_status(2);
+                    jo.setPay_time(new Date());
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -292,6 +295,7 @@ public class PayService {
                     jo.setGoods_desc(goods_desc);
                     jo.setType(5);
                     jo.setPay_status(2);
+                    jo.setPay_time(new Date());
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -320,6 +324,7 @@ public class PayService {
                     jo.setGoods_desc(goods_desc);
                     jo.setType(6);
                     jo.setPay_status(2);
+                    jo.setPay_time(new Date());
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -343,29 +348,37 @@ public class PayService {
                         // 生成支付流水号
                         //String oc = String.valueOf(System.currentTimeMillis() / 1000) + (int) (Math.random() * 9000 + 1000);
                         JstOrder jo = new JstOrder();
+
+                        JstOrder jor = jstOrderMapper.selectByPrimaryKey(op.getOrder_id());
+                        DelivMerch delivMerch = delivMerchMapper.selectByMerId(jor.getMerchant_id());
+                        if (delivMerch != null) {
+                            jo.setDelivery_id(delivMerch.getDelivery_id());
+                        }
                         jo.setPay_no(order_code);
                         jo.setPay_price(op.getMoney());
                         jo.setId(op.getOrder_id());
                         jo.setPay_status(2);
                         jo.setGoods_desc(goods_desc);
+                        jo.setPay_time(new Date());
+                        jo.setConfirm_receipt(0);
                         jstOrderMapper.updateByPrimaryKeySelective(jo);
+
+                        CommodityInfo ci = commodityInfoMapper.selectByPrimaryKey2(jor.getCommodity_id());
+                        ci.setStock(ci.getStock() - jor.getQuantity());
+                        ci.setSold(ci.getSold() + jor.getQuantity());
+                        commodityInfoMapper.updateByPrimaryKeySelective(ci);
+
+                        // 消费记录
+                        SpendRecord sd = new SpendRecord();
+                        sd.setUser_id(orderPay.getUser_id());
+                        sd.setSpend_amount(orderPay.getTotal_money());
+                        sd.setDes("订单" + order_code + "完成余额付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
+                        sd.setType(1);
+                        sd.setOrder_id(order_code);
+                        spendRecordMapper.insertSelective(sd);
                     }
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
-                    // 消费记录
-                    SpendRecord sd = new SpendRecord();
-                    sd.setUser_id(orderPay.getUser_id());
-                    sd.setSpend_amount(orderPay.getTotal_money());
-                    sd.setDes("订单" + order_code + "完成余额付款-" + orderPay.getTotal_money().setScale(2, BigDecimal.ROUND_HALF_UP));
-                    sd.setType(1);
-                    sd.setOrder_id(order_code);
-                    SpendRecord srd = spendRecordMapper.selectByOrderId(order_code);
-                    if(srd!=null) {
-                        log.info("订单" + order_code + "已添加消费记录,重复的体现");
-                    }else {
-                        spendRecordMapper.insertSelective(sd);
-                        log.info("消费记录没有填加,此时可以添加");
-                    }
                 }
                 map.put("code",200);
                 map.put("msg","success");
@@ -406,6 +419,8 @@ public class PayService {
                     jo.setSpread_no(order_code);
                     jo.setSpread_jin_num(op.getJin_num());
                     jo.setId(op.getOrder_id());
+                    JstOrder jor = jstOrderMapper.selectByPrimaryKey(op.getOrder_id());
+                    jo.setTotal_price(jor.getTotal_price().add(op.getMoney()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     jstOrderMapper.updateByPrimaryKeySelective(jo);
                 }
                 user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
