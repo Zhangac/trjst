@@ -141,6 +141,8 @@
                 <th style="text-align: center;width: 10%">用户id</th>
                 <th style="text-align: center;width: 10%">商户id</th>
                 <th style="text-align: center;width: 10%">商品id</th>
+                <th style="text-align: center;width: 10%">支付类型</th>
+                <th style="text-align: center;width: 10%">差价支付类型</th>
                 <th style="text-align: center;width: 10%">操作</th>
             </tr>
             </thead>
@@ -324,6 +326,26 @@
                 },
                 { "data": "reserve_price" },
                 {"data": "goods_desc" },*/
+                { "data":  function(obj){
+                        if(obj.pay_type==1){
+                            return "<span><center>余额</center></span>"
+                        } else if(obj.pay_type==2){
+                            return "<span><center>微信</center></span>"
+                        }else {
+                            return "<span><center></center></span>"
+                        }
+                    }
+                },
+                { "data":  function(obj){
+                        if(obj.spread_pay_type==1){
+                            return "<span><center>余额</center></span>"
+                        } else if(obj.spread_pay_type==2){
+                            return "<span><center>微信</center></span>"
+                        }else {
+                            return "<span><center></center></span>"
+                        }
+                    }
+                },
                 { "data": function(obj){
                         return "<span><center>" +
                             "<a onclick=\"open_layer('更改配送员','adminggpsy?id="+obj.id+"','900','450')\">更改配送员</a>" /*+

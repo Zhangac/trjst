@@ -88,6 +88,26 @@ public class JstOrder {
 
     private String spread_remark;
 
+    private Integer pay_type;
+
+    private Integer spread_pay_type;
+
+    public Integer getPay_type() {
+        return pay_type;
+    }
+
+    public void setPay_type(Integer pay_type) {
+        this.pay_type = pay_type;
+    }
+
+    public Integer getSpread_pay_type() {
+        return spread_pay_type;
+    }
+
+    public void setSpread_pay_type(Integer spread_pay_type) {
+        this.spread_pay_type = spread_pay_type;
+    }
+
     public String getSpread_remark() {
         return spread_remark;
     }
