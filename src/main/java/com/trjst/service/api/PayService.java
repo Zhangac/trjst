@@ -212,7 +212,7 @@ public class PayService {
                     jo.setType(2);
                     jo.setPay_status(2);
                     jo.setPay_time(new Date());
-                    jo.setPay_status(1);
+                    jo.setPay_type(1);
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -244,7 +244,7 @@ public class PayService {
                     jo.setPay_status(2);
                     jo.setPay_time(new Date());
                     jo.setMerchant_id(orderPay.getMerchant_id());
-                    jo.setPay_status(1);
+                    jo.setPay_type(1);
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -275,7 +275,7 @@ public class PayService {
                     jo.setType(4);
                     jo.setPay_status(2);
                     jo.setPay_time(new Date());
-                    jo.setPay_status(1);
+                    jo.setPay_type(1);
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -305,7 +305,7 @@ public class PayService {
                     jo.setType(5);
                     jo.setPay_status(2);
                     jo.setPay_time(new Date());
-                    jo.setPay_status(1);
+                    jo.setPay_type(1);
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -335,7 +335,7 @@ public class PayService {
                     jo.setType(6);
                     jo.setPay_status(2);
                     jo.setPay_time(new Date());
-                    jo.setPay_status(1);
+                    jo.setPay_type(1);
                     jstOrderMapper.insertSelective(jo);
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
@@ -372,7 +372,7 @@ public class PayService {
                         jo.setGoods_desc(goods_desc);
                         jo.setPay_time(new Date());
                         jo.setConfirm_receipt(0);
-                        jo.setPay_status(1);
+                        jo.setPay_type(1);
                         jstOrderMapper.updateByPrimaryKeySelective(jo);
 
                         CommodityInfo ci = commodityInfoMapper.selectByPrimaryKey2(jor.getCommodity_id());
