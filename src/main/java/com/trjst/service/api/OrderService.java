@@ -200,7 +200,26 @@ public class OrderService {
             jstOrderMapper.updateByPrimaryKeySelective(jo);
             map.put("code",200);
             map.put("msg","success");
-            map.put("data",id);
+        }catch (Exception e){
+            log.error("fahuo:{}"+e);
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
+
+    public Map yjfahuo(Integer[] ids){
+        Map map = new HashMap();
+        try {
+            for(Integer id : ids) {
+                JstOrder jo = jstOrderMapper.selectByPrimaryKey(id);
+                jo.setConfirm_receipt(1);
+                jo.setPay_status(7);
+                jo.setFahuo_time(new Date());
+                jstOrderMapper.updateByPrimaryKeySelective(jo);
+            }
+            map.put("code",200);
+            map.put("msg","success");
         }catch (Exception e){
             log.error("fahuo:{}"+e);
             map.put("code",500);

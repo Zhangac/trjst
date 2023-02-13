@@ -17,10 +17,11 @@
     <result column="user_name" property="user_name" jdbcType="VARCHAR" />
     <result column="just_imge" property="just_imge" jdbcType="VARCHAR" />
     <result column="back_imge" property="back_imge" jdbcType="VARCHAR" />
+    <result column="check_status" property="check_status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, open_id, nick_name, head, sex, adderss, phone, is_mech, amount, create_time,is_vip,
-    id_card,user_name,just_imge,back_imge
+    id_card,user_name,just_imge,back_imge,check_status
   </sql>
   <select id="userByAll" resultMap="BaseResultMap" >
     select
@@ -179,6 +180,9 @@
       <if test="back_imge != null" >
         back_imge = #{back_imge,jdbcType=VARCHAR},
       </if>
+      <if test="check_status != null" >
+        check_status = #{check_status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -187,12 +191,28 @@
     select
     count(*) count
     from user
-
   </select>
+
   <select id="getResultList" resultMap="BaseResultMap">
     SELECT
     *
     FROM user
+    order by create_time desc
+    limit #{start},#{length_number}
+  </select>
+
+  <select id="getResultListYwy" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM user
+    <where>
+      <if test="is_mech != null and is_mech != ''">
+        and is_mech = #{is_mech}
+      </if>
+      <if test="check_status != null">
+        and check_status = #{check_status}
+      </if>
+    </where>
     order by create_time desc
     limit #{start},#{length_number}
   </select>

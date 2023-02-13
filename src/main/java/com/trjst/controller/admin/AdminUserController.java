@@ -31,10 +31,32 @@ public class AdminUserController {
         return adminUserService.getResultJson(start,length_number,draw,type);
     }
 
+    //业务员列表
+    @RequestMapping("/adminuserywylist")
+    public String adminuserywylist(HttpServletRequest request) {
+        return "yw/list";
+    }
+
+    @RequestMapping(value = "/adminuserywylistajax")
+    @ResponseBody
+    public String adminuserywylistajax(HttpServletRequest request, Integer draw,
+                                       Integer is_mech,Integer check_status){
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length_number = Integer.valueOf(request.getParameter("length"));
+        return adminUserService.getResultYwyJson(start,length_number,draw,is_mech,check_status);
+    }
+
     //删除
     @RequestMapping(value = "/admindelajax")
     @ResponseBody
     public Map admindelajax(Integer id) {
         return adminUserService.daletePojo(id);
+    }
+
+    //审核
+    @RequestMapping(value = "/updateYwyUser")
+    @ResponseBody
+    public Map updateYwyUser(Integer id) {
+        return adminUserService.updateYwyUser(id);
     }
 }

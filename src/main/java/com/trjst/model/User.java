@@ -34,6 +34,16 @@ public class User {
 
     private String back_imge;
 
+    private Integer check_status;
+
+    public Integer getCheck_status() {
+        return check_status;
+    }
+
+    public void setCheck_status(Integer check_status) {
+        this.check_status = check_status;
+    }
+
     public String getId_card() {
         return id_card;
     }

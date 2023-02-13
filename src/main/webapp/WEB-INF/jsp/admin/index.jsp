@@ -164,6 +164,16 @@ static<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 				</dd>
 			</dl>
 			</c:if>
+		<c:if test="${admin.level==1 || admin.level==2}">
+			<dl id="menu-article">
+				<dt><i class="Hui-iconfont">&#xe625;</i> 业务员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+				<dd>
+					<ul>
+						<li><a data-href="adminuserywylist" data-title="业务员管理" href="javascript:void(0)">- 业务员管理</a></li>
+					</ul>
+				</dd>
+			</dl>
+		</c:if>
 			<c:if test="${admin.level==1}">
 			<dl id="menu-article">
 				<dt><i class="Hui-iconfont">&#xe625;</i> 提现管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>

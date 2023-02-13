@@ -83,6 +83,12 @@ public class OrderController {
         return orderService.fahuo(id);
     }
 
+    @ApiOperation(value = "一键发货", notes = "一键发货")
+    @RequestMapping(value = "/yjfahuo", method = RequestMethod.GET)
+    public Map yjfahuo(@ApiParam(value = "订单id数组", required = true) @RequestParam("ids") Integer[] ids) throws Exception {
+        return orderService.yjfahuo(ids);
+    }
+
     @ApiOperation(value = "配送员点击送达接口", notes = "配送员点击送达接口")
     @RequestMapping(value = "/arrived", method = RequestMethod.GET)
     public Map arrived(@ApiParam(value = "订单id", required = true) @RequestParam("id") Integer id) throws Exception {

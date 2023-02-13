@@ -20,6 +20,9 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     List getResultList(@Param("start") Integer start, @Param("length_number") Integer length_number, @Param("type") Integer type);
+    List getResultListYwy(@Param("start") Integer start, @Param("length_number") Integer length_number
+            , @Param("is_mech") Integer is_mech, @Param("check_status") Integer check_status);
 
     Integer getListCount(Integer type);
+
 }
