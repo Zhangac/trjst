@@ -122,11 +122,11 @@
                 { "data": "phone" },
                 { "data": "user_name" },
                 { "data": function(obj){
-                        return "<span><center><img style='max-width:80px' src='../upload/"+obj.just_imge+"' onclick=\"open_layer('查看','../upload/"+obj.just_imge+"','600','450')\"/></center></span>"
+                        return "<span><center><img style='max-width:80px' src='"+obj.just_imge+"' onclick=\"open_layer('查看','"+obj.just_imge+"','600','450')\"/></center></span>"
                     }
                 },
                 { "data": function(obj){
-                        return "<span><center><img style='max-width:80px' src='../upload/"+obj.back_imge+"' onclick=\"open_layer('查看','../upload/"+obj.back_imge+"','600','450')\"/></center></span>"
+                        return "<span><center><img style='max-width:80px' src='"+obj.back_imge+"' onclick=\"open_layer('查看','"+obj.back_imge+"','600','450')\"/></center></span>"
                     }
                 },
                 { "data":  function(obj){
