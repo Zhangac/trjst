@@ -92,8 +92,8 @@
                 <th style="text-align: center;width: 5%">轮播图</th>
                 <th style="text-align: center;width: 5%">详情图</th>
                 <th style="text-align: center;width: 5%">商品详情</th>
-                <th style="text-align: center;width: 2%">活动价</th>
-                <th style="text-align: center;width: 2%">原价</th>
+                <th style="text-align: center;width: 2%">价格</th>
+                <%--<th style="text-align: center;width: 2%">原价</th>--%>
                 <th style="text-align: center;width: 2%">审核状态</th>
                 <th style="text-align: center;width: 2%">上架状态</th>
                 <%--<th style="text-align: center;width: 2%">推荐状态</th>--%>
@@ -168,7 +168,7 @@
                 },
                 { "data": "commodity_detail" },
                 { "data": "activity_price" },
-                { "data": "original_price" },
+                /*{ "data": "original_price" },*/
                 { "data":  function(obj){
                         if(obj.audit_status==0){
                             return "<span><center>待审核</center></span>"

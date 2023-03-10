@@ -81,10 +81,10 @@
                         <td class="item-name"><label>活动价:</label></td>
                         <td><input name="activity_price" placeholder="活动价" value="${mi.activity_price}"></td>
                     </tr>
-                    <tr>
+                    <%--<tr>
                         <td class="item-name"><label>原价:</label></td>
                         <td><input name="original_price" placeholder="原价" value="${mi.original_price}"></td>
-                    </tr>
+                    </tr>--%>
                     <tr>
                         <td class="item-name"><label>库存:</label></td>
                         <td><input name="stock" placeholder="默认0" value="${mi.stock}"></td>
@@ -140,14 +140,14 @@
         }
         var activity_price= $("[name='activity_price']").val();
         if($.trim(activity_price)==""){
-            layer.msg('活动价不能为空！');
+            layer.msg('价格不能为空！');
             return false;
         }
-        var original_price= $("[name='original_price']").val();
+        /*var original_price= $("[name='original_price']").val();
         if($.trim(original_price)==""){
             layer.msg('原价不能为空！');
             return false;
-        }
+        }*/
         var stock= $("[name='stock']").val();
         if($.trim(stock)==""){
             layer.msg('库存不能为空！');

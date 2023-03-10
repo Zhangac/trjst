@@ -50,10 +50,10 @@
                         <td class="item-name"><label>说明:</label></td>
                         <td><input name="speci_name" placeholder="请填写说明" value="${speci.speci_name}"></td>
                     </tr>
-                    <tr>
+                   <%-- <tr>
                         <td class="item-name"><label>价格:</label></td>
                         <td><input name="speci_price" placeholder="只能填数字" value="${speci.speci_price}"></td>
-                    </tr>
+                    </tr>--%>
                     <tr>
                         <td class="item-name"><label>会员价格:</label></td>
                         <td><input name="vip_price" placeholder="只能填数字" value="${speci.vip_price}"></td>

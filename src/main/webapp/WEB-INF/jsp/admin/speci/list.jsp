@@ -61,7 +61,7 @@
                 <th style="text-align: center;width: 10%">序号</th>
                 <th style="text-align: center;width: 25%">商品id</th>
                 <th style="text-align: center;width: 25%">说明</th>
-                <th style="text-align: center;width: 25%">价格</th>
+                <%--<th style="text-align: center;width: 25%">价格</th>--%>
                 <th style="text-align: center;width: 25%">会员价格</th>
                 <th style="text-align: center;width: 25%">规格</th>
                 <th style="text-align: center;width: 5%">创建时间</th>
@@ -103,7 +103,7 @@
                 { "data": null,"targets": 0 },
                 { "data": "commodity_info_id" },
                 { "data": "speci_name" },
-                { "data": "speci_price" },
+                /*{ "data": "speci_price" },*/
                 { "data": "vip_price" },
                 { "data": "speci_regu" },
                 { "data": function (obj) {
