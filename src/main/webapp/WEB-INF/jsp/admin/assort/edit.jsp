@@ -66,6 +66,21 @@
                         <td><input name="yongjin" placeholder="0.00 百分比的话也是填写数字" value="${assort.yongjin}"></td>
                         </td>
                     </tr>
+
+
+                    <tr>
+                        <td class="item-name"><label>配送佣金类型:</label></td>
+                        <td><select class="select" id="psy_percent" name="psy_percent" size="1">
+                            <option value=0>请选择</option>
+                            <option value=1 <c:if test="${assort.psy_percent==1}"> selected="selected"</c:if>>固定金额</option>
+                            <option value=2 <c:if test="${assort.psy_percent==2}"> selected="selected"</c:if>>百分比</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td class="item-name"><label>配送员佣金:</label></td>
+                        <td><input name="psy_yongjin" placeholder="0.00 百分比的话也是填写数字" value="${assort.psy_yongjin}"></td>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="item-name"><label>规格:</label></td>
                         <td><input name="yuliu" placeholder="斤/件/箱" value="${assort.yuliu}"></td>

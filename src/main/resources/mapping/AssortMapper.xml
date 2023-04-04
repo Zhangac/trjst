@@ -6,14 +6,16 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="yongjin" property="yongjin" jdbcType="DECIMAL" />
+    <result column="psy_yongjin" property="psy_yongjin" jdbcType="DECIMAL" />
     <result column="yuliu" property="yuliu" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="percent" property="percent" jdbcType="INTEGER" />
+    <result column="psy_percent" property="psy_percent" jdbcType="INTEGER" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
   </resultMap>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
-    name,sort,yongjin,yuliu,type,create_time,percent
+    name,sort,yongjin,yuliu,type,create_time,percent,psy_percent,psy_yongjin
     from assort
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -54,6 +56,12 @@
       <if test="percent != null" >
         percent,
       </if>
+      <if test="psy_yongjin != null" >
+        psy_yongjin,
+      </if>
+      <if test="psy_percent != null" >
+        psy_percent,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -80,6 +88,12 @@
       <if test="percent != null" >
         #{percent,jdbcType=INTEGER},
       </if>
+      <if test="psy_yongjin != null" >
+        #{psy_yongjin,jdbcType=DECIMAL},
+      </if>
+      <if test="psy_percent != null" >
+        #{psy_percent,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.Assort" >
@@ -105,6 +119,12 @@
       </if>
       <if test="percent != null" >
         percent = #{percent,jdbcType=INTEGER},
+      </if>
+      <if test="psy_yongjin != null" >
+        psy_yongjin = #{psy_yongjin,jdbcType=DECIMAL},
+      </if>
+      <if test="psy_percent != null" >
+        psy_percent = #{psy_percent,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

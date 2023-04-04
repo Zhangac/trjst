@@ -67,6 +67,8 @@
                 <th style="text-align: center;width: 10%">规格</th>
                 <th style="text-align: center;width: 10%">排序</th>
                 <th style="text-align: center;width: 10%">佣金类型</th>
+                <th style="text-align: center;width: 10%">配送员佣金类型</th>
+                <th style="text-align: center;width: 10%">配送员佣金</th>
                 <th style="text-align: center;width: 10%">创建时间</th>
                 <th style="text-align: center;width: 10%">操作</th>
             </tr>
@@ -116,6 +118,17 @@
                         }
                     }
                 },
+                { "data":  function(obj){
+                        if(obj.psy_percent==1){
+                            return "<span><center>固定金额</center></span>"
+                        }else if(obj.psy_percent==2){
+                            return "<span><center>百分比</center></span>"
+                        } else {
+                            return "<span><center></center></span>"
+                        }
+                    }
+                },
+                { "data": "psy_yongjin" },
                 {
                     "data": function (obj) {
                         return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"

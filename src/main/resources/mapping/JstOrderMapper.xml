@@ -42,13 +42,15 @@
     <result column="spread_remark" property="spread_remark" jdbcType="VARCHAR" />
     <result column="pay_type" property="pay_type" jdbcType="INTEGER" />
     <result column="spread_pay_type" property="spread_pay_type" jdbcType="INTEGER" />
+    <result column="order_psy_yongjin" property="order_psy_yongjin" jdbcType="DECIMAL" />
+    <result column="ass_yuliu" property="ass_yuliu" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, merchant_id, commodity_id, order_no, pay_no, order_price, pay_price, 
     pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price, 
     total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
     spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address,spread_remark,
-    spread_pay_type,pay_type
+    spread_pay_type,pay_type,order_psy_yongjin,ass_yuliu
   </sql>
 
   <select id="orderByMi" resultMap="BaseResultMap" parameterType="com.trjst.model.JstOrder" >
@@ -303,6 +305,9 @@
       <if test="spread_pay_type != null" >
         spread_pay_type,
       </if>
+      <if test="order_psy_yongjin != null" >
+        order_psy_yongjin,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -409,6 +414,9 @@
       </if>
       <if test="spread_pay_type != null" >
         #{spread_pay_type,jdbcType=INTEGER},
+      </if>
+      <if test="order_psy_yongjin != null" >
+        #{order_psy_yongjin,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -517,6 +525,9 @@
       <if test="spread_pay_type != null" >
         spread_pay_type = #{spread_pay_type,jdbcType=INTEGER},
       </if>
+      <if test="order_psy_yongjin != null" >
+        order_psy_yongjin = #{order_psy_yongjin},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -552,10 +563,11 @@
   </select>
   <select id="getResultList" resultMap="BaseResultMap">
     SELECT
-    j.*,d.name as delivery_name,c.commodity_name
+    j.*,d.name as delivery_name,c.commodity_name,ass.yuliu as ass_yuliu
     FROM jst_order j
     left join delivery d on j.delivery_id=d.id
     left join commodity_info c on j.commodity_id=c.id
+    left join assort ass on c.assort_id = ass.id
     <where>
       <if test="order_no != null and order_no != ''">
         and j.order_no = #{order_no}

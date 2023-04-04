@@ -17,6 +17,8 @@ public interface UserMapper {
 
     List<User> userByAll();
 
+    List<User> selectByIsMech(Integer is_mech);
+
     int updateByPrimaryKeySelective(User record);
 
     List getResultList(@Param("start") Integer start, @Param("length_number") Integer length_number, @Param("type") Integer type);

@@ -59,7 +59,8 @@ public class AdminAssortService {
      * @return
      * */
     public Map edit(Integer id, String name, Integer sort, BigDecimal yongjin,
-                    String yuliu,Integer percent) {
+                    String yuliu,Integer percent,
+                    BigDecimal psy_yongjin,Integer psy_percent) {
         log.info("percent={}",percent);
         Map map = new HashMap<String, String>();
         try {
@@ -70,6 +71,8 @@ public class AdminAssortService {
                 area.setYongjin(yongjin);
                 area.setYuliu(yuliu);
                 area.setPercent(percent);
+                area.setPsy_yongjin(psy_yongjin);
+                area.setPsy_percent(psy_percent);
                 assortMapper.insertSelective(area);
                 map.put("code", "100");
             } else {
@@ -80,6 +83,8 @@ public class AdminAssortService {
                 area.setYongjin(yongjin);
                 area.setYuliu(yuliu);
                 area.setPercent(percent);
+                area.setPsy_yongjin(psy_yongjin);
+                area.setPsy_percent(psy_percent);
                 assortMapper.updateByPrimaryKeySelective(area);
                 map.put("code", "100");
             }

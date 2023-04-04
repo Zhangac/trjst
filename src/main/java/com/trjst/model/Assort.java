@@ -20,6 +20,26 @@ public class Assort {
 
     private Integer type;
 
+    private BigDecimal psy_yongjin;
+
+    private Integer psy_percent;
+
+    public BigDecimal getPsy_yongjin() {
+        return psy_yongjin;
+    }
+
+    public void setPsy_yongjin(BigDecimal psy_yongjin) {
+        this.psy_yongjin = psy_yongjin;
+    }
+
+    public Integer getPsy_percent() {
+        return psy_percent;
+    }
+
+    public void setPsy_percent(Integer psy_percent) {
+        this.psy_percent = psy_percent;
+    }
+
     public Integer getPercent() {
         return percent;
     }

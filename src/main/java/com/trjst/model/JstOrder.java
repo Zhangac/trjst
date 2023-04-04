@@ -92,6 +92,26 @@ public class JstOrder {
 
     private Integer spread_pay_type;
 
+    private BigDecimal order_psy_yongjin;
+
+    private String ass_yuliu;
+
+    public String getAss_yuliu() {
+        return ass_yuliu;
+    }
+
+    public void setAss_yuliu(String ass_yuliu) {
+        this.ass_yuliu = ass_yuliu;
+    }
+
+    public BigDecimal getOrder_psy_yongjin() {
+        return order_psy_yongjin;
+    }
+
+    public void setOrder_psy_yongjin(BigDecimal order_psy_yongjin) {
+        this.order_psy_yongjin = order_psy_yongjin;
+    }
+
     public Integer getPay_type() {
         return pay_type;
     }

@@ -36,6 +36,16 @@ public class User {
 
     private Integer check_status;
 
+    private Integer dpeople;
+
+    public Integer getDpeople() {
+        return dpeople;
+    }
+
+    public void setDpeople(Integer dpeople) {
+        this.dpeople = dpeople;
+    }
+
     public Integer getCheck_status() {
         return check_status;
     }

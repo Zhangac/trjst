@@ -143,6 +143,7 @@
                 <th style="text-align: center;width: 10%">商品id</th>
                 <th style="text-align: center;width: 10%">支付类型</th>
                 <th style="text-align: center;width: 10%">差价支付类型</th>
+                <th style="text-align: center;width: 2%">配送员佣金</th>
                 <th style="text-align: center;width: 10%">操作</th>
             </tr>
             </thead>
@@ -196,7 +197,14 @@
                 { "data": "address" },
                 { "data": "detailed_address" },
                 { "data": "name" },
-                {"data": "jin_num" },
+                { "data": function (obj) {
+                        if(obj.jin_num==0){
+                            return "<span><center>" + obj.jin_num +"</center></span>"
+                        }else {
+                            return "<span><center>" + obj.jin_num + obj.ass_yuliu+"</center></span>"
+                        }
+                    }
+                },
                 {"data": "quantity" },
                 {"data": "unit_price" },
                 { "data": "total_price" },
@@ -274,7 +282,14 @@
                 },
                 { "data": "spread_no" },
                 { "data": "spread_price" },
-                {"data": "spread_jin_num" },
+                { "data": function (obj) {
+                        if(obj.spread_jin_num==0){
+                            return "<span><center>" + obj.spread_jin_num +"</center></span>"
+                        }else {
+                            return "<span><center>" + obj.spread_jin_num + obj.ass_yuliu+"</center></span>"
+                        }
+                    }
+                },
                 { "data":  function(obj){
                         if(obj.type==1){
                             return "<span><center>基础订单</center></span>"
@@ -346,6 +361,7 @@
                         }
                     }
                 },
+                {"data": "order_psy_yongjin" },
                 { "data": function(obj){
                         return "<span><center>" +
                             "<a onclick=\"open_layer('更改配送员','adminggpsy?id="+obj.id+"','900','450')\">更改配送员</a>" /*+

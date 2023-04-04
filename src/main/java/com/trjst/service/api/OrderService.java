@@ -266,7 +266,64 @@ public class OrderService {
             jstOrder.setConfirm_time(new Date());
             jstOrder.setConfirm_receipt(3);
             jstOrder.setPay_status(8);
-            // 佣金/配送费=(斤数+差价斤数)*抽成
+            // 平台佣金=总价*抽成
+            CommodityInfo ci = commodityInfoMapper.selectByPrimaryKey2(jstOrder.getCommodity_id());
+            Assort assort = assortMapper.selectByPrimaryKey(ci.getAssort_id());
+            BigDecimal commission = new BigDecimal(0);
+            BigDecimal b2 = new BigDecimal("100");
+            if(assort.getPercent()==1){
+                commission = assort.getYongjin().setScale(2,BigDecimal.ROUND_HALF_UP);
+            }else {
+                commission = jstOrder.getTotal_price().multiply(assort.getYongjin()).divide(b2).setScale(2,BigDecimal.ROUND_HALF_UP);
+            }
+            jstOrder.setCommission(commission);
+            log.info("平台佣金commission:"+commission);
+
+            //配送员佣金
+            BigDecimal commission2 = new BigDecimal(0);
+            if(jstOrder.getDelivery_id()!=null && jstOrder.getDelivery_id()!=0) {
+                BigDecimal b23= new BigDecimal("100");
+                if(assort.getPsy_percent()==1){
+                    commission2 = assort.getPsy_yongjin().setScale(2,BigDecimal.ROUND_HALF_UP);
+                }else {
+                    commission2 = jstOrder.getTotal_price().multiply(assort.getPsy_yongjin()).divide(b23).setScale(2,BigDecimal.ROUND_HALF_UP);
+                }
+                Delivery deliveryUid = deliveryMapper.selectByPrimaryKey(jstOrder.getDelivery_id());
+                if (deliveryUid != null) {
+                    User user2 = userMapper.selectByPrimaryKey(deliveryUid.getUser_id());
+                    user2.setAmount(user2.getAmount().add(commission2));
+                    userMapper.updateByPrimaryKeySelective(user2);
+                    //消费记录
+                    SpendRecord sd2 = new SpendRecord();
+                    sd2.setUser_id(deliveryUid.getUser_id());
+                    sd2.setSpend_amount(commission2);
+                    sd2.setDes("订单" + jstOrder.getOrder_no() + "已完成配送+" + commission2.setScale(2, BigDecimal.ROUND_HALF_UP));
+                    sd2.setType(2);
+                    spendRecordMapper.insertSelective(sd2);
+                }
+                jstOrder.setOrder_psy_yongjin(commission2);
+                log.info("配送员佣金commission:"+commission2);
+            }
+
+            // 商户到手金额
+            int num = jstOrderMapper.updateByPrimaryKeySelective(jstOrder);
+            if(num > 0){
+                MerchantInfo mi = merchantInfoMapper.selectByPrimaryKey(jstOrder.getMerchant_id());
+                User user = userMapper.selectByPrimaryKey(mi.getUser_id());
+                // 总价减掉平台佣金和配送员佣金就是商户实际到手的
+                BigDecimal amount = jstOrder.getTotal_price().subtract(commission.add(commission2)).setScale(2,BigDecimal.ROUND_HALF_UP);
+                BigDecimal userAmount = user.getAmount().add(amount).setScale(2,BigDecimal.ROUND_HALF_UP);
+                user.setAmount(userAmount);
+                userMapper.updateByPrimaryKeySelective(user);
+                //消费记录
+                SpendRecord sd = new SpendRecord();
+                sd.setUser_id(mi.getUser_id());
+                sd.setSpend_amount(amount);
+                sd.setDes("您的商品订单"+jstOrder.getOrder_no()+"已完成,订单总价:"
+                        +jstOrder.getTotal_price()+",本单佣金:"+commission.add(commission2)+",实际到账:+"+amount);
+                sd.setType(2);
+                spendRecordMapper.insertSelective(sd);
+            /*// 佣金/配送费=(斤数+差价斤数)*抽成
             CommodityInfo ci = commodityInfoMapper.selectByPrimaryKey2(jstOrder.getCommodity_id());
             Assort assort = assortMapper.selectByPrimaryKey(ci.getAssort_id());
             BigDecimal commission = new BigDecimal(0);
@@ -295,25 +352,7 @@ public class OrderService {
                 sd.setDes("您的商品订单"+jstOrder.getOrder_no()+"已完成,订单总价:"
                         +jstOrder.getTotal_price()+",本单佣金:"+commission+",实际到账:+"+amount);
                 sd.setType(2);
-                spendRecordMapper.insertSelective(sd);
-
-                // 配送员
-//                if(jstOrder.getDelivery_id()!=null && jstOrder.getDelivery_id()!=0) {
-//                    Brokerage brokerage2 = brokerageMapper.selectByType(2);
-//                    Delivery deliveryUid = deliveryMapper.selectByPrimaryKey(jstOrder.getDelivery_id());
-//                    if (deliveryUid != null) {
-//                        User user2 = userMapper.selectByPrimaryKey(deliveryUid.getUser_id());
-//                        user2.setAmount(user2.getAmount().add(brokerage2.getBrokerage_amount()));
-//                        userMapper.updateByPrimaryKeySelective(user2);
-//                        //消费记录
-//                        SpendRecord sd2 = new SpendRecord();
-//                        sd2.setUser_id(deliveryUid.getUser_id());
-//                        sd2.setSpend_amount(brokerage2.getBrokerage_amount());
-//                        sd2.setDes("订单" + jstOrder.getOrder_no() + "已完成配送+" + brokerage2.getBrokerage_amount().setScale(2, BigDecimal.ROUND_HALF_UP));
-//                        sd2.setType(2);
-//                        spendRecordMapper.insertSelective(sd2);
-//                    }
-//                }
+                spendRecordMapper.insertSelective(sd);*/
             }
             map.put("code",200);
             map.put("msg","success");

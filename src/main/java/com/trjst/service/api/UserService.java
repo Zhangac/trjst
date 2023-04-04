@@ -15,6 +15,11 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    public List<User> selectByIsMech(Integer is_mech){
+        return userMapper.selectByIsMech(is_mech);
+    }
+
+
     public User userById(Integer userId){
         return userMapper.selectByPrimaryKey(userId);
     }

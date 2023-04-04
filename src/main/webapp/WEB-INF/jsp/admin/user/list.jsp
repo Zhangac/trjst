@@ -178,6 +178,7 @@
                 <th style="text-align: center;width: 4%">姓名</th>
                 <th style="text-align: center;width: 4%">身份证正面</th>
                 <th style="text-align: center;width: 4%">身份证反面</th>
+                <%--<th style="text-align: center;width: 4%">发展人id</th>--%>
                 <th style="text-align: center;width: 4%">创建时间</th>
                 <%--<th style="text-align: center;width: 4%">操作</th>--%>
             </tr>
@@ -272,6 +273,7 @@
                         return "<span><center><img style='max-width:80px' src='"+obj.back_imge+"' onclick=\"open_layer('查看','"+obj.back_imge+"','600','450')\"/></center></span>"
                     }
                 },
+                /*{"data": "dpeople"},*/
                 {
                     "data": function (obj) {
                         var date = new Date(obj.create_time);
