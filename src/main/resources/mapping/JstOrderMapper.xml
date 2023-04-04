@@ -43,11 +43,63 @@
     <result column="pay_type" property="pay_type" jdbcType="INTEGER" />
     <result column="spread_pay_type" property="spread_pay_type" jdbcType="INTEGER" />
     <result column="order_psy_yongjin" property="order_psy_yongjin" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap2" type="com.trjst.model.JstOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchant_id" jdbcType="INTEGER" />
+    <result column="commodity_id" property="commodity_id" jdbcType="INTEGER" />
+    <result column="order_no" property="order_no" jdbcType="VARCHAR" />
+    <result column="pay_no" property="pay_no" jdbcType="VARCHAR" />
+    <result column="order_price" property="order_price" jdbcType="DECIMAL" />
+    <result column="pay_price" property="pay_price" jdbcType="DECIMAL" />
+    <result column="pay_status" property="pay_status" jdbcType="INTEGER" />
+    <result column="pay_time" property="pay_time" jdbcType="TIMESTAMP" />
+    <result column="commission" property="commission" jdbcType="DECIMAL" />
+    <result column="confirm_receipt" property="confirm_receipt" jdbcType="INTEGER" />
+    <result column="confirm_time" property="confirm_time" jdbcType="TIMESTAMP" />
+    <result column="reserve_price" property="reserve_price" jdbcType="DECIMAL" />
+    <result column="spread_price" property="spread_price" jdbcType="DECIMAL" />
+    <result column="total_price" property="total_price" jdbcType="DECIMAL" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="commodity_name" property="commodity_name" jdbcType="VARCHAR" />
+    <result column="main_pic" property="main_pic" jdbcType="VARCHAR" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="goods_desc" property="goods_desc" jdbcType="VARCHAR" />
+    <result column="delivery_id" property="delivery_id" jdbcType="INTEGER" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="unit_price" property="unit_price" jdbcType="DECIMAL" />
+    <result column="spread_status" property="spread_status" jdbcType="INTEGER" />
+    <result column="spread_no" property="spread_no" jdbcType="VARCHAR" />
+    <result column="fahuo_time" property="fahuo_time" jdbcType="TIMESTAMP" />
+    <result column="arrived_time" property="arrived_time" jdbcType="TIMESTAMP" />
+    <result column="delivery_name" property="delivery_name" jdbcType="VARCHAR" />
+    <result column="jin_num" property="jin_num" jdbcType="DECIMAL" />
+    <result column="spread_jin_num" property="spread_jin_num" jdbcType="DECIMAL" />
+    <result column="detailed_address" property="detailed_address" jdbcType="VARCHAR" />
+    <result column="delivery_phone" property="delivery_phone" jdbcType="VARCHAR" />
+    <result column="spread_remark" property="spread_remark" jdbcType="VARCHAR" />
+    <result column="pay_type" property="pay_type" jdbcType="INTEGER" />
+    <result column="spread_pay_type" property="spread_pay_type" jdbcType="INTEGER" />
+    <result column="order_psy_yongjin" property="order_psy_yongjin" jdbcType="DECIMAL" />
     <result column="ass_yuliu" property="ass_yuliu" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, merchant_id, commodity_id, order_no, pay_no, order_price, pay_price, 
     pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price, 
+    total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
+    spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address,spread_remark,
+    spread_pay_type,pay_type,order_psy_yongjin
+  </sql>
+
+  <sql id="Base_Column_List2" >
+    id, user_id, merchant_id, commodity_id, order_no, pay_no, order_price, pay_price,
+    pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price,
     total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
     spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address,spread_remark,
     spread_pay_type,pay_type,order_psy_yongjin,ass_yuliu
@@ -561,7 +613,7 @@
       </if>
     </where>
   </select>
-  <select id="getResultList" resultMap="BaseResultMap">
+  <select id="getResultList" resultMap="BaseResultMap2">
     SELECT
     j.*,d.name as delivery_name,c.commodity_name,ass.yuliu as ass_yuliu
     FROM jst_order j
