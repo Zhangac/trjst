@@ -226,7 +226,7 @@
                         } else if(obj.pay_status==6){
                             return "<span><center>取消订单</center></span>"
                         } else if(obj.pay_status==7){
-                            return "<span><center>待送达</center></span>"
+                            return "<span><center>待收货</center></span>"
                         } else if(obj.pay_status==8){
                             return "<span><center>已签收</center></span>"
                         } else if(obj.pay_status==9){
