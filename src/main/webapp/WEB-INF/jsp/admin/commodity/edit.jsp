@@ -90,6 +90,10 @@
                         <td><input name="stock" placeholder="默认0" value="${mi.stock}"></td>
                     </tr>
                     <tr>
+                        <td class="item-name"><label>已售:</label></td>
+                        <td><input name="sold" placeholder="默认0" value="${mi.sold}"></td>
+                    </tr>
+                    <tr>
                         <td class="item-name"><label>上下架:</label></td>
                         <td><input name="status" placeholder="请填写0或者1  默认0：下架  1：上架" value="${mi.status}"></td>
                     </tr>

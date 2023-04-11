@@ -79,7 +79,7 @@
     <result column="fahuo_time" property="fahuo_time" jdbcType="TIMESTAMP" />
     <result column="arrived_time" property="arrived_time" jdbcType="TIMESTAMP" />
     <result column="delivery_name" property="delivery_name" jdbcType="VARCHAR" />
-    <result column="jin_num" property="jin_num" jdbcType="DECIMAL" />
+    <result column="jin_num" property="jin_num" jdbcType="VARCHAR" />
     <result column="spread_jin_num" property="spread_jin_num" jdbcType="DECIMAL" />
     <result column="detailed_address" property="detailed_address" jdbcType="VARCHAR" />
     <result column="delivery_phone" property="delivery_phone" jdbcType="VARCHAR" />
@@ -450,7 +450,7 @@
         #{arrived_time,jdbcType=TIMESTAMP},
       </if>
       <if test="jin_num != null" >
-        #{jin_num,jdbcType=DECIMAL},
+        #{jin_num,jdbcType=VARCHAR},
       </if>
       <if test="spread_jin_num != null" >
         #{spread_jin_num,jdbcType=DECIMAL},

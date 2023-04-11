@@ -74,7 +74,7 @@ public class JstOrder {
 
     private String delivery_name;
 
-    private BigDecimal jin_num;
+    private String jin_num;
 
     private BigDecimal spread_jin_num;
 
@@ -95,6 +95,14 @@ public class JstOrder {
     private BigDecimal order_psy_yongjin;
 
     private String ass_yuliu;
+
+    public String getJin_num() {
+        return jin_num;
+    }
+
+    public void setJin_num(String jin_num) {
+        this.jin_num = jin_num;
+    }
 
     public String getAss_yuliu() {
         return ass_yuliu;
@@ -176,13 +184,6 @@ public class JstOrder {
         this.end_time = end_time;
     }
 
-    public BigDecimal getJin_num() {
-        return jin_num;
-    }
-
-    public void setJin_num(BigDecimal jin_num) {
-        this.jin_num = jin_num;
-    }
 
     public String getDelivery_name() {
         return delivery_name;

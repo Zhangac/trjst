@@ -197,14 +197,15 @@
                 { "data": "address" },
                 { "data": "detailed_address" },
                 { "data": "name" },
-                { "data": function (obj) {
+                { "data": "jin_num" },
+                /*{ "data": function (obj) {
                         if(obj.jin_num==0){
                             return "<span><center>" + obj.jin_num +"</center></span>"
                         }else {
                             return "<span><center>" + obj.jin_num + obj.ass_yuliu+"</center></span>"
                         }
                     }
-                },
+                },*/
                 {"data": "quantity" },
                 {"data": "unit_price" },
                 { "data": "total_price" },
