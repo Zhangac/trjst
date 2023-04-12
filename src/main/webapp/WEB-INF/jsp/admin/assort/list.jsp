@@ -135,7 +135,7 @@
                     }
                 },
                 { "data": function(obj){
-                        <c:if test="${admin.level==1 || admin.level==2}">
+                        <c:if test="${admin.level==1}">
                         return  "<a onclick=\"open_layer('编辑','adminassortedit?id="+obj.id+"','900','450')\">编辑</a>&nbsp;<a onclick=\"deleteobj(" + obj.id + ")\">删除</a></center></span>"
                         </c:if>
                     }
