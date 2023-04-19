@@ -57,6 +57,7 @@
                                             <option value="8">已签收</option>
                                             <option value="9">退款中</option>
                                             <option value="10">已退款</option>
+                                            <option value="11">拒绝退款</option>
                                         </select>
                                         <br />
                                         <br />
@@ -144,6 +145,7 @@
                 <th style="text-align: center;width: 10%">支付类型</th>
                 <th style="text-align: center;width: 10%">差价支付类型</th>
                 <th style="text-align: center;width: 2%">配送员佣金</th>
+                <th style="text-align: center;width: 2%">拒绝退款原因</th>
                 <th style="text-align: center;width: 10%">操作</th>
             </tr>
             </thead>
@@ -234,6 +236,8 @@
                             return "<span><center>退款中</center></span>"
                         } else if(obj.pay_status==10){
                             return "<span><center>已退款</center></span>"
+                        }else if(obj.pay_status==11){
+                            return "<span><center>拒绝退款</center></span>"
                         }else {
                             return "<span><center></center></span>"
                         }
@@ -276,7 +280,9 @@
                             return "<span><center>退款中</center></span>"
                         } else if(obj.spread_status==10){
                             return "<span><center>已退款</center></span>"
-                        } else {
+                        } else if(obj.spread_status==11){
+                            return "<span><center>拒绝退款</center></span>"
+                        }else {
                             return "<span><center></center></span>"
                         }
                     }
@@ -363,6 +369,7 @@
                     }
                 },
                 {"data": "order_psy_yongjin" },
+                {"data": "tk_reason" },
                 { "data": function(obj){
                         return "<span><center>" +
                             "<a onclick=\"open_layer('更改配送员','adminggpsy?id="+obj.id+"','900','450')\">更改配送员</a>" /*+

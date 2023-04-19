@@ -443,6 +443,26 @@ public class OrderService {
         return map;
     }
 
+    public Map refuseRefund(Integer id,String tk_reason){
+        Map map = new HashMap();
+        try {
+            JstOrder jo = jstOrderMapper.selectByPrimaryKey(id);
+            jo.setPay_status(11);//状态11商户拒绝退款
+            jo.setConfirm_receipt(11);
+            jo.setSpread_status(11);
+            jo.setTk_reason(tk_reason);
+            jstOrderMapper.updateByPrimaryKeySelective(jo);
+            map.put("code",200);
+            map.put("msg","success");
+            map.put("data",id);
+        }catch (Exception e){
+            log.error("refuseRefund:{}"+e);
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
+
     public Map confirmRefund(Integer id){
         Map map = new HashMap();
         try {
@@ -453,7 +473,7 @@ public class OrderService {
             int num = jstOrderMapper.updateByPrimaryKeySelective(jo);
             if(num > 0){
                 User user = userMapper.selectByPrimaryKey(jo.getUser_id());
-                //用户金额加订单总价含差价
+                //退回用户金额加订单总价含差价
                 BigDecimal userAmount = user.getAmount().add(jo.getTotal_price()).setScale(2,BigDecimal.ROUND_HALF_UP);
                 user.setAmount(userAmount);
                 userMapper.updateByPrimaryKeySelective(user);

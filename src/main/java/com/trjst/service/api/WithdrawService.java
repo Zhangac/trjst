@@ -82,6 +82,54 @@ public class WithdrawService {
     public Map addWithdraw(Withdraw record){
         Map map = new HashMap();
         try {
+            User user = userMapper.selectByPrimaryKey(record.getUser_id());
+            // 如果提现金额小于等于用户总金额
+            if (record.getWithdraw_amount().compareTo(user.getAmount()) <= 0){
+                //提现手续费千分之六
+                BigDecimal tx = record.getWithdraw_amount().multiply(new BigDecimal
+                        (0.006)).setScale(2, RoundingMode.HALF_UP);
+                record.setGet_amount(record.getWithdraw_amount().subtract(tx));
+                int num = withdrawMapper.insertSelective(record);
+                if(num > 0){
+                    user.setAmount(user.getAmount().subtract(record.getWithdraw_amount()));
+                    int num2 = userMapper.updateByPrimaryKeySelective(user);
+                    if(num2 > 0){
+                        //消费记录
+                        SpendRecord sd = new SpendRecord();
+                        sd.setUser_id(record.getUser_id());
+                        sd.setSpend_amount(record.getWithdraw_amount());
+                        sd.setDes("申请提现-"+record.getWithdraw_amount());
+                        sd.setType(1);
+                        spendRecordMapper.insertSelective(sd);
+                        map.put("code",200);
+                        map.put("msg","申请成功，手续费千分之六，预计到账金额"+record.getWithdraw_amount().subtract(tx));
+                        return map;
+                    }else {
+                        map.put("code",500);
+                        map.put("msg","error");
+                        return map;
+                    }
+                }else {
+                    map.put("code",500);
+                    map.put("msg","error");
+                    return map;
+                }
+            }else {
+                map.put("code",400);
+                map.put("msg","没有足够金额");
+                return map;
+            }
+        }catch (Exception e){
+            log.error("系统错误.",e);
+            map.put("code",500);
+            map.put("msg","系统错误");
+            return map;
+        }
+    }
+
+    /*public Map addWithdraw(Withdraw record){
+        Map map = new HashMap();
+        try {
             // 判断是否第一次提现
             List<Withdraw> wm = withdrawMapper.selectByUserId(record.getUser_id());
             if (wm.size() != 0){
@@ -218,6 +266,6 @@ public class WithdrawService {
             map.put("msg","系统错误");
             return map;
         }
-    }
+    }*/
 
 }

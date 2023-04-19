@@ -120,4 +120,11 @@ public class OrderController {
         return orderService.confirmRefund(id);
     }
 
+    @ApiOperation(value = "商户拒绝退款", notes = "商户确认退款")
+    @RequestMapping(value = "/refuseRefund", method = RequestMethod.GET)
+    public Map refuseRefund(@ApiParam(value = "订单id", required = true) @RequestParam("id") Integer id,
+                             @ApiParam(value = "商户拒绝退款原因", required = true) @RequestParam("tk_reason") String tk_reason) throws Exception {
+        return orderService.refuseRefund(id,tk_reason);
+    }
+
 }

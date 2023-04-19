@@ -96,6 +96,16 @@ public class JstOrder {
 
     private String ass_yuliu;
 
+    private String tk_reason;
+
+    public String getTk_reason() {
+        return tk_reason;
+    }
+
+    public void setTk_reason(String tk_reason) {
+        this.tk_reason = tk_reason;
+    }
+
     public String getJin_num() {
         return jin_num;
     }
