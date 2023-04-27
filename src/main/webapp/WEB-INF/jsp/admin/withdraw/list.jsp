@@ -40,7 +40,31 @@
     <!-- HTML代码片段中请勿添加<body>标签 //-->
 </head>
 <body>
-
+<form action="" name="form" method="post" class="form form-horizontal" id="form">
+    <div class="panel" style="margin-left: 300px;">
+        <div class="panel-body">
+            <div class="text-c" >
+                <form class="Huiform" method="post" action="" target="_self" >
+                    <div class="panel" >
+                        <div class="panel-body">
+                            <div class="text-l">
+                                <span>日&nbsp;&nbsp;&nbsp;期：</span>
+                                <input type="text"
+                                       onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })"
+                                       id="logmax" class="input-text Wdate" style="width: 120px;" autocomplete="off">
+                                -
+                                <input type="text"
+                                       onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })"
+                                       id="logmin" class="input-text Wdate" style="width: 120px;" autocomplete="off">
+                                <button name="" id="" style="margin-left: 20px;" class="btn btn-success" type="button" onclick="Inquire();"><i class="Hui-iconfont">&#xe665;</i> 搜索 </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</form>
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" style="border:5px solid #fff;" src="" /></div></div>
 <div id="container">
     <!-- 定义一个表格元素 -->
@@ -69,13 +93,20 @@
     </div>
 </div>
 <script type="text/javascript">
+    function Inquire() {
+        datatable.ajax.reload();
+    }
     /*Javascript代码片段*/
     $(document).ready(function() {
         $('#example').dataTable().fnDestroy();
-        $('#example').DataTable( {
+        datatable  =  $('#example').DataTable({
             "ajax":{
                 "url": "adminwithlistajax",
                 "type": "post",
+                "data": function(d) {
+                    d.logmax=$("#logmax").val();
+                    d.logmin=$("#logmin").val();
+                }
             },
             "lengthChange": true,//是否允许用户自定义显示数量
             "bPaginate": true, //翻页功能

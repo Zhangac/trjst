@@ -26,10 +26,11 @@ public class AdminWithdrawController {
 
     @RequestMapping(value = "/adminwithlistajax")
     @ResponseBody
-    public String adminwithlistajax(HttpServletRequest request, Integer draw){
+    public String adminwithlistajax(HttpServletRequest request, Integer draw,String logmax
+            ,String logmin){
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length_number = Integer.valueOf(request.getParameter("length"));
-        return adminWithdrawService.getResultJson(start,length_number,draw);
+        return adminWithdrawService.getResultJson(start,length_number,draw,logmax,logmin);
     }
 
     //通过
