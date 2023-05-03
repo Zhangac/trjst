@@ -20,7 +20,9 @@ public interface WithdrawMapper {
     int updateByPrimaryKeySelective(Withdraw record);
 
     List getResultList(@Param("start") Integer start, @Param("length_number") Integer length_number
-    ,@Param("logmax")String logmax,@Param("logmin")String logmin);
+    ,@Param("logmax")String logmax,@Param("logmin")String logmin,@Param("phone")String phone,
+    @Param("name")String name);
 
-    Integer getListCount(@Param("logmax")String logmax,@Param("logmin")String logmin);
+    Integer getListCount(@Param("logmax")String logmax,@Param("logmin")String logmin
+            ,@Param("phone")String phone, @Param("name")String name);
 }

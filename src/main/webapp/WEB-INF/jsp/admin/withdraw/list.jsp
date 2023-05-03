@@ -48,6 +48,14 @@
                     <div class="panel" >
                         <div class="panel-body">
                             <div class="text-l">
+                                <span>姓       名  ：</span>
+                                <input type="text" name="name" id="name" placeholder="姓名" style="width: 250px" class="input-text">
+                                <br />
+                                <br />
+                                <span>手机号：</span>
+                                <input type="text" name="phone" id="phone" placeholder="手机号" style="width: 250px" class="input-text">
+                                <br />
+                                <br />
                                 <span>日&nbsp;&nbsp;&nbsp;期：</span>
                                 <input type="text"
                                        onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })"
@@ -106,6 +114,8 @@
                 "data": function(d) {
                     d.logmax=$("#logmax").val();
                     d.logmin=$("#logmin").val();
+                    d.phone=$("#phone").val();
+                    d.name=$("#name").val();
                 }
             },
             "lengthChange": true,//是否允许用户自定义显示数量

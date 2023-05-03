@@ -156,6 +156,12 @@
         AND create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
         AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
       </if>
+      <if test="phone != null and phone != ''">
+        and phone = #{phone}
+      </if>
+      <if test="name != null and name != ''">
+        and name like CONCAT('%',#{name},'%')
+      </if>
     </where>
     order by create_time desc
     limit #{start},#{length_number}
@@ -169,6 +175,12 @@
       <if test="logmax!=null and logmax != '' and logmin!=null and logmin != ''">
         AND create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
         AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
+      </if>
+      <if test="phone != null and phone != ''">
+        and phone = #{phone}
+      </if>
+      <if test="name != null and name != ''">
+        and name like CONCAT('%',#{name},'%')
       </if>
     </where>
   </select>

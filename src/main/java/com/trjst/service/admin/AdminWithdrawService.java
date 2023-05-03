@@ -32,9 +32,9 @@ public class AdminWithdrawService {
      * @return
      * */
     public String getResultJson(Integer start, Integer length_number, Integer draw,String logmax
-            ,String logmin) {
-        List resultList = withdrawMapper.getResultList(start, length_number,logmax,logmin);
-        Integer countnumber = withdrawMapper.getListCount(logmax,logmin);
+            ,String logmin,String phone,String name) {
+        List resultList = withdrawMapper.getResultList(start, length_number,logmax,logmin,phone,name);
+        Integer countnumber = withdrawMapper.getListCount(logmax,logmin,phone,name);
         JSONObject jobj = new JSONObject();
         jobj.put("draw", draw);
         jobj.put("recordsFiltered", countnumber);
