@@ -133,10 +133,10 @@
             return false;
         }
         var weight= $("[name='weight']").val();
-        if($.trim(weight)==""){
+        /*if($.trim(weight)==""){
             layer.msg('重量不能为空！');
             return false;
-        }
+        }*/
         var commodity_detail= $("[name='commodity_detail']").val();
         if($.trim(commodity_detail)==""){
             layer.msg('商品详情不能为空！');

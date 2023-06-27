@@ -88,7 +88,8 @@ public class WriteExcel {
 					Double b = 0.0;
 					row.createCell(6).setCellValue(b);
 				}else {
-					row.createCell(6).setCellValue(Double.valueOf(jin_num));
+					//row.createCell(6).setCellValue(Double.valueOf(jin_num));
+					row.createCell(6).setCellValue(jin_num);
 				}
 
 				String quantity = "";
