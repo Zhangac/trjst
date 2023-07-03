@@ -100,6 +100,8 @@
                 <th style="text-align: center;width: 2%">库存</th>
                 <%--<th style="text-align: center;width: 5%">商品描述</th>--%>
                 <th style="text-align: center;width: 2%">已售数量</th>
+                <th style="text-align: center;width: 2%">排序</th>
+                <th style="text-align: center;width: 2%">置顶</th>
                 <th style="text-align: center;width: 7%">创建时间</th>
                 <th style="text-align: center;width: 5%">操作</th>
             </tr>
@@ -196,6 +198,15 @@
                 { "data": "stock" },
                 /*{ "data": "des" },*/
                 { "data": "sold" },
+                { "data": "sort" },
+                { "data":  function(obj){
+                        if(obj.topPing==0){
+                            return "<span><center>未置顶</center></span>"
+                        }else if(obj.topPing==1){
+                            return "<span><center>已置顶</center></span>"
+                        }
+                    }
+                },
                 { "data": function (obj) {
                         return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
                     }

@@ -97,6 +97,14 @@
                         <td class="item-name"><label>上下架:</label></td>
                         <td><input name="status" placeholder="请填写0或者1  默认0：下架  1：上架" value="${mi.status}"></td>
                     </tr>
+                    <tr>
+                        <td class="item-name"><label>排序:</label></td>
+                        <td><input name="sort" placeholder="请填写顺序数字1最靠前以此类推  默认0：不排序  1：排序以此类推" value="${mi.sort}"></td>
+                    </tr>
+                    <tr>
+                        <td class="item-name"><label>置顶:</label></td>
+                        <td><input name="topPing" placeholder="请填写数字0或者1  默认0：不置顶  1：置顶" value="${mi.topPing}"></td>
+                    </tr>
                 </table>
                 <div class="footer">
                     <input type="button" onclick="tijiao();" value="提交"/>
@@ -113,6 +121,8 @@
         var files = document.getElementById('main_pic').files; //files是文件选择框选择的文件对象数组
         var id= $("[name='id']").val();
         var assort_id= $("[name='assort_id']").val();
+        var sort= $("[name='sort']").val();
+        var topPing= $("[name='topPing']").val();
         if($.trim(assort_id)==""){
             layer.msg('分类id不能为空！');
             return false;

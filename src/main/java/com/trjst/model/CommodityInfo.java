@@ -57,6 +57,25 @@ public class CommodityInfo {
     private List<Imges> imgesDetail;
     private List<Speci> SpeciDetail;
 
+    private Integer sort;
+    private Integer topPing;//1置顶 0不置顶
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public Integer getTopPing() {
+        return topPing;
+    }
+
+    public void setTopPing(Integer topPing) {
+        this.topPing = topPing;
+    }
+
     @Override
     public String toString() {
         return "CommodityInfo{" +

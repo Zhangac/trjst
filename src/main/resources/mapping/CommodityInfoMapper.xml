@@ -24,11 +24,13 @@
     <result column="reserved" property="reserved" jdbcType="VARCHAR" />
     <result column="area_id" property="area_id" jdbcType="INTEGER" />
     <result column="area_name" property="area_name" jdbcType="VARCHAR" />
+    <result column="topPing" property="topPing" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, assort_id, commodity_name, market_id, merchant_id, weight, specifications, main_pic, 
     list_pic, commodity_detail, activity_price, original_price, audit_status, status, 
-    stock, is_hot, create_time, des, sold, reserved,area_id
+    stock, is_hot, create_time, des, sold, reserved,area_id,topPing,sort
   </sql>
 
   <select id="commodityList" resultMap="BaseResultMap" parameterType="com.trjst.model.CommodityInfo" >
@@ -153,7 +155,8 @@
         and c.is_hot = #{is_hot}
       </if>
     </where>
-    order by c.create_time desc
+    <!--order by c.create_time desc-->
+    ORDER BY topPing DESC,sort is null,create_time DESC
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -244,6 +247,12 @@
       <if test="reserved != null" >
         reserved,
       </if>
+      <if test="topPing != null" >
+        topPing,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -309,6 +318,12 @@
       <if test="reserved != null" >
         #{reserved,jdbcType=VARCHAR},
       </if>
+      <if test="topPing != null" >
+        #{topPing,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.CommodityInfo" >
@@ -359,9 +374,6 @@
       <if test="is_hot != null" >
         is_hot = #{is_hot,jdbcType=INTEGER},
       </if>
-      <if test="create_time != null" >
-        create_time = #{create_time,jdbcType=TIMESTAMP},
-      </if>
       <if test="des != null" >
         des = #{des,jdbcType=VARCHAR},
       </if>
@@ -371,6 +383,12 @@
       <if test="reserved != null" >
         reserved = #{reserved,jdbcType=VARCHAR},
       </if>
+      <if test="topPing != null" >
+        topPing = #{topPing,jdbcType=INTEGER},
+      </if>
+
+        sort = #{sort,jdbcType=INTEGER},
+
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -418,7 +436,7 @@
         and area_id = #{area_id}
       </if>
     </where>
-    order by create_time desc
+    ORDER BY topPing DESC,sort is null,create_time DESC
     limit #{start},#{length_number}
   </select>
 </mapper>
