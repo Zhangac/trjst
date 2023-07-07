@@ -49,7 +49,7 @@
         and sc.cs_type = #{cs_type}
       </if>
     </where>
-    order by sc.create_time desc
+    order by ci.assort_id,sc.create_time desc
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

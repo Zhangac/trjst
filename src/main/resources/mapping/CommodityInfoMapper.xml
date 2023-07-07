@@ -156,7 +156,7 @@
       </if>
     </where>
     <!--order by c.create_time desc-->
-    ORDER BY topPing DESC,'sort' is null,create_time DESC
+    ORDER BY c.topPing DESC,c.sort is null,c.create_time DESC
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
