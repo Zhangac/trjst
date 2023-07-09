@@ -2,10 +2,12 @@ package com.trjst.service.api;
 
 import com.trjst.mapper.ShoppingCartMapper;
 import com.trjst.model.ShoppingCart;
+import com.trjst.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,18 @@ public class ShoppingCartService {
     private ShoppingCartMapper shoppingCartMapper;
 
     public List<ShoppingCart> selectByUserId(Integer userId,Integer cs_type){
-        return shoppingCartMapper.selectByUserId(userId,cs_type);
+        List<ShoppingCart> sc = shoppingCartMapper.selectByUserId(userId,cs_type);
+        if (sc.size() > 0){
+            Iterator<ShoppingCart> iterator = sc.listIterator();
+            while (iterator.hasNext()){
+                ShoppingCart s = iterator.next();
+                String speciName = s.getSpeci_name();
+                if(StringUtil.isEmpty(speciName)){
+                    iterator.remove();
+                }
+            }
+        }
+        return sc;
     }
 
     public Map addShoppingCart(ShoppingCart record){
