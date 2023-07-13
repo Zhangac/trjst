@@ -8,13 +8,13 @@ import com.trjst.model.CommodityInfo;
 import com.trjst.model.Imges;
 import com.trjst.model.OperationRecord;
 import com.trjst.model.Speci;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CommodityInfoService {
@@ -141,7 +141,7 @@ public class CommodityInfoService {
                 }
             }
 
-            if ( null != record.getSpeciDetail() &&  record.getSpeciDetail().size() > 0) {
+            /*if ( null != record.getSpeciDetail() &&  record.getSpeciDetail().size() > 0) {
                 List<Speci> speciList = speciMapper.selectByCommId(record.getId());
                 if (speciList.size() > 0) {
                     for (Speci i : speciList) {
@@ -157,12 +157,54 @@ public class CommodityInfoService {
                     speci.setVip_price(i.getVip_price());
                     speciMapper.insertSelective(speci);
                 }
+            }*/
+
+            /*List<Integer> sId = new ArrayList<>();*/
+            if ( null != record.getSpeciDetail() &&  record.getSpeciDetail().size() > 0) {
+                for (Speci i : record.getSpeciDetail()) {
+                    if ( null != i.getSpeci_id()  && i.getSpeci_id() != 0) {
+                        Speci speci = new Speci();
+                        speci.setCommodity_info_id(record.getId());
+                        speci.setSpeci_name(i.getSpeci_name());
+                        speci.setSpeci_price(i.getSpeci_price());
+                        speci.setSpeci_regu(i.getSpeci_regu());
+                        speci.setVip_price(i.getVip_price());
+                        speci.setSpeci_id(i.getSpeci_id());
+                        speciMapper.updateByPrimaryKeySelective(speci);
+                    } else {
+                        Speci speci = new Speci();
+                        speci.setCommodity_info_id(record.getId());
+                        speci.setSpeci_name(i.getSpeci_name());
+                        speci.setSpeci_price(i.getSpeci_price());
+                        speci.setSpeci_regu(i.getSpeci_regu());
+                        speci.setVip_price(i.getVip_price());
+                        speciMapper.insertSelective(speci);
+                    }
+                    /*sId.add(i.getSpeci_id());*/
+                }
             }
+            /*List<Integer> sId2 = new ArrayList<>();
+            List<Speci> speciList = speciMapper.selectByCommId(record.getId());
+            if(speciList.size() > 0) {
+                for (Speci s : speciList) {
+                    sId2.add(s.getSpeci_id());
+                }
+            }
+            Collection<Integer> subtract = CollectionUtils.subtract(sId2, sId);
+            if(subtract.size()>0){
+                for (Integer s :subtract){
+                    speciMapper.deleteByPrimaryKey(s);
+                }
+            }*/
         }
         OperationRecord or = new OperationRecord();
         or.setDes("商品id为"+record.getId()+"进行了修改操作内容如下："+record.toString());
         operationRecordMapper.insertSelective(or);
         return num;
+    }
+
+    public int delSpeci(Integer id){
+       return speciMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional(rollbackFor = Exception.class)

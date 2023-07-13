@@ -90,4 +90,19 @@ public class CommodityInfoController {
         }
         return map;
     }
+
+    @ApiOperation(value = "单规格删除", notes = "单规格删除")
+    @RequestMapping(value = "/delSpeci", method = RequestMethod.GET)
+    public Map delSpeci(@ApiParam(value = "id", required = true) @RequestParam("id") Integer id) throws IOException {
+        int num = commodityInfoService.delSpeci(id);
+        Map map = new HashMap();
+        if(num > 0){
+            map.put("code",200);
+            map.put("msg","success");
+        }else {
+            map.put("code",500);
+            map.put("msg","error");
+        }
+        return map;
+    }
 }
