@@ -553,7 +553,6 @@ public class PayService {
      * @return
      * @throws IOException
      */
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public JSONObject wxpaysuccess(HttpServletRequest request, HttpServletResponse resp) throws Exception {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setHeader("Access-Control-Allow-Methods", "GET,POST");
@@ -761,7 +760,6 @@ public class PayService {
      * @return
      * @throws IOException
      */
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public JSONObject wxpaysuccess2(HttpServletRequest request, HttpServletResponse resp) throws Exception {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setHeader("Access-Control-Allow-Methods", "GET,POST");
