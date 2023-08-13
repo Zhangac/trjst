@@ -155,11 +155,15 @@ public class OrderService {
                 int num = jstOrderMapper.insertSelective(jstOrder);
                 if(num > 0){
                     ShoppingCart shoppingCart = new ShoppingCart();
-                    shoppingCart.setUser_id(jstOrder.getUser_id());
+                    if(jstOrder.getSalesman_id()!=null && jstOrder.getSalesman_id()!=0) {
+                        shoppingCart.setUser_id(jstOrder.getSalesman_id());
+                    }else {
+                        shoppingCart.setUser_id(jstOrder.getUser_id());
+                    }
                     shoppingCart.setCommodity_id(jstOrder.getCommodity_id());
                     shoppingCart.setCs_type(1);
                     ShoppingCart shop = shoppingCartMapper.selectByUserAndCommId(shoppingCart);
-                    if(shop!=null && shop.getCs_type()==1){
+                    if (shop != null && shop.getCs_type() == 1) {
                         shoppingCartMapper.deleteByPrimaryKey(shop.getId());
                     }
                 }
