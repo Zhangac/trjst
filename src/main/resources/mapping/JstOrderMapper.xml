@@ -44,6 +44,7 @@
     <result column="spread_pay_type" property="spread_pay_type" jdbcType="INTEGER" />
     <result column="order_psy_yongjin" property="order_psy_yongjin" jdbcType="DECIMAL" />
     <result column="tk_reason" property="tk_reason" jdbcType="VARCHAR" />
+    <result column="salesman_id" property="salesman_id" jdbcType="INTEGER" />
   </resultMap>
 
   <resultMap id="BaseResultMap2" type="com.trjst.model.JstOrder" >
@@ -90,13 +91,14 @@
     <result column="order_psy_yongjin" property="order_psy_yongjin" jdbcType="DECIMAL" />
     <result column="ass_yuliu" property="ass_yuliu" jdbcType="VARCHAR" />
     <result column="tk_reason" property="tk_reason" jdbcType="VARCHAR" />
+    <result column="salesman_id" property="salesman_id" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, merchant_id, commodity_id, order_no, pay_no, order_price, pay_price, 
     pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price, 
     total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
     spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address,spread_remark,
-    spread_pay_type,pay_type,order_psy_yongjin,tk_reason
+    spread_pay_type,pay_type,order_psy_yongjin,tk_reason,salesman_id
   </sql>
 
   <sql id="Base_Column_List2" >
@@ -104,7 +106,7 @@
     pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price,
     total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
     spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address,spread_remark,
-    spread_pay_type,pay_type,order_psy_yongjin,ass_yuliu,tk_reason
+    spread_pay_type,pay_type,order_psy_yongjin,ass_yuliu,tk_reason,salesman_id
   </sql>
 
   <select id="orderByMi" resultMap="BaseResultMap" parameterType="com.trjst.model.JstOrder" >
@@ -365,6 +367,9 @@
       <if test="tk_reason != null" >
         tk_reason,
       </if>
+      <if test="salesman_id != null" >
+        salesman_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -478,6 +483,9 @@
       <if test="tk_reason != null" >
         #{tk_reason,jdbcType=VARCHAR},
       </if>
+      <if test="salesman_id != null" >
+        #{salesman_id,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.trjst.model.JstOrder" >
@@ -590,6 +598,9 @@
       </if>
       <if test="tk_reason != null" >
         tk_reason = #{tk_reason,jdbcType=VARCHAR},
+      </if>
+      <if test="salesman_id != null" >
+        salesman_id = #{salesman_id,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

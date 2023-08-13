@@ -146,6 +146,7 @@
                 <th style="text-align: center;width: 10%">差价支付类型</th>
                 <th style="text-align: center;width: 2%">配送员佣金</th>
                 <th style="text-align: center;width: 2%">拒绝退款原因</th>
+                <th style="text-align: center;width: 10%">业务员id</th>
                 <th style="text-align: center;width: 10%">操作</th>
             </tr>
             </thead>
@@ -370,6 +371,7 @@
                 },
                 {"data": "order_psy_yongjin" },
                 {"data": "tk_reason" },
+                {"data": "salesman_id" },
                 { "data": function(obj){
                         return "<span><center>" +
                             "<a onclick=\"open_layer('更改配送员','adminggpsy?id="+obj.id+"','900','450')\">更改配送员</a>" /*+

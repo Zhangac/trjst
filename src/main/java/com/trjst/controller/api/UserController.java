@@ -130,4 +130,22 @@ public class UserController {
             return map;
         }
     }
+
+
+    @ApiOperation(value = "获取全部会员信息", notes = "获取全部会员信息")
+    @RequestMapping(value = "/getVipInfo", method = RequestMethod.GET)
+    public Map getVipInfo(){
+        List<User> user =  userService.getVipInfo(1);
+        Map map = new HashMap();
+        if(user != null){
+            map.put("code",200);
+            map.put("msg","success");
+            map.put("data",user);
+        }else {
+            map.put("code",500);
+            map.put("msg","error");
+            map.put("data",null);
+        }
+        return map;
+    }
 }

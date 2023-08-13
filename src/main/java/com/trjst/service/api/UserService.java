@@ -19,6 +19,10 @@ public class UserService {
         return userMapper.selectByIsMech(is_mech);
     }
 
+    public List<User> getVipInfo(Integer is_vip){
+        return userMapper.getVipInfo(is_vip);
+    }
+
 
     public User userById(Integer userId){
         return userMapper.selectByPrimaryKey(userId);

@@ -98,6 +98,16 @@ public class JstOrder {
 
     private String tk_reason;
 
+    private Integer salesman_id;
+
+    public Integer getSalesman_id() {
+        return salesman_id;
+    }
+
+    public void setSalesman_id(Integer salesman_id) {
+        this.salesman_id = salesman_id;
+    }
+
     public String getTk_reason() {
         return tk_reason;
     }

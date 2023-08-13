@@ -41,6 +41,12 @@
     from user
     where is_mech = #{is_mech,jdbcType=INTEGER}
   </select>
+  <select id="getVipInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where is_vip = #{is_vip,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
     where id = #{id,jdbcType=INTEGER}
