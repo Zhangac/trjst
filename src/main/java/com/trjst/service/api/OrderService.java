@@ -194,6 +194,153 @@ public class OrderService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public Map addOrderList2(List<JstOrder> record) throws Exception{
+        Map map = new HashMap();
+        List list = new ArrayList();
+        try {
+            for (JstOrder jstOrder :record){
+                CommodityInfo ci = commodityInfoMapper.selectByPrimaryKey(jstOrder.getCommodity_id());
+                if(jstOrder.getUser_id()==null || jstOrder.getUser_id()==0){
+                    map.put("code",400);
+                    map.put("msg","user_id不能为空");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+
+                if(ci==null){
+                    map.put("code",400);
+                    map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商品已下架");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+                if(ci.getStock()==0){
+                    map.put("code",400);
+                    map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商品库存不足,请联系商家进行完善");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+                if(jstOrder.getQuantity() > ci.getStock()){
+                    map.put("code",400);
+                    map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商品数量不足,请联系商家进行完善");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+                if(ci.getAssort_id()==0 || ci.getAssort_id()==null){
+                    map.put("code",400);
+                    map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商品没有配置分类,请联系商家进行完善");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+//                if(ci.getArea_id()==0 || ci.getArea_id()==null){
+//                    map.put("code",400);
+//                    map.put("msg",jstOrder.getCommodity_id()+"商品没有配置区市,请联系商家进行完善");
+//                    return map;
+//                }
+                if(ci.getMerchant_id()==0 || ci.getMerchant_id()==null){
+                    map.put("code",400);
+                    map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商品没有配置商户,请联系商家进行完善");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+                if (ci.getMerchant_id()!=0){
+                    MerchantInfo mi = merchantInfoMapper.selectByPrimaryKey(ci.getMerchant_id());
+                    if(mi.getDelivery_id()==0 || mi.getDelivery_id()==null){
+                        map.put("code",400);
+                        map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商户没有配置配送员,请联系商家进行完善");
+                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                        log.info("事务已经回滚");
+                        return map;
+                    }
+                    if(mi.getStatus()==0 || mi.getStatus()==null){
+                        map.put("code",400);
+                        map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商户已下架,请联系商家进行完善");
+                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                        log.info("事务已经回滚");
+                        return map;
+                    }
+                    if(mi.getAudit_status()==0 || mi.getAudit_status()==null){
+                        map.put("code",400);
+                        map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的商户还未通过审核,请联系商家进行完善");
+                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                        log.info("事务已经回滚");
+                        return map;
+                    }
+                }
+                JstOrder jstOrder2 = new JstOrder();
+                jstOrder2.setUser_id(jstOrder.getUser_id());
+                jstOrder2.setCommodity_id(jstOrder.getCommodity_id());
+                jstOrder2.setPay_status(1);
+                List<JstOrder> jo = jstOrderMapper.orderList(jstOrder2);
+                if(jo.size() > 0){
+                    map.put("code",400);
+                    map.put("msg","商品编号"+jstOrder.getCommodity_id()+"的订单已存在请勿重复下单");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+
+                JstOrder jstOrder3 = new JstOrder();
+                jstOrder3.setUser_id(jstOrder.getUser_id());
+                jstOrder3.setSpread_status(1);
+                List<JstOrder> j = jstOrderMapper.orderList(jstOrder3);
+                if(j.size() > 0){
+                    map.put("code",400);
+                    map.put("msg","您有存在未支付的差价订单,请去支付完成后再进行下单");
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    log.info("事务已经回滚");
+                    return map;
+                }
+                jstOrder.setPay_status(1);
+                jstOrder.setOrder_no(String.valueOf(System.currentTimeMillis() / 1000) + (int) (Math.random() * 9000 + 1000));
+                int num = jstOrderMapper.insertSelective(jstOrder);
+                if(num > 0){
+                    ShoppingCart shoppingCart = new ShoppingCart();
+                    if(jstOrder.getSalesman_id()!=null && jstOrder.getSalesman_id()!=0) {
+                        shoppingCart.setUser_id(jstOrder.getSalesman_id());
+                    }else {
+                        shoppingCart.setUser_id(jstOrder.getUser_id());
+                    }
+                    shoppingCart.setCommodity_id(jstOrder.getCommodity_id());
+                    shoppingCart.setCs_type(1);
+                    ShoppingCart shop = shoppingCartMapper.selectByUserAndCommId(shoppingCart);
+                    if (shop != null && shop.getCs_type() == 1) {
+                        shoppingCartMapper.deleteByPrimaryKey(shop.getId());
+                    }
+                }
+                Map map1 = new HashMap();
+                map1.put("id",jstOrder.getId());
+                JstOrder jstOrder1 = jstOrderMapper.selectByPrimaryKey(jstOrder.getId());
+                MerchantInfo mi1 = merchantInfoMapper.selectByPrimaryKey(jstOrder1.getMerchant_id());
+                User user = userMapper.selectByPrimaryKey(mi1.getUser_id());
+                if(jstOrder1.getDelivery_id()!=null && jstOrder1.getDelivery_id()!=0) {
+                    Delivery delivery = deliveryMapper.selectByPrimaryKey(jstOrder1.getDelivery_id());
+                    User user1 = userMapper.selectByPrimaryKey(delivery.getUser_id());
+                    map1.put("delivery_openid",user1.getOpen_id());
+                }
+                map1.put("merchant_openid",user.getOpen_id());
+                list.add(map1);
+            }
+            map.put("code",200);
+            map.put("msg","success");
+            map.put("data",list);
+            return map;
+        }catch (Exception e){
+            map.put("code",500);
+            map.put("msg","error");
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.info("事务已经回滚");
+            log.error("order_error{}",e);
+            return map;
+        }
+    }
+
     public Map fahuo(Integer id){
         Map map = new HashMap();
         try {

@@ -40,6 +40,12 @@ public class OrderController {
         return orderService.addOrderList(req);
     }
 
+    @ApiOperation(value = "推单添加订单(包含购物车多下单)", notes = "推单添加订单(包含购物车多下单)")
+    @RequestMapping(value = "/addOrder2", method = RequestMethod.POST)
+    public Map addOrder2(@RequestBody @Valid List<JstOrder> req) throws Exception {
+        return orderService.addOrderList2(req);
+    }
+
     @ApiOperation(value = "修改", notes = "修改")
     @RequestMapping(value = "/updateOrder", method = RequestMethod.POST)
     public Map updateOrder(@RequestBody @Valid JstOrder req) throws IOException {
