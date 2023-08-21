@@ -70,7 +70,12 @@ public class AdminDeliveryService {
             bk.setStatus(status);
             deliveryMapper.updateByPrimaryKeySelective(bk);
             User user = userMapper.selectByPrimaryKey(bk.getUser_id());
-            user.setIs_mech(2);
+            if(3==user.getIs_mech()){
+                user.setIs_mech(4);
+            }else {
+                user.setIs_mech(2);
+            }
+//            user.setIs_mech(2);
             userMapper.updateByPrimaryKeySelective(user);
             map.put("code", "100");
         } catch (Exception e) {

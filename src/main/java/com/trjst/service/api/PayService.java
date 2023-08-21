@@ -337,6 +337,11 @@ public class PayService {
                     jo.setPay_time(new Date());
                     jo.setPay_type(1);
                     jstOrderMapper.insertSelective(jo);
+                    if(2==user.getIs_mech()){
+                        user.setIs_mech(4);
+                    }else {
+                        user.setIs_mech(3);
+                    }
                     user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
                     userMapper.updateByPrimaryKeySelective(user);
                     // 消费记录
@@ -734,7 +739,11 @@ public class PayService {
 
                                 jstOrderMapper.updateByPrimaryKeySelective(order1);
                                 User user = userMapper.selectByPrimaryKey(order.getUser_id());
-                                user.setIs_mech(3);
+                                if(2==user.getIs_mech()){
+                                    user.setIs_mech(4);
+                                }else {
+                                    user.setIs_mech(3);
+                                }
                                 userMapper.updateByPrimaryKeySelective(user);
                             }
                         }
