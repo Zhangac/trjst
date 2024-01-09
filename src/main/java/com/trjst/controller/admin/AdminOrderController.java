@@ -37,6 +37,26 @@ public class AdminOrderController {
         return "order/list";
     }
 
+    //汇总列表
+    @RequestMapping("/adminordercountlist")
+    public String adminordercountlist(HttpServletRequest request,Integer area) {
+        request.setAttribute("area",area);
+        return "order/countlist";
+    }
+
+    //汇总列表ajax
+    @RequestMapping(value = "/getHzCountList")
+    @ResponseBody
+    public String getHzCountList(HttpServletRequest request, Integer draw,
+                                 Integer area_id,String logmax,String logmin){
+        log.info("area_id={}",area_id);
+        log.info("logmax="+logmax);
+        log.info("logmin="+logmin);
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length_number = Integer.valueOf(request.getParameter("length"));
+        return adminOrderService.getHzCountList(start,length_number,draw,area_id,logmax,logmin);
+    }
+
 
     @RequestMapping(value = "/adminorderlistajax")
     @ResponseBody

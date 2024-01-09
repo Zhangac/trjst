@@ -56,4 +56,10 @@ public interface JstOrderMapper {
                        @Param("delivery_name")String delivery_name,
                       @Param("logmax")String logmax,@Param("logmin")String logmin,
                       @Param("phone")String phone);
+
+    //汇总
+    List getHzResultList(@Param("start") Integer start, @Param("length_number") Integer length_number,
+                         @Param("area_id")Integer area_id,@Param("logmax")String logmax,@Param("logmin")String logmin);
+
+    Integer getHzListCount(@Param("area_id")Integer area_id,@Param("logmax")String logmax,@Param("logmin")String logmin);
 }

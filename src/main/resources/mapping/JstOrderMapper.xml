@@ -92,6 +92,7 @@
     <result column="ass_yuliu" property="ass_yuliu" jdbcType="VARCHAR" />
     <result column="tk_reason" property="tk_reason" jdbcType="VARCHAR" />
     <result column="salesman_id" property="salesman_id" jdbcType="INTEGER" />
+    <result column="area_name" property="area_name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, merchant_id, commodity_id, order_no, pay_no, order_price, pay_price, 
@@ -106,7 +107,7 @@
     pay_status, pay_time, commission, confirm_receipt, confirm_time, reserve_price, spread_price,
     total_price, create_time,phone,address,name,type,goods_desc,delivery_id,unit_price,quantity,
     spread_status,spread_no,fahuo_time,arrived_time,jin_num,spread_jin_num,detailed_address,spread_remark,
-    spread_pay_type,pay_type,order_psy_yongjin,ass_yuliu,tk_reason,salesman_id
+    spread_pay_type,pay_type,order_psy_yongjin,ass_yuliu,tk_reason,salesman_id,area_name
   </sql>
 
   <select id="orderByMi" resultMap="BaseResultMap" parameterType="com.trjst.model.JstOrder" >
@@ -697,5 +698,75 @@
       </if>
     </where>
     order by j.create_time desc
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="getHzListCount" resultType="java.lang.Integer" >
+    select
+    count(*) count
+    FROM
+    (
+    SELECT
+    count( * )
+    FROM
+    jst_order j
+    LEFT JOIN commodity_info c ON j.commodity_id = c.id
+    LEFT JOIN area ar ON c.area_id = ar.id
+    <where>
+      j.type = 1
+      <if test="logmax!=null and logmax != '' and logmin!=null and logmin != ''">
+        AND j.create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
+        AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
+      </if>
+      <if test="area_id != null and area_id != '' ">
+        and c.area_id = #{area_id}
+      </if>
+    </where>
+    GROUP BY
+    j.commodity_id) a
+  </select>
+  <select id="getHzResultList" resultMap="BaseResultMap2">
+    SELECT
+    ar.NAME AS area_name,
+    c.commodity_name,
+    SUM(j.quantity) AS quantity,
+    SUM(j.total_price) AS total_price
+    FROM
+    jst_order j
+    LEFT JOIN commodity_info c ON j.commodity_id = c.id
+    LEFT JOIN area ar ON c.area_id = ar.id
+    <where>
+      j.type = 1
+      <if test="logmax!=null and logmax != '' and logmin!=null and logmin != ''">
+        AND j.create_time BETWEEN DATE_FORMAT(#{logmax},'%Y-%m-%d 00:00:00')
+        AND DATE_FORMAT(#{logmin},'%Y-%m-%d 23:59:59')
+      </if>
+      <if test="area_id != null and area_id != '' ">
+        and c.area_id = #{area_id}
+      </if>
+    </where>
+    GROUP BY
+    j.commodity_id
+    order by j.create_time desc
+    limit #{start},#{length_number}
   </select>
 </mapper>

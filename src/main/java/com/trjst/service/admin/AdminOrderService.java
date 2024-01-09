@@ -2,7 +2,6 @@ package com.trjst.service.admin;
 
 import com.alibaba.fastjson.JSONObject;
 import com.trjst.mapper.JstOrderMapper;
-import com.trjst.model.DelivMerch;
 import com.trjst.model.JstOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,4 +69,20 @@ public class AdminOrderService {
         return map;
 
     }
+
+    /**
+     * 汇总
+     * */
+    public String getHzCountList(Integer start, Integer length_number, Integer draw,
+                               Integer area_id, String logmax,String logmin) {
+        List resultList = jstOrderMapper.getHzResultList(start, length_number,area_id,logmax,logmin);
+        Integer countnumber = jstOrderMapper.getHzListCount(area_id,logmax,logmin);
+        JSONObject jobj = new JSONObject();
+        jobj.put("draw", draw);
+        jobj.put("recordsFiltered", countnumber);
+        jobj.put("recordsTotal", countnumber);
+        jobj.put("data", resultList);
+        return jobj.toString();
+    }
+
 }

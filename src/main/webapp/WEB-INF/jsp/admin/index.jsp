@@ -148,6 +148,9 @@ static<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 					<ul>
 						<li><a data-href="adminorderlist?area=${admin.area}" data-title="订单管理" href="javascript:void(0)">- 订单管理</a></li>
 					</ul>
+					<ul>
+						<li><a data-href="adminordercountlist?area=${admin.area}" data-title="汇总" href="javascript:void(0)">- 汇总</a></li>
+					</ul>
 				</dd>
 			</dl>
 			</c:if>

@@ -48,27 +48,22 @@
                             <div class="panel" >
                                 <div class="panel-body">
                                     <div class="text-l">
-                                        <span>状&nbsp;&nbsp;&nbsp;&nbsp;态：</span>
+                                        <c:if test="${area==0}">
+                                        <span>地&nbsp;&nbsp;&nbsp;&nbsp;区：</span>
                                         <select id="types">
-                                            <option value="-1">请选择</option>
-                                            <option value="1">待支付</option>
-                                            <option value="2">支付成功/待发货</option>
-                                            <option value="7">待送达</option>
-                                            <option value="8">已签收</option>
-                                            <option value="9">退款中</option>
-                                            <option value="10">已退款</option>
-                                            <option value="11">拒绝退款</option>
+                                            <option value="0">请选择</option>
+                                            <option value="1">市中区</option>
+                                            <option value="2">薛城区</option>
+                                            <option value="3">峄城区</option>
+                                            <option value="4">台儿庄区</option>
+                                            <option value="5">山亭区</option>
+                                            <option value="5">滕州市</option>
+                                            <option value="10">任城区</option>
+                                            <option value="11">微山</option>
                                         </select>
                                         <br />
                                         <br />
-                                        <span>配送员：</span>
-                                        <input type="text" name="delivery_name" id="delivery_name" placeholder="配送员姓名" style="width: 250px" class="input-text">
-                                        <br />
-                                        <br />
-                                        <span>手机号：</span>
-                                        <input type="text" name="phone" id="phone" placeholder="收货人手机号" style="width: 250px" class="input-text">
-                                        <br />
-                                        <br />
+                                        </c:if>
                                         <span>日&nbsp;&nbsp;&nbsp;期：</span>
                                         <input type="text"
                                                onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })"
@@ -79,10 +74,7 @@
                                                id="logmin" class="input-text Wdate" style="width: 120px;" autocomplete="off">
                                         <br />
                                         <br />
-                                        <span>订单号：</span>
-                                        <input type="text" name="order_no" id="order_no" placeholder="订单号" style="width: 250px" class="input-text">
                                         <button name="" id="" style="margin-left: 20px;" class="btn btn-success" type="button" onclick="Inquire();"><i class="Hui-iconfont">&#xe665;</i> 搜索 </button>
-                                        <input class="btn btn-danger radius" type="button" value="打印导出" onclick="download()"/>
                                     </div>
                                 </div>
                             </div>
@@ -104,50 +96,14 @@
     <!-- 定义一个表格元素 -->
     <div style="height: 10px"></div>
     <div style="width: 98%; margin-left: 10px">
-        <table id="example" class="table table-striped table-bordered" style="width: 2500px;">
+        <table id="example" class="table table-striped table-bordered" style="width: 1300px;">
             <thead>
             <tr>
-                <th style="text-align: center;width: 10%">序号</th>
-                <th style="text-align: center;width: 10%">配送员</th>
-                <th style="text-align: center;width: 10%">商品</th>
-                <th style="text-align: center;width: 10%">收货手机号</th>
-                <th style="text-align: center;width: 10%">收获地址</th>
-                <th style="text-align: center;width: 10%">详细地址</th>
-                <th style="text-align: center;width: 10%">收货姓名</th>
-                <th style="text-align: center;width: 5%">斤/件/箱</th>
-                <th style="text-align: center;width: 5%">数量</th>
-                <th style="text-align: center;width: 5%">单价</th>
-                <th style="text-align: center;width: 10%">总价</th>
-                <th style="text-align: center;width: 10%">支付金额</th>
-                <th style="text-align: center;width: 10%">佣金</th>
-                <th style="text-align: center;width: 10%">订单状态</th>
-                <th style="text-align: center;width: 10%">支付时间</th>
-                <th style="text-align: center;width: 10%">发货时间</th>
-                <th style="text-align: center;width: 10%">送达时间</th>
-                <th style="text-align: center;width: 10%">创建时间</th>
-                <th style="text-align: center;width: 10%">差价状态</th>
-                <th style="text-align: center;width: 10%">差价流水</th>
-                <%--<th style="text-align: center;width: 10%">收货状态</th>
-                <th style="text-align: center;width: 10%">收货时间</th>--%>
-                <%--<th style="text-align: center;width: 10%">预付金额</th>--%>
-                <th style="text-align: center;width: 10%">差价</th>
-                <th style="text-align: center;width: 5%">差价斤/件/箱</th>
-                <th style="text-align: center;width: 10%">订单类型</th>
-                <%--<th style="text-align: center;width: 10%">订单描述</th>--%>
-
-                <th style="text-align: center;width: 10%">订单号</th>
-                <th style="text-align: center;width: 10%">支付流水</th>
-                <th style="text-align: center;width: 10%">订单金额</th>
-                <th style="text-align: center;width: 10%">配送员id</th>
-                <th style="text-align: center;width: 10%">用户id</th>
-                <th style="text-align: center;width: 10%">商户id</th>
-                <th style="text-align: center;width: 10%">商品id</th>
-                <th style="text-align: center;width: 10%">支付类型</th>
-                <th style="text-align: center;width: 10%">差价支付类型</th>
-                <th style="text-align: center;width: 2%">配送员佣金</th>
-                <th style="text-align: center;width: 2%">拒绝退款原因</th>
-                <th style="text-align: center;width: 10%">业务员id</th>
-                <th style="text-align: center;width: 10%">操作</th>
+                <th style="text-align: center;width: 2%">序号</th>
+                <th style="text-align: center;width: 5%">地区名</th>
+                <th style="text-align: center;width: 5%">商品名</th>
+                <th style="text-align: center;width: 5%">数量(份)</th>
+                <th style="text-align: center;width: 5%">总价(元)</th>
             </tr>
             </thead>
             <tbody></tbody>
@@ -163,16 +119,16 @@
         $('#example').dataTable().fnDestroy();
         datatable  =  $('#example').DataTable({
             "ajax":{
-                "url": "adminorderlistajax",
+                "url": "getHzCountList",
                 "type": "post",
                 "data": function(d) {
-                    d.order_no = $("#order_no").val();
-                    d.pay_status = $('#types option:selected').val();
-                    d.delivery_name = $("#delivery_name").val();
+                    if(${area==0}) {
+                        d.area_id = $('#types option:selected').val();
+                    }else {
+                        d.area_id = ${area};
+                    }
                     d.logmax=$("#logmax").val();
                     d.logmin=$("#logmin").val();
-                    d.phone=$("#phone").val();
-                    d.area_id = ${area};
                 }
             },
             // "colReorder": true,//启动列拖动
@@ -194,192 +150,10 @@
             },
             "columns": [
                 { "data": null,"targets": 0 },
-                { "data": "delivery_name" },
+                { "data": "area_name" },
                 { "data": "commodity_name" },
-                { "data": "phone" },
-                { "data": "address" },
-                { "data": "detailed_address" },
-                { "data": "name" },
-                { "data": "jin_num" },
-                /*{ "data": function (obj) {
-                        if(obj.jin_num==0){
-                            return "<span><center>" + obj.jin_num +"</center></span>"
-                        }else {
-                            return "<span><center>" + obj.jin_num + obj.ass_yuliu+"</center></span>"
-                        }
-                    }
-                },*/
-                {"data": "quantity" },
-                {"data": "unit_price" },
-                { "data": "total_price" },
-                { "data": "pay_price" },
-                { "data": "commission" },
-                { "data":  function(obj){
-                        if(obj.pay_status==0){
-                            return "<span><center>未支付</center></span>"
-                        }else if(obj.pay_status==1){
-                            return "<span><center>待支付</center></span>"
-                        } else if(obj.pay_status==2){
-                            return "<span><center>支付成功/待发货</center></span>"
-                        } else if(obj.pay_status==3){
-                            return "<span><center>支付失败</center></span>"
-                        } else if(obj.pay_status==4){
-                            return "<span><center>支付超时</center></span>"
-                        } else if(obj.pay_status==5){
-                            return "<span><center>处理中</center></span>"
-                        } else if(obj.pay_status==6){
-                            return "<span><center>取消订单</center></span>"
-                        } else if(obj.pay_status==7){
-                            return "<span><center>待收货</center></span>"
-                        } else if(obj.pay_status==8){
-                            return "<span><center>已签收</center></span>"
-                        } else if(obj.pay_status==9){
-                            return "<span><center>退款中</center></span>"
-                        } else if(obj.pay_status==10){
-                            return "<span><center>已退款</center></span>"
-                        }else if(obj.pay_status==11){
-                            return "<span><center>拒绝退款</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": function (obj) {
-                        if(obj.pay_time != null){
-                            return "<span><center>" + new Date(obj.pay_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": function (obj) {
-                        if(obj.fahuo_time != null){
-                            return "<span><center>" + new Date(obj.fahuo_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": function (obj) {
-                        if(obj.arrived_time != null){
-                            return "<span><center>" + new Date(obj.arrived_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": function (obj) {
-                        return "<span><center>" + new Date(obj.create_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
-                    }
-                },
-                { "data":  function(obj){
-                        if(obj.spread_status==1){
-                            return "<span><center>待支付</center></span>"
-                        } else if(obj.spread_status==2){
-                            return "<span><center>支付成功</center></span>"
-                        } else if(obj.spread_status==9){
-                            return "<span><center>退款中</center></span>"
-                        } else if(obj.spread_status==10){
-                            return "<span><center>已退款</center></span>"
-                        } else if(obj.spread_status==11){
-                            return "<span><center>拒绝退款</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": "spread_no" },
-                { "data": "spread_price" },
-                { "data": function (obj) {
-                        if(obj.spread_jin_num==0){
-                            return "<span><center>" + obj.spread_jin_num +"</center></span>"
-                        }else {
-                            return "<span><center>" + obj.spread_jin_num + obj.ass_yuliu+"</center></span>"
-                        }
-                    }
-                },
-                { "data":  function(obj){
-                        if(obj.type==1){
-                            return "<span><center>基础订单</center></span>"
-                        }else if(obj.type==2){
-                            return "<span><center>充值订单</center></span>"
-                        }else if(obj.type==3){
-                            return "<span><center>入驻押金订单</center></span>"
-                        } else if(obj.type==4){
-                            return "<span><center>配送员入驻押金订单</center></span>"
-                        } else if(obj.type==5){
-                            return "<span><center>成为会员充值</center></span>"
-                        } else if(obj.type==6){
-                            return "<span><center>成为业务员</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": "order_no" },
-                { "data": "pay_no" },
-                { "data": "order_price" },
-                { "data": "delivery_id" },
-                { "data": "user_id" },
-                { "data": "merchant_id" },
-                { "data": "commodity_id" },
-
-
-                /*{ "data":  function(obj){
-                        if(obj.confirm_receipt==0){
-                            return "<span><center>出货中</center></span>"
-                        }else if(obj.confirm_receipt==1){
-                            return "<span><center>配送中</center></span>"
-                        } else if(obj.confirm_receipt==2){
-                            return "<span><center>已到达</center></span>"
-                        } else if(obj.confirm_receipt==3){
-                            return "<span><center>已收货</center></span>"
-                        } else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": function (obj) {
-                        if(obj.confirm_time != null){
-                            return "<span><center>" + new Date(obj.confirm_time).format("yyyy-MM-dd hh:mm:ss")+ "</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data": "reserve_price" },
-                {"data": "goods_desc" },*/
-                { "data":  function(obj){
-                        if(obj.pay_type==1){
-                            return "<span><center>余额</center></span>"
-                        } else if(obj.pay_type==2){
-                            return "<span><center>微信</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                { "data":  function(obj){
-                        if(obj.spread_pay_type==1){
-                            return "<span><center>余额</center></span>"
-                        } else if(obj.spread_pay_type==2){
-                            return "<span><center>微信</center></span>"
-                        }else {
-                            return "<span><center></center></span>"
-                        }
-                    }
-                },
-                {"data": "order_psy_yongjin" },
-                {"data": "tk_reason" },
-                {"data": "salesman_id" },
-                { "data": function(obj){
-                    if(${area==0}) {
-                        return "<span><center>" +
-                            "<a onclick=\"open_layer('更改配送员','adminggpsy?id=" + obj.id + "','900','450')\">更改配送员</a>" /*+
-                            "&nbsp;<a onclick=\"deleteobj(" + obj.id + ")\">删除</a></center></span>"*/
-                    }
-}
-                }
+                { "data": "quantity" },
+                { "data": "total_price" }
             ],
             "columnDefs": [
                 {
