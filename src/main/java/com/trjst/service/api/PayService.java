@@ -393,9 +393,11 @@ public class PayService {
                         sd.setType(1);
                         sd.setOrder_id(order_code);
                         spendRecordMapper.insertSelective(sd);
+
+                        user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                        userMapper.updateByPrimaryKeySelective(user);
                     }
-                    user.setAmount(user.getAmount().subtract(orderPay.getTotal_money()).setScale(2,BigDecimal.ROUND_HALF_UP));
-                    userMapper.updateByPrimaryKeySelective(user);
+
                 }
                 map.put("code",200);
                 map.put("msg","success");
