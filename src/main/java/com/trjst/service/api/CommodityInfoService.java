@@ -1,13 +1,7 @@
 package com.trjst.service.api;
 
-import com.trjst.mapper.CommodityInfoMapper;
-import com.trjst.mapper.ImgesMapper;
-import com.trjst.mapper.OperationRecordMapper;
-import com.trjst.mapper.SpeciMapper;
-import com.trjst.model.CommodityInfo;
-import com.trjst.model.Imges;
-import com.trjst.model.OperationRecord;
-import com.trjst.model.Speci;
+import com.trjst.mapper.*;
+import com.trjst.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +24,9 @@ public class CommodityInfoService {
 
     @Autowired
     private SpeciMapper speciMapper;
+
+    @Autowired
+    private MerchantInfoMapper merchantInfoMapper;
 
     public List<CommodityInfo> commodityInfoList(CommodityInfo record){
         List<CommodityInfo> list = commodityInfoMapper.commodityList(record);
@@ -59,6 +56,13 @@ public class CommodityInfoService {
 
     @Transactional(rollbackFor = Exception.class)
     public int addCommodityInfo(CommodityInfo record){
+
+        if(record.getMerchant_id()!=0){
+            MerchantInfo mi = merchantInfoMapper.selectByPrimaryKey(record.getMerchant_id());
+            if(mi!=null) {
+                record.setArea_id(mi.getArea_id());
+            }
+        }
 
         int num = commodityInfoMapper.insertSelective(record);
 
