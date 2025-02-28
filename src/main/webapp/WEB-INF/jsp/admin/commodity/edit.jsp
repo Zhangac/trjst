@@ -233,6 +233,9 @@
 
 
                 var main_pic = JSON.parse(result.response).filepath;
+                var urlParams = new URLSearchParams(params); // 将序列化的字符串转换为 URLSearchParams 对象
+                urlParams.set("main_pic", main_pic); // 设置新的键值对
+                params = urlParams.toString();
                 $.ajax( {
                     type : 'POST',
                     url : 'admincommeditAjax',
